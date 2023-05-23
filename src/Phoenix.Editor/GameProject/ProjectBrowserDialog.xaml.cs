@@ -3,9 +3,6 @@ using System.Windows;
 
 namespace Phoenix.Editor.GameProject
 {
-    /// <summary>
-    /// Interaction logic for ProjectBrowserDialog.xaml
-    /// </summary>
     public partial class ProjectBrowserDialog : Window
     {
         public ProjectBrowserDialog()
@@ -28,7 +25,6 @@ namespace Phoenix.Editor.GameProject
             {
                 if (openProjectButton.IsChecked == true)
                 {
-                    //var newProject = new CreateProject();
                     openProjectButton.IsChecked = false;
                     browserContent.Margin = new Thickness(-800, 0, 0, 0);
                 }

@@ -3,9 +3,6 @@ using System.Windows;
 
 namespace Phoenix.Editor
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -26,7 +23,9 @@ namespace Phoenix.Editor
             if (projectBrowser.ShowDialog() == false)
                 Application.Current.Shutdown();
             else
-                Application.Current.Shutdown();
+            {
+
+            }
         }
     }
 }
