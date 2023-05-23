@@ -5,19 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Phoenix.Editor.GameProject"
              mc:Ignorable="d" Width="800"
+             d:DataContext="{d:DesignInstance Type=local:CreateProject, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Background="Aqua">
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <ListBox Width="195" Height="250"/>
+            <ListBox Width="195" Height="250" ItemsSource="{Binding ProjectTemplates}"/>
             <Border Width="400" Height="250" Margin="5,0,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
             <TextBlock Text="Name" Width="50"/>
-            <TextBox Width="550"/>
+            <TextBox Width="550" Text="{Binding Name}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
             <TextBlock Text="Path" Width="50"/>
-            <TextBox Width="500"/>
+            <TextBox Width="500" Text="{Binding Path}"/>
             <Button Content="Browse" Width="45" Margin="5,0,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
