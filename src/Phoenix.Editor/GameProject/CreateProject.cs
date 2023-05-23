@@ -19,35 +19,40 @@ namespace Phoenix.Editor.GameProject
         public string ProjectFile { get; set; }
         [DataMember]
         public List<string> Folders { get; set; }
+        public byte[] Icon { get; set; }
+        public byte[] Screenshot { get; set; }
+        public string IconFilePath { get; set; }
+        public string ScreenshotFilePath { get; set; }
+        public string ProjectFilePath { get; set; }
     }
 
     class CreateProject : ViewModelBase
     {
         private readonly string _templatePath = @"..\..\Phoenix.Editor\ProjectTemplates";
-        private string _name = "New Project";
-        public string Name
+        private string _projectName = "New Project";
+        public string ProjectName
         {
-            get => _name;
+            get => _projectName;
             set
             {
-                if (value != _name)
+                if (value != _projectName)
                 {
-                    _name = value;
-                    OnPropertyChanged(nameof(Name));
+                    _projectName = value;
+                    OnPropertyChanged(nameof(ProjectName));
                 }
             }
         }
 
-        private string _path = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Phoenix\";
-        public string Path
+        private string _projectPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Phoenix\";
+        public string ProjectPath
         {
-            get => _path;
+            get => _projectPath;
             set
             {
-                if (value != _path)
+                if (value != _projectPath)
                 {
-                    _path = value;
-                    OnPropertyChanged(nameof(Path));
+                    _projectPath = value;
+                    OnPropertyChanged(nameof(ProjectPath));
                 }
             }
         }
@@ -65,6 +70,11 @@ namespace Phoenix.Editor.GameProject
                 foreach (var templateFile in templateFiles)
                 {
                     var template = Serializer.FromFile<ProjectTemplate>(templateFile);
+                    template.IconFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(templateFile), "icon.png"));
+                    template.Icon = File.ReadAllBytes(template.IconFilePath);
+                    template.ScreenshotFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(templateFile), "screenshot.png"));
+                    template.Screenshot = File.ReadAllBytes(template.ScreenshotFilePath);
+                    template.ProjectFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(templateFile), template.ProjectFile));
                     _projectTemplates.Add(template);
                 }
             }
