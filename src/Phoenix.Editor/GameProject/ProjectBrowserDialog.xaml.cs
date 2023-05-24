@@ -10,7 +10,7 @@ namespace Phoenix.Editor.GameProject
             InitializeComponent();
         }
 
-        private void OnToggleButtonClick(Object sender, RoutedEventArgs e)
+        private void OnToggle_Button_Click(Object sender, RoutedEventArgs e)
         {
             if (sender == openProjectButton)
             {
