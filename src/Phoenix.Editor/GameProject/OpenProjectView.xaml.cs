@@ -8,6 +8,11 @@ namespace Phoenix.Editor.GameProject
         public OpenProjectView()
         {
             InitializeComponent();
+            Loaded += (s, e) =>
+            {
+                var item = projectsListBox.ItemContainerGenerator.ContainerFromIndex(projectsListBox.SelectedIndex) as ListBoxItem;
+                item?.Focus();
+            };
         }
 
         private void OnOpen_Button_Click(object sender, System.Windows.RoutedEventArgs e)

@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Phoenix.Editor"
+        xmlns:editors="clr-namespace:Phoenix.Editor.Editors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Phoenix" Height="450" Width="800">
+        Title="Phoenix" Height="600" Width="800" WindowState="Maximized">
     <Grid>
-
+        <editors:WorldEditorView/>
     </Grid>
 </Window>
