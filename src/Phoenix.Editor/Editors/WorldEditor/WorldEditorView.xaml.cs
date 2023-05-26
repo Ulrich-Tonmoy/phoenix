@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using Phoenix.Editor.GameProject;
+using System.Collections.Specialized;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Phoenix.Editor.Editors
@@ -15,6 +17,7 @@ namespace Phoenix.Editor.Editors
         {
             Loaded -= OnWorldEditorViewLoaded;
             Focus();
+            ((INotifyCollectionChanged)Project.UndoRedo.UndoList).CollectionChanged += (s, e) => Focus();
         }
     }
 }
