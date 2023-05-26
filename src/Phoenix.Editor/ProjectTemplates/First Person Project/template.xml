@@ -3,7 +3,6 @@
     <Folders xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
         <a:string>.Phoenix</a:string>
         <a:string>Assets</a:string>
-        <a:string>Scenes</a:string>
         <a:string>Scripts</a:string>
     </Folders>
     <ProjectFile>First Person Project.phoenix</ProjectFile>
