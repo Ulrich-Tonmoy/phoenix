@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 
 namespace Phoenix.Editor.GameProject
@@ -8,6 +9,19 @@ namespace Phoenix.Editor.GameProject
         public ProjectBrowserDialog()
         {
             InitializeComponent();
+            Loaded += OnProjectBrowserDialogLoaded;
+        }
+
+        private void OnProjectBrowserDialogLoaded(Object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnProjectBrowserDialogLoaded;
+            if (!OpenProject.Projects.Any())
+            {
+                openProjectButton.IsEnabled = false;
+                openProjectView.Visibility = Visibility.Hidden;
+                createProjectButton.IsEnabled = true;
+                OnToggle_Button_Click(createProjectButton, new RoutedEventArgs());
+            }
         }
 
         private void OnToggle_Button_Click(Object sender, RoutedEventArgs e)

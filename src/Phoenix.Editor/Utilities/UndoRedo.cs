@@ -33,6 +33,14 @@ namespace Phoenix.Editor.Utilities
             _redoAction = redo;
             _undoAction = undo;
         }
+
+        public UndoRedoAction(string property, object instance, object undoValue, object redoValue, string name)
+            : this(() => instance.GetType().GetProperty(property).SetValue(instance, undoValue),
+                   () => instance.GetType().GetProperty(property).SetValue(instance, redoValue),
+                   name)
+        {
+
+        }
     }
 
     public class UndoRedo
