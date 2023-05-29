@@ -1,5 +1,7 @@
 ﻿using Phoenix.Editor.Components;
 using Phoenix.Editor.GameProject;
+using Phoenix.Editor.Utilities;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace Phoenix.Editor.Editors
@@ -20,8 +22,28 @@ namespace Phoenix.Editor.Editors
 
         private void OnGameEntiities_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var entiry = (sender as ListBox).SelectedItem;
-            GameEntityView.Instance.DataContext = entiry;
+            GameEntityView.Instance.DataContext = null;
+            var listBox = sender as ListBox;
+            if (e.AddedItems.Count > 0)
+            {
+                GameEntityView.Instance.DataContext = listBox.SelectedItem;
+            }
+            var newSelection = listBox.SelectedItems.Cast<GameEntity>().ToList();
+            var prevSelection = newSelection.Except(e.AddedItems.Cast<GameEntity>()).Concat(e.RemovedItems.Cast<GameEntity>()).ToList();
+
+            Project.UndoRedo.Add(new UndoRedoAction(
+                () =>
+                {
+                    listBox.UnselectAll();
+                    prevSelection.ForEach(x => (listBox.ItemContainerGenerator.ContainerFromItem(x) as ListBoxItem).IsSelected = true);
+                },
+                () =>
+                {
+                    listBox.UnselectAll();
+                    newSelection.ForEach(x => (listBox.ItemContainerGenerator.ContainerFromItem(x) as ListBoxItem).IsSelected = true);
+                },
+                "Selection chnaged"
+                ));
         }
     }
 }
