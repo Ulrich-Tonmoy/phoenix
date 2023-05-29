@@ -112,6 +112,8 @@ namespace Phoenix.Editor.GameProject
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                Logger.Log(MessageType.Error, $"Failed to read Project Template: {_templatePath}");
+                throw;
             }
         }
 
@@ -145,7 +147,8 @@ namespace Phoenix.Editor.GameProject
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return string.Empty;
+                Logger.Log(MessageType.Error, $"Failed to create: {path}");
+                throw;
             }
         }
 

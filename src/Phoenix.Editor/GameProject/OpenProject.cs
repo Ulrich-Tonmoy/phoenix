@@ -49,6 +49,8 @@ namespace Phoenix.Editor.GameProject
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                Logger.Log(MessageType.Error, $"Failed to open project: {_applicationDataPath}");
+                throw;
             }
         }
 
