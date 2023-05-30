@@ -69,8 +69,7 @@ namespace Phoenix.Editor.Components
     abstract class MSEntity : ViewModelBase
     {
         private bool _enableUpdates = true;
-        private bool? _isEnabled = true;
-        [DataMember]
+        private bool? _isEnabled;
         public bool? IsEnabled
         {
             get => _isEnabled;
@@ -79,11 +78,11 @@ namespace Phoenix.Editor.Components
                 if (_isEnabled != value)
                 {
                     _isEnabled = value;
+                    OnPropertyChanged(nameof(IsEnabled));
                 }
             }
         }
         private string _name;
-        [DataMember]
         public string Name
         {
             get => _name;
