@@ -7,12 +7,6 @@ namespace Phoenix.Editor.Utilities
         public LoggerView()
         {
             InitializeComponent();
-            Loaded += (s, e) =>
-            {
-                Logger.Log(MessageType.Info, "Info Message");
-                Logger.Log(MessageType.Warning, "Warning Message");
-                Logger.Log(MessageType.Error, "Error Message");
-            };
         }
 
         private void OnClear_Button_Click(object sender, System.Windows.RoutedEventArgs e)
