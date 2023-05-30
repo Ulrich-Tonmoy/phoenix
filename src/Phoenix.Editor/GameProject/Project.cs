@@ -11,7 +11,7 @@ using System.Windows.Input;
 namespace Phoenix.Editor.GameProject
 {
     [DataContract(Name = "Game")]
-    public class Project : ViewModelBase
+    class Project : ViewModelBase
     {
         public static string Extension { get; } = ".phoenix";
         [DataMember]

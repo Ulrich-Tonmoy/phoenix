@@ -9,7 +9,7 @@ using System.Windows.Input;
 namespace Phoenix.Editor.GameProject
 {
     [DataContract]
-    public class Scene : ViewModelBase
+    class Scene : ViewModelBase
     {
         private string _name;
         [DataMember]

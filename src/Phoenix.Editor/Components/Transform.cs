@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Phoenix.Editor.Components
 {
     [DataContract]
-    public class Transform : Component
+    class Transform : Component
     {
         private Vector3 _position;
         [DataMember]

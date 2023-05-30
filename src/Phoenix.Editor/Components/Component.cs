@@ -4,8 +4,10 @@ using System.Runtime.Serialization;
 
 namespace Phoenix.Editor.Components
 {
+    interface IMSComponent { }
+
     [DataContract]
-    public class Component : ViewModelBase
+    abstract class Component : ViewModelBase
     {
         [DataMember]
         public GameEntity Owner { get; private set; }
@@ -15,5 +17,10 @@ namespace Phoenix.Editor.Components
             Debug.Assert(owner != null);
             Owner = owner;
         }
+    }
+
+    abstract class MSComponent<T> : ViewModelBase, IMSComponent where T : Component
+    {
+
     }
 }
