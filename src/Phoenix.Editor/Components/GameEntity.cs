@@ -24,6 +24,7 @@ namespace Phoenix.Editor.Components
                 if (_isEnabled != value)
                 {
                     _isEnabled = value;
+                    OnPropertyChanged(nameof(IsEnabled));
                 }
             }
         }
