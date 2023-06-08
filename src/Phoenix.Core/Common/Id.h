@@ -14,28 +14,29 @@ namespace phoenix::id
 		constexpr id_type generation_mask{ (id_type{1} << generation_bits) - 1 };
 	}
 	constexpr id_type invalid_id{ id_type(-1)  };
+	constexpr u32 min_deleted_elements{ 1024 };
 
-	using generation_type = std::conditional_t<generation_bits <= 16, std::conditional_t<generation_bits <= 8, u8, u16>, u32>;
-	static_assert(sizeof(generation_type) * 8 >= generation_bits);
+	using generation_type = std::conditional_t<internal::generation_bits <= 16, std::conditional_t<internal::generation_bits <= 8, u8, u16>, u32>;
+	static_assert(sizeof(generation_type) * 8 >= internal::generation_bits);
 	static_assert((sizeof(id_type) - sizeof(generation_type)) > 0);
 
-	inline bool is_valid(id_type id) {
+	constexpr bool is_valid(id_type id) {
 		return id != invalid_id;
 	}
 
-	inline id_type index(id_type id)
+	constexpr id_type index(id_type id)
 	{
 		id_type index{ id & internal::index_mask };
 		assert(index != internal::index_mask);
 		return index;
 	}
 
-	inline id_type generation(id_type id)
+	constexpr id_type generation(id_type id)
 	{
 		return (id >> internal::index_bits) & internal::generation_mask;
 	}
 
-	inline id_type new_generation(id_type id)
+	constexpr id_type new_generation(id_type id)
 	{
 		const id_type generation{ id::generation(id) + 1 };
 		assert(generation < (((u64)1 << internal::generation_bits) - 1));

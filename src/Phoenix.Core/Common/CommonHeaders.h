@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable: 4530)
 
 // C/C++
 #include <stdio.h>
