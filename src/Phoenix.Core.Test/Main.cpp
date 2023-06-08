@@ -1,11 +1,10 @@
 #pragma comment(lib,"phoenix.core.lib")
 
-#include "EntityComponentsTest.hpp"
 
 #define TEST_ENTITY_COMPONENTS 1
 
 #if TEST_ENTITY_COMPONENTS
-
+#include "EntityComponentsTest.hpp"
 #else
 #error One Of the tests need to be enabled
 #endif
