@@ -1,9 +1,11 @@
 #include "Entity.h"
+#include "Transform.h"
 
 namespace phoenix::game_entity
 {
 	namespace
 	{
+		utl::vector<transform::component> transforms;
 		utl::vector<id::generation_type> generations;
 		utl::deque<entity_id> free_ids;
 	}
@@ -27,9 +29,17 @@ namespace phoenix::game_entity
 		{
 			id = entity_id{ (id::id_type)generations.size() };
 			generations.push_back(0);
+
+			// Resize components
+			transforms.emplace_back();
 		}
 		const entity new_entity{ id };
 		const id::id_type index{id::index(id)};
+
+		// Create transform component
+		assert(!transforms[index].is_valid());
+		transforms[index] = transform::create_transform(*info.transform, new_entity);
+		if (!transforms[index].is_valid()) return { };
 
 		return new_entity;
 	}
@@ -41,6 +51,8 @@ namespace phoenix::game_entity
 		assert(is_alive(e));
 		if (is_alive(e))
 		{
+			transform::remove_transform(transforms[index]);
+			transforms[index] = { };
 			free_ids.push_back(id);
 		}
 	}
@@ -51,6 +63,6 @@ namespace phoenix::game_entity
 		const id::id_type index{id::index(id)};
 		assert(index < generations.size());
 		assert(generations[index] == id::generation(id));
-		return (generations[index] == id::generation(id));
+		return (generations[index] == id::generation(id) && transforms[index].is_valid());
 	}
 }
