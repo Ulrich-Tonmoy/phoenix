@@ -39,7 +39,7 @@ namespace phoenix::game_entity
 		// Create transform component
 		assert(!transforms[index].is_valid());
 		transforms[index] = transform::create_transform(*info.transform, new_entity);
-		if (!transforms[index].is_valid()) return phoenix::game_entity::entity();
+		if (!transforms[index].is_valid()) return {};
 
 		return new_entity;
 	}
@@ -52,7 +52,7 @@ namespace phoenix::game_entity
 		if (is_alive(e))
 		{
 			transform::remove_transform(transforms[index]);
-			transforms[index] = phoenix::transform::component();
+			transforms[index] = {};
 			free_ids.push_back(id);
 		}
 	}
@@ -64,5 +64,12 @@ namespace phoenix::game_entity
 		assert(index < generations.size());
 		assert(generations[index] == id::generation(id));
 		return (generations[index] == id::generation(id) && transforms[index].is_valid());
+	}
+
+	transform::component entity::transform() const
+	{
+		assert(is_alive(*this));
+		const id::id_type index{id::index(_id)};
+		return transforms[index];
 	}
 }

@@ -10,8 +10,10 @@
     <ClInclude Include="Utilities\Utilities.h" />
     <ClInclude Include="EngineAPI\GameEntity.h" />
     <ClInclude Include="EngineAPI\TransformComponent.h" />
+    <ClInclude Include="Utilities\MathTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Entity.cpp" />
+    <ClCompile Include="Components\Transform.cpp" />
   </ItemGroup>
 </Project>
