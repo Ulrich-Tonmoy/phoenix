@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Phoenix.Editor"
         xmlns:editors="clr-namespace:Phoenix.Editor.Editors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Phoenix" Height="600" Width="800" WindowState="Maximized">
+        Title="Phoenix" Height="600" Width="800" WindowState="Maximized"
+        Style="{StaticResource PhoenixWindowStyle}">
     <Grid>
         <editors:WorldEditorView/>
     </Grid>
