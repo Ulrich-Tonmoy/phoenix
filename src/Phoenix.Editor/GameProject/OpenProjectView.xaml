@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Phoenix.Editor.GameProject"
              mc:Ignorable="d" Width="800"
              d:DesignHeight="450" d:DesignWidth="800">
+
     <UserControl.DataContext>
         <local:OpenProject/>
     </UserControl.DataContext>
@@ -14,15 +15,19 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
                 <ListBox Width="195" Height="250" ItemsSource="{Binding Projects}" x:Name="projectsListBox" SelectedIndex="0">
                     <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemStyle}">
                             <EventSetter Event="MouseDoubleClick" Handler="OnListBoxItem_DoubleClick"/>
                         </Style>
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding Icon}" Margin="0,0,5,0" Width="20"/>
-                                <TextBlock Text="{Binding ProjectName}"/>
+                            <StackPanel Width="180" Orientation="Horizontal">
+                                <Image Source="{Binding Icon}" Margin="0,0,5,0" Width="30"/>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding ProjectName}" FontSize="14" FontFamily="Bahnschrift condensed"/>
+                                    <TextBlock Text="{Binding ProjectPath}" FontSize="8" TextTrimming="WordEllipsis"/>
+                                    <TextBlock Text="{Binding Date}" FontSize="8"/>
+                                </StackPanel>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
