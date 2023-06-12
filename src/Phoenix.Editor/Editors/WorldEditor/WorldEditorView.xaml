@@ -36,6 +36,14 @@
                 <Border Background="{StaticResource Editor.Selected.BackgroundBrush}">
                     <StackPanel VerticalAlignment="Center">
                         <ctrl:NumberBox Value="0" Foreground="{StaticResource Editor.FontBrush}"/>
+                        <ctrl:VectorBox X="0" Y="1" Z="1" W="3" VectorType="Vector2"/>
+                        <ctrl:VectorBox X="0" Y="1" Z="1" W="3" VectorType="Vector3"/>
+                        <ctrl:VectorBox X="0" Y="1" Z="1" W="3" VectorType="Vector4"/>
+
+
+                        <ctrl:VectorBox X="0" Y="1" Z="1" W="3" VectorType="Vector2" Orientation="Vertical"/>
+                        <ctrl:VectorBox X="0" Y="1" Z="1" W="3" VectorType="Vector3" Orientation="Vertical"/>
+                        <ctrl:VectorBox X="0" Y="1" Z="1" W="3" VectorType="Vector4" Orientation="Vertical"/>
                     </StackPanel>
                 </Border>
                 <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent"/>
