@@ -434,6 +434,54 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type utl:ScalarBox}" x:Key="{x:Type utl:ScalarBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{StaticResource Editor.FontBrush}"/>
+        <Setter Property="Background" Value="{StaticResource Editor.Window.GrayBrush2}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Editor.Window.GrayBrush5}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ToolTipService.InitialShowDelay" Value="3000"/>
+        <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type utl:ScalarBox}">
+                    <Border x:Name="border" SnapsToDevicePixels="True" Margin="0,2,0,3" Background="{TemplateBinding Background}" Padding="5,2" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="10" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid x:Name="grid" MinWidth="50">
+                            <TextBlock x:Name="PART_textBlock" Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="SizeWE"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox x:Name="PART_textBox" BorderThickness="0" Padding="0" Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=Explicit}" Foreground="{TemplateBinding Foreground}" Visibility="Collapsed" Style="{StaticResource TextBoxStyle_ViewEdit}" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Editor.Window.GrayBrush6}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="grid" Value="0.5"/>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Visibility, ElementName=PART_textBox}" Value="Visible">
+                            <Setter Property="Visibility" TargetName="PART_textBlock" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Value, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                            <Setter Property="Background" TargetName="PART_textBlock" Value="{StaticResource Editor.Disabled.FontBrush}"/>
+                            <Setter Property="ToolTip" TargetName="PART_textBlock" Value="Mixed Values"/>
+                            <Setter Property="MinWidth" TargetName="PART_textBlock" Value="20"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type utl:VectorBox}" x:Key="{x:Type utl:VectorBox}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Background" Value="{StaticResource Editor.Window.GrayBrush2}"/>
@@ -445,7 +493,6 @@
                     <ControlTemplate.Resources>
                         <Style TargetType="{x:Type utl:NumberBox}" BasedOn="{StaticResource {x:Type utl:NumberBox}}">
                             <Setter Property="MinWidth" Value="50"/>
-                            <Setter Property="BorderThickness" Value="0"/>
                             <Setter Property="ToolTipService.InitialShowDelay" Value="3000"/>
                             <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
                             <Setter Property="Multiplier" Value="{Binding Multiplier, RelativeSource={RelativeSource TemplatedParent}}"/>
