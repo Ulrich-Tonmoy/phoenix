@@ -7,7 +7,7 @@ namespace Phoenix.Editor.Utilities
         public static int INVALID_ID => -1;
         public static bool IsValid(int id) => id != INVALID_ID;
     }
-    public static class MathUtilities
+    public static class Utilities
     {
         public static float Epsilon => 0.00001f;
         public static bool IsSameAs(this float value, float other)
