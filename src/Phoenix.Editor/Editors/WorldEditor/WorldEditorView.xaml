@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Phoenix.Editor.Editors"
              xmlns:utl="clr-namespace:Phoenix.Editor.Utilities"
+             xmlns:ctrl="clr-namespace:Phoenix.Editor.Utilities.Controls"
              mc:Ignorable="d" Focusable="True"
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -32,6 +33,11 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+                <Border Background="{StaticResource Editor.Selected.BackgroundBrush}">
+                    <StackPanel VerticalAlignment="Center">
+                        <ctrl:NumberBox Value="0" Foreground="{StaticResource Editor.FontBrush}"/>
+                    </StackPanel>
+                </Border>
                 <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent"/>
                 <TabControl Grid.Row="1" Background="{StaticResource Editor.Window.GrayBrush2}" Margin="0,5,0,0">
                     <TabItem Header="History">
