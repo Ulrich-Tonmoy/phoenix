@@ -154,6 +154,11 @@ namespace Phoenix.Editor.Components
             };
         }
 
+        public T GetMSComponent<T>() where T : IMSComponent
+        {
+            return (T)Components.FirstOrDefault(x => x.GetType() == typeof(T));
+        }
+
         public static float? GetMixedValue<T>(List<T> objects, Func<T, float> getProperty)
         {
             var value = getProperty(objects.First());
