@@ -209,7 +209,7 @@ namespace Phoenix.Editor.Components
                 var type = component.GetType();
                 if (!SelectedEntities.Skip(1).Any(entity => entity.GetComponent(type) == null))
                 {
-                    Debug.Assert(Components.FirstOrDefault(x => x.GetType() == type) != null);
+                    Debug.Assert(Components.FirstOrDefault(x => x.GetType() == type) == null);
                     _components.Add(component.GetMultiSelectionComponent(this));
                 }
             }
