@@ -4,9 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Phoenix.Editor.Editors"
-             mc:Ignorable="d" x:Name="componentView"
+             mc:Ignorable="d" x:Name="componentView" MinWidth="250" Margin="0,0,0,1"
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Style>
+        <Style TargetType="{x:Type UserControl}">
+            <Setter Property="Background" Value="{StaticResource Editor.Window.GrayBrush3}"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource Editor.Window.GrayBrush4}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
     <Expander IsExpanded="True">
         <Expander.Style>
             <Style TargetType="{x:Type Expander}">
