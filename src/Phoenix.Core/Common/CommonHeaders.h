@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <typeinfo>
+#include <memory>
 
 #if defined(_WIN64)
 #include <DirectXMath.h>
