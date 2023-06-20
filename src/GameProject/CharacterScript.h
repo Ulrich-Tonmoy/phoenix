@@ -2,8 +2,6 @@
 
 namespace game_project
 {
-	REGISTER_SCRIPT(character_script);
-
 	class character_script :public phoenix::script::entity_script
 	{
 	public:
