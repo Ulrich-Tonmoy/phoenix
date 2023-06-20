@@ -3,6 +3,7 @@
 #include "../Components/ComponentsCommon.h"
 #include "TransformComponent.h"
 #include "ScriptComponent.h"
+#include <string>
 
 namespace phoenix
 {
@@ -41,12 +42,24 @@ namespace phoenix
 		{
 			using script_ptr = std::unique_ptr<entity_script>;
 			using script_creator = script_ptr(*)(game_entity::entity entity);
+			using string_hash = std::hash<std::string>;
+
+			u8 register_script(size_t, script_creator);
 
 			template<class script_class>
 			script_ptr create_script(game_entity::entity entity)
 			{
 				assert(entity.is_valid());
 				return std::make_unique<script_class>(entity);
+			}
+
+#define REGISTER_SCRIPT(TYPE)\
+			class TYPE;\
+			namespace {\
+				const u8 _reg_##TYPE\
+				{\
+					phoenix::script::detail::register_script(phoenix::script::detail::string_hash()(#TYPE), &phoenix::script::detail::create_script<TYPE>)\
+				};\
 			}
 		}
 	}

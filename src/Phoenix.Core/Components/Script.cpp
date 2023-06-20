@@ -10,6 +10,14 @@ namespace phoenix::script
 		utl::vector<id::generation_type> generations;
 		utl::vector<script_id> free_ids;
 
+		using script_registry = std::unordered_map<size_t, detail::script_creator>;
+
+		script_registry& registry()
+		{
+			static	script_registry reg;
+			return reg;
+		}
+
 		bool exists(script_id id)
 		{
 			assert(id::is_valid(id));
@@ -17,6 +25,16 @@ namespace phoenix::script
 			assert(index < generations.size() && id_mapping[index] < entity_scripts.size());
 			assert(generations[index] == id::generation(id));
 			return (generations[index] == id::generation(id)) && entity_scripts[id_mapping[index]] && entity_scripts[id_mapping[index]]->is_valid();
+		}
+	}
+
+	namespace detail
+	{
+		u8 register_script(size_t tag, script_creator func)
+		{
+			bool result{ registry().insert(script_registry::value_type{tag,func}).second };
+			assert(result);
+			return result;
 		}
 	}
 
