@@ -1,4 +1,5 @@
 ﻿using Phoenix.Editor.Common;
+using Phoenix.Editor.GameDev;
 using Phoenix.Editor.Utilities;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -18,7 +19,9 @@ namespace Phoenix.Editor.GameProject
         public string Name { get; private set; } = "New Project";
         [DataMember]
         public string Path { get; private set; }
-        public string FullPath => $@"{Path}{Name}\{Name}{Extension}";
+        public string FullPath => $@"{Path}{Name}{Extension}";
+        public string Solution => $@"{Path}{Name}.sln";
+
         [DataMember(Name = "Scenes")]
         private ObservableCollection<Scene> _scenes = new ObservableCollection<Scene>();
         public ReadOnlyObservableCollection<Scene> Scenes { get; private set; }
@@ -107,6 +110,7 @@ namespace Phoenix.Editor.GameProject
 
         public void Unload()
         {
+            VisualStudio.CloseVisualStudio();
             UndoRedo.Reset();
         }
 

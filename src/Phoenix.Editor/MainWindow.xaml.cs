@@ -37,9 +37,8 @@ namespace Phoenix.Editor
                 }
                 else
                 {
-                    // TODO: uncomment this for release and delete the other
+                    // TODO: uncomment this for release
                     //Application.Current.Shutdown();
-                    PhoenixPath = phoenixPath;
                 }
             }
             else

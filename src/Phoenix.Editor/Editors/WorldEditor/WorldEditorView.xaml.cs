@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Phoenix.Editor.GameDev;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Phoenix.Editor.Editors
@@ -15,6 +16,11 @@ namespace Phoenix.Editor.Editors
         {
             Loaded -= OnWorldEditorViewLoaded;
             Focus();
+        }
+
+        private void OnNewScript_Button_Click(object sender, RoutedEventArgs e)
+        {
+            new NewScriptDialog().ShowDialog();
         }
     }
 }
