@@ -6,9 +6,14 @@
              xmlns:local="clr-namespace:Phoenix.Editor.Editors"
              xmlns:utl="clr-namespace:Phoenix.Editor.Utilities"
              xmlns:ctrl="clr-namespace:Phoenix.Editor.Utilities.Controls"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" Focusable="True"
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <sys:Boolean x:Key="True">True</sys:Boolean>
+        <sys:Boolean x:Key="False">False</sys:Boolean>
+    </UserControl.Resources>
     <UserControl.InputBindings>
         <KeyBinding Command="{Binding UndoCommand}" Key="Z" Modifiers="Ctrl"/>
         <KeyBinding Command="{Binding RedoCommand}" Key="Y" Modifiers="Ctrl"/>
@@ -22,7 +27,12 @@
         <StackPanel Orientation="Horizontal">
             <Button Content="Undo" Command="{Binding UndoCommand}"/>
             <Button Content="Redo" Command="{Binding RedoCommand}" Margin="5,0"/>
-            <Button Content="New Script" Click="OnNewScript_Button_Click" Margin="5,0"/>
+            <Button Content="New Script" Click="OnNewScript_Button_Click"/>
+            <Button x:Name="buildButton" Content="Build" Margin="5,0" Command="{Binding BuildCommand}" CommandParameter="{StaticResource True}"/>
+            <ComboBox x:Name="runConfig" VerticalAlignment="Center" Width="72" SelectedIndex="{Binding BuildConfig}">
+                <ComboBoxItem Content="Debug"/>
+                <ComboBoxItem Content="Release"/>
+            </ComboBox>
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
