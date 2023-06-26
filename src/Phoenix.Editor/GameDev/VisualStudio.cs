@@ -141,7 +141,7 @@ namespace Phoenix.Editor.GameDev
             OpenVisualStudio(project.Solution);
             BuildCompleted = BuildSucceeded = false;
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; ++i)
             {
                 try
                 {
@@ -153,7 +153,6 @@ namespace Phoenix.Editor.GameDev
 
                     _vsInstance.Solution.SolutionBuild.SolutionConfigurations.Item(configName).Activate();
                     _vsInstance.ExecuteCommand("Build.BuildSolution");
-
                 }
                 catch (Exception ex)
                 {
@@ -183,7 +182,7 @@ namespace Phoenix.Editor.GameDev
         public static bool IsDebugging()
         {
             bool result = false;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; ++i)
             {
                 try
                 {
