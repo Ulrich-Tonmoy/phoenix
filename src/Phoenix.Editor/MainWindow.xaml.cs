@@ -37,8 +37,7 @@ namespace Phoenix.Editor
                 }
                 else
                 {
-                    // TODO: uncomment this for release
-                    //Application.Current.Shutdown();
+                    Application.Current.Shutdown();
                 }
             }
             else
