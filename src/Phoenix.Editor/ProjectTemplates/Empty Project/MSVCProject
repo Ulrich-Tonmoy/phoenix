@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
 	<Phoenix_IncludePath>{2}</Phoenix_IncludePath>
-	<Phoenix_LibraryPath>{3}$(Platform)\$(Configuration)</Phoenix_LibraryPath>
+	<Phoenix_LibraryPath>{3}$(Platform)\$(Configuration)\</Phoenix_LibraryPath>
   </PropertyGroup>
   <ItemGroup>
 	<BuildMacro Include="Phoenix_IncludePath">
