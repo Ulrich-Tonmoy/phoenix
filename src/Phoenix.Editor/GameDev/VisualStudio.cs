@@ -115,7 +115,7 @@ namespace Phoenix.Editor.GameDev
                     var cpp = files.FirstOrDefault(x => Path.GetExtension(x) == ".cpp");
                     if (!string.IsNullOrEmpty(cpp))
                     {
-                        //_vsInstance.ItemOperations.OpenFile(cpp, EnvDTE.Constants.vsViewKindTextView).Visible = true;
+                        //_vsInstance.ItemOperations.OpenFile(cpp, EnvDTE.Constants.vsViewKindAny).Visible = true;
                         _vsInstance.ItemOperations.OpenFile(cpp, "{7651A703-06E5-11D1-8EBD-00A0C90F26EA}").Visible = true;
                     }
                     _vsInstance.MainWindow.Activate();
@@ -150,6 +150,18 @@ namespace Phoenix.Editor.GameDev
 
                     _vsInstance.Events.BuildEvents.OnBuildProjConfigBegin += OnBuildSolutionBegin;
                     _vsInstance.Events.BuildEvents.OnBuildProjConfigDone += OnBuildSolutionDone;
+
+                    try
+                    {
+                        foreach (var profile in Directory.GetFiles(Path.Combine($"{project.Path}", $@"x64\{configName}"), "*.pdb"))
+                        {
+                            File.Delete(profile);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
 
                     _vsInstance.Solution.SolutionBuild.SolutionConfigurations.Item(configName).Activate();
                     _vsInstance.ExecuteCommand("Build.BuildSolution");

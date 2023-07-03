@@ -1,4 +1,5 @@
 ﻿using Phoenix.Editor.Common;
+using Phoenix.Editor.DllWrapper;
 using Phoenix.Editor.GameDev;
 using Phoenix.Editor.Utilities;
 using System;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -85,7 +87,7 @@ namespace Phoenix.Editor.GameProject
         }
 
         [OnDeserialized]
-        private void OnDeserialized(StreamingContext context)
+        private async Task OnDeserialized(StreamingContext context)
         {
             if (_scenes is not null)
             {
@@ -94,6 +96,13 @@ namespace Phoenix.Editor.GameProject
             }
             ActiveScene = Scenes.FirstOrDefault(x => x.IsActive);
 
+            await BuildScriptDll(false);
+
+            SetCommands();
+        }
+
+        private void SetCommands()
+        {
             AddSceneCommand = new RelayCommand<object>(x =>
             {
                 AddScene($"New Scene {_scenes.Count}");
@@ -119,7 +128,14 @@ namespace Phoenix.Editor.GameProject
             UndoCommand = new RelayCommand<object>(x => UndoRedo.Undo(), x => UndoRedo.UndoList.Any());
             RedoCommand = new RelayCommand<object>(x => UndoRedo.Redo(), x => UndoRedo.RedoList.Any());
             SaveCommand = new RelayCommand<object>(x => Save(this));
-            BuildCommand = new RelayCommand<bool>(x => BuildGameCodeDll(x), x => !VisualStudio.IsDebugging() && VisualStudio.BuildCompleted);
+            BuildCommand = new RelayCommand<bool>(async x => await BuildScriptDll(x), x => !VisualStudio.IsDebugging() && VisualStudio.BuildCompleted);
+
+            OnPropertyChanged(nameof(AddSceneCommand));
+            OnPropertyChanged(nameof(RemoveSceneCommand));
+            OnPropertyChanged(nameof(UndoCommand));
+            OnPropertyChanged(nameof(RedoCommand));
+            OnPropertyChanged(nameof(SaveCommand));
+            OnPropertyChanged(nameof(BuildCommand));
         }
 
         private void AddScene(string sceneName)
@@ -152,14 +168,14 @@ namespace Phoenix.Editor.GameProject
             Logger.Log(MessageType.Info, $"Project saved to {project.FullPath}");
         }
 
-        private void BuildGameCodeDll(bool showWindow = true)
+        private async Task BuildScriptDll(bool showWindow = true)
         {
             try
             {
-                UnloadGameCodeDll();
-                VisualStudio.BuildSolution(this, GetConfigurationName(DllBuildConfig), showWindow);
+                UnloadScriptDll();
+                await Task.Run(() => VisualStudio.BuildSolution(this, GetConfigurationName(DllBuildConfig), showWindow));
                 if (VisualStudio.BuildSucceeded)
-                    LoadGameCodeDll();
+                    LoadScriptDll();
             }
             catch (Exception ex)
             {
@@ -168,12 +184,23 @@ namespace Phoenix.Editor.GameProject
             }
         }
 
-        private void UnloadGameCodeDll()
+        private void LoadScriptDll()
         {
+            var configName = GetConfigurationName(DllBuildConfig);
+            var dll = $@"{Path}x64\{configName}\{Name}.dll";
+            if (File.Exists(dll) && EngineAPI.LoadScriptDll(dll) != 0)
+                Logger.Log(MessageType.Info, "Script DLL loaded successfully.");
+            else
+                Logger.Log(MessageType.Error, "Failed to load Script DLL files. Try to build the project first.");
         }
 
-        private void LoadGameCodeDll()
+        private void UnloadScriptDll()
         {
+            if (EngineAPI.UnloadScriptDll() != 0)
+            {
+                Logger.Log(MessageType.Info, "Script DLL unloaded.");
+
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Phoenix.Editor
             else if (path.IndexOfAny(Path.GetInvalidPathChars()) != -1)
                 messageTextBlock.Text = "Invalid character(s) used in path.";
             else if (!Directory.Exists(Path.Combine(path, @"Phoenix.Core\EngineAPI\")))
-                messageTextBlock.Text = $"Unable the find the engine in '{path}'.";
+                messageTextBlock.Text = $"Unable to find the engine in '{path}'.";
             if (string.IsNullOrEmpty(messageTextBlock.Text))
             {
                 if (!Path.EndsInDirectorySeparator(path)) path += @"\";

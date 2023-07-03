@@ -8,7 +8,7 @@ namespace Phoenix.Editor
 {
     public partial class MainWindow : Window
     {
-        public static string PhoenixPath { get; private set; } = @"F:\TEST\phoenix\src";
+        public static string PhoenixPath { get; private set; }
 
         public MainWindow()
         {

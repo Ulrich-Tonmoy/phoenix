@@ -1,5 +1,5 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
-#pragma comment(lib,"phoenix.core.lib")
+#pragma comment(lib, "Phoenix.Core.lib")
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
