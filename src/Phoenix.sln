@@ -11,8 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix.Core.Test", "Phoeni
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix.Core.Dll", "Phoenix.Core.Dll\Phoenix.Core.Dll.vcxproj", "{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameProject", "GameProject\GameProject.vcxproj", "{22419B28-E05A-47AD-8EF0-338DDEEFCA3D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -53,14 +51,6 @@ Global
 		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.Release|x64.Build.0 = Release|x64
 		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.ReleaseEditor|x64.ActiveCfg = ReleaseEditor|x64
 		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.ReleaseEditor|x64.Build.0 = ReleaseEditor|x64
-		{22419B28-E05A-47AD-8EF0-338DDEEFCA3D}.Debug|x64.ActiveCfg = Debug|x64
-		{22419B28-E05A-47AD-8EF0-338DDEEFCA3D}.Debug|x64.Build.0 = Debug|x64
-		{22419B28-E05A-47AD-8EF0-338DDEEFCA3D}.DebugEditor|x64.ActiveCfg = DebugEditor|x64
-		{22419B28-E05A-47AD-8EF0-338DDEEFCA3D}.DebugEditor|x64.Build.0 = DebugEditor|x64
-		{22419B28-E05A-47AD-8EF0-338DDEEFCA3D}.Release|x64.ActiveCfg = Release|x64
-		{22419B28-E05A-47AD-8EF0-338DDEEFCA3D}.Release|x64.Build.0 = Release|x64
-		{22419B28-E05A-47AD-8EF0-338DDEEFCA3D}.ReleaseEditor|x64.ActiveCfg = ReleaseEditor|x64
-		{22419B28-E05A-47AD-8EF0-338DDEEFCA3D}.ReleaseEditor|x64.Build.0 = ReleaseEditor|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
