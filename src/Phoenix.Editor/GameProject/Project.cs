@@ -87,9 +87,9 @@ namespace Phoenix.Editor.GameProject
         }
 
         [OnDeserialized]
-        private async Task OnDeserialized(StreamingContext context)
+        private async void OnDeserialized(StreamingContext context)
         {
-            if (_scenes is not null)
+            if (_scenes != null)
             {
                 Scenes = new ReadOnlyObservableCollection<Scene>(_scenes);
                 OnPropertyChanged(nameof(Scenes));
@@ -158,6 +158,7 @@ namespace Phoenix.Editor.GameProject
 
         public void Unload()
         {
+            UnloadScriptDll();
             VisualStudio.CloseVisualStudio();
             UndoRedo.Reset();
         }
@@ -175,7 +176,9 @@ namespace Phoenix.Editor.GameProject
                 UnloadScriptDll();
                 await Task.Run(() => VisualStudio.BuildSolution(this, GetConfigurationName(DllBuildConfig), showWindow));
                 if (VisualStudio.BuildSucceeded)
+                {
                     LoadScriptDll();
+                }
             }
             catch (Exception ex)
             {

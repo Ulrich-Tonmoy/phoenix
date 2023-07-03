@@ -154,7 +154,7 @@ namespace {1}
 
             string[] files = new string[] { cpp, h };
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; ++i)
             {
                 if (!VisualStudio.AddFileToSolution(solution, projectName, files)) System.Threading.Thread.Sleep(1000);
                 else break;
