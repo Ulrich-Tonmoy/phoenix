@@ -1,8 +1,8 @@
-#include "Common.h"
-#include "CommonHeaders.h"
-#include "Id.h"
-#include "../Phoenix.Core/Components/Entity.h"
-#include "../Phoenix.Core/Components/Transform.h"
+#include "Common.hpp"
+#include "CommonHeaders.hpp"
+#include "Id.hpp"
+#include "../Phoenix.Core/Components/Entity.hpp"
+#include "../Phoenix.Core/Components/Transform.hpp"
 
 using namespace phoenix;
 

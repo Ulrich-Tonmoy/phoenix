@@ -14,7 +14,7 @@ namespace Phoenix.Editor.GameDev
 {
     public partial class NewScriptDialog : Window
     {
-        private static readonly string _cppCode = @"#include ""{0}.h""
+        private static readonly string _cppCode = @"#include ""{0}.hpp""
 
 namespace {1}
 {{
@@ -76,7 +76,7 @@ namespace {1}
                 errorMsg = "Invalid character(s) used in path.";
             else if (!Path.GetFullPath(Path.Combine(Project.Current.Path, path)).Contains(Path.Combine(Project.Current.Path, @"Scripts\")))
                 errorMsg = "Script must be added to (a sub folder) Scripts.";
-            else if (File.Exists(Path.GetFullPath(Path.Combine(Path.Combine(Project.Current.Path, path), $"{name}.cpp"))) || File.Exists(Path.GetFullPath(Path.Combine(Path.Combine(Project.Current.Path, path), $"{name}.h"))))
+            else if (File.Exists(Path.GetFullPath(Path.Combine(Path.Combine(Project.Current.Path, path), $"{name}.cpp"))) || File.Exists(Path.GetFullPath(Path.Combine(Path.Combine(Project.Current.Path, path), $"{name}.hpp"))))
                 errorMsg = $"Script {name} already exists in this folder.";
             else
                 isValid = true;
@@ -93,7 +93,7 @@ namespace {1}
         {
             if (!Validate()) return;
             var name = scriptName.Text.Trim();
-            messageTextBlock.Text = $"{name}.h and {name}.cpp will be added to {Project.Current.Name}";
+            messageTextBlock.Text = $"{name}.hpp and {name}.cpp will be added to {Project.Current.Name}";
         }
 
         private void OnScriptPath_TexBox_TextChange(object sender, TextChangedEventArgs e)
@@ -141,7 +141,7 @@ namespace {1}
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
             var cpp = Path.GetFullPath(Path.Combine(path, $"{name}.cpp"));
-            var h = Path.GetFullPath(Path.Combine(path, $"{name}.h"));
+            var h = Path.GetFullPath(Path.Combine(path, $"{name}.hpp"));
 
             using (var sw = File.CreateText(cpp))
             {

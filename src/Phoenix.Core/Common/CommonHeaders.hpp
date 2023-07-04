@@ -13,6 +13,6 @@
 #endif
 
 // Custom
-#include "../Utilities/Utilities.h"
-#include "../Utilities/MathTypes.h"
-#include "PrimitiveTypes.h"
+#include "../Utilities/Utilities.hpp"
+#include "../Utilities/MathTypes.hpp"
+#include "PrimitiveTypes.hpp"

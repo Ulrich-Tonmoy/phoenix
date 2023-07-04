@@ -1,6 +1,6 @@
-#include "Entity.h"
-#include "Transform.h"
-#include "Script.h"
+#include "Entity.hpp"
+#include "Transform.hpp"
+#include "Script.hpp"
 
 namespace phoenix::game_entity
 {

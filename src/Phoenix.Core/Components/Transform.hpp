@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ComponentsCommon.h"
+#include "ComponentsCommon.hpp"
 
 namespace phoenix::transform {
 	struct init_info {

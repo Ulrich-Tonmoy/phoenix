@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Components/ComponentsCommon.h"
-#include "TransformComponent.h"
-#include "ScriptComponent.h"
+#include "../Components/ComponentsCommon.hpp"
+#include "TransformComponent.hpp"
+#include "ScriptComponent.hpp"
 #include <string>
 
 namespace phoenix

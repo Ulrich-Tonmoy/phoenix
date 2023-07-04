@@ -1,5 +1,5 @@
-#include "Common.h"
-#include "CommonHeaders.h"
+#include "Common.hpp"
+#include "CommonHeaders.hpp"
 
 #ifndef WIN32_MEAN_AND_LEAN
 #define WIN32_MEAN_AND_LEAN

@@ -1,5 +1,5 @@
-#include "Script.h"
-#include "Entity.h"
+#include "Script.hpp"
+#include "Entity.hpp"
 
 namespace phoenix::script
 {

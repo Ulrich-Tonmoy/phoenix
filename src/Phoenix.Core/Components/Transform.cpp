@@ -1,5 +1,5 @@
-#include "Transform.h"
-#include "Entity.h"
+#include "Transform.hpp"
+#include "Entity.hpp"
 
 namespace phoenix::transform
 {
