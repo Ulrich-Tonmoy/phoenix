@@ -46,6 +46,12 @@ namespace phoenix
 
 			u8 register_script(size_t, script_creator);
 
+#ifdef USE_WITH_EDITOR
+			extern "C" __declspec(dllexport)
+#endif
+
+				script_creator get_script_creator(size_t tag);
+
 			template<class script_class>
 			script_ptr create_script(game_entity::entity entity)
 			{
@@ -53,14 +59,26 @@ namespace phoenix
 				return std::make_unique<script_class>(entity);
 			}
 
+#ifdef USE_WITH_EDITOR
+			u8 add_script_name(const char* name);
 #define REGISTER_SCRIPT(TYPE)\
-			class TYPE;\
+			namespace {\
+				const u8 _reg_##TYPE\
+				{\
+					phoenix::script::detail::register_script(phoenix::script::detail::string_hash()(#TYPE), &phoenix::script::detail::create_script<TYPE>)\
+				};\
+				const u8 _name_##TYPE {phoenix::script::detail::add_script_name(#TYPE)};\
+			}\
+
+#else
+#define REGISTER_SCRIPT(TYPE)\
 			namespace {\
 				const u8 _reg_##TYPE\
 				{\
 					phoenix::script::detail::register_script(phoenix::script::detail::string_hash()(#TYPE), &phoenix::script::detail::create_script<TYPE>)\
 				};\
 			}
+#endif
 		}
 	}
 }

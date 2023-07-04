@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Phoenix.Core/Components/Entity.h"
-#include "../Phoenix.Core/Components/Transform.h"
+#include "../Phoenix.Core/Components/Entity.hpp"
+#include "../Phoenix.Core/Components/Transform.hpp"
 #include "Test.hpp"
 
 #include <iostream>

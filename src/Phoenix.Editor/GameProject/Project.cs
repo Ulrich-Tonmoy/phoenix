@@ -1,4 +1,5 @@
 ﻿using Phoenix.Editor.Common;
+using Phoenix.Editor.Components;
 using Phoenix.Editor.DllWrapper;
 using Phoenix.Editor.GameDev;
 using Phoenix.Editor.Utilities;
@@ -52,6 +53,22 @@ namespace Phoenix.Editor.GameProject
         public BuildConfiguration StandAloneBuildConfig => BuildConfig == 0 ? BuildConfiguration.Debug : BuildConfiguration.Release;
         public BuildConfiguration DllBuildConfig => BuildConfig == 0 ? BuildConfiguration.DebugEditor : BuildConfiguration.ReleaseEditor;
 
+        private string[] _availableScripts;
+
+        public string[] AvailableScripts
+        {
+            get => _availableScripts;
+            set
+            {
+                if (_availableScripts != value)
+                {
+                    _availableScripts = value;
+                    OnPropertyChanged(nameof(AvailableScripts));
+                }
+            }
+        }
+
+
         [DataMember(Name = "Scenes")]
         private ObservableCollection<Scene> _scenes = new ObservableCollection<Scene>();
         public ReadOnlyObservableCollection<Scene> Scenes { get; private set; }
@@ -95,6 +112,7 @@ namespace Phoenix.Editor.GameProject
                 OnPropertyChanged(nameof(Scenes));
             }
             ActiveScene = Scenes.FirstOrDefault(x => x.IsActive);
+            Debug.Assert(ActiveScene != null);
 
             await BuildScriptDll(false);
 
@@ -191,18 +209,24 @@ namespace Phoenix.Editor.GameProject
         {
             var configName = GetConfigurationName(DllBuildConfig);
             var dll = $@"{Path}x64\{configName}\{Name}.dll";
+            AvailableScripts = null;
             if (File.Exists(dll) && EngineAPI.LoadScriptDll(dll) != 0)
+            {
+                AvailableScripts = EngineAPI.GetScriptNames();
+                ActiveScene.GameEntities.Where(x => x.GetComponent<Script>() != null).ToList().ForEach(x => x.IsActive = true);
                 Logger.Log(MessageType.Info, "Script DLL loaded successfully.");
+            }
             else
                 Logger.Log(MessageType.Error, "Failed to load Script DLL files. Try to build the project first.");
         }
 
         private void UnloadScriptDll()
         {
+            ActiveScene.GameEntities.Where(x => x.GetComponent<Script>() != null).ToList().ForEach(x => x.IsActive = false);
             if (EngineAPI.UnloadScriptDll() != 0)
             {
                 Logger.Log(MessageType.Info, "Script DLL unloaded.");
-
+                AvailableScripts = null;
             }
         }
     }
