@@ -93,6 +93,9 @@ namespace Phoenix.Editor.GameProject
         public ICommand AddSceneCommand { get; private set; }
         public ICommand RemoveSceneCommand { get; private set; }
         public ICommand BuildCommand { get; private set; }
+        public ICommand DebugStartCommand { get; private set; }
+        public ICommand DebugStartWithoutDebuggingCommand { get; private set; }
+        public ICommand DebugStopCommand { get; private set; }
 
         private static string GetConfigurationName(BuildConfiguration config) => _buildConfigurationNames[(int)config];
 
@@ -147,6 +150,9 @@ namespace Phoenix.Editor.GameProject
             RedoCommand = new RelayCommand<object>(x => UndoRedo.Redo(), x => UndoRedo.RedoList.Any());
             SaveCommand = new RelayCommand<object>(x => Save(this));
             BuildCommand = new RelayCommand<bool>(async x => await BuildScriptDll(x), x => !VisualStudio.IsDebugging() && VisualStudio.BuildCompleted);
+            DebugStartCommand = new RelayCommand<object>(async x => await RunGame(true), x => !VisualStudio.IsDebugging() && VisualStudio.BuildCompleted);
+            DebugStartWithoutDebuggingCommand = new RelayCommand<object>(async x => await RunGame(false), x => !VisualStudio.IsDebugging() && VisualStudio.BuildCompleted);
+            DebugStopCommand = new RelayCommand<object>(async x => await StopGame(), x => VisualStudio.IsDebugging());
 
             OnPropertyChanged(nameof(AddSceneCommand));
             OnPropertyChanged(nameof(RemoveSceneCommand));
@@ -154,6 +160,9 @@ namespace Phoenix.Editor.GameProject
             OnPropertyChanged(nameof(RedoCommand));
             OnPropertyChanged(nameof(SaveCommand));
             OnPropertyChanged(nameof(BuildCommand));
+            OnPropertyChanged(nameof(DebugStartCommand));
+            OnPropertyChanged(nameof(DebugStartWithoutDebuggingCommand));
+            OnPropertyChanged(nameof(DebugStopCommand));
         }
 
         private void AddScene(string sceneName)
@@ -204,6 +213,18 @@ namespace Phoenix.Editor.GameProject
                 throw;
             }
         }
+
+        private async Task RunGame(bool debug)
+        {
+            string configName = GetConfigurationName(StandAloneBuildConfig);
+            await Task.Run(() => VisualStudio.BuildSolution(this, configName, debug));
+            if (VisualStudio.BuildSucceeded)
+            {
+                await Task.Run(() => VisualStudio.Run(this, configName, debug));
+            }
+        }
+
+        private async Task StopGame() => await Task.Run(() => VisualStudio.Stop());
 
         private void LoadScriptDll()
         {

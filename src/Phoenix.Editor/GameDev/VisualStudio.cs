@@ -212,5 +212,21 @@ namespace Phoenix.Editor.GameDev
 
             return result;
         }
+
+        public static void Run(Project project, string configName, bool debug)
+        {
+            if (_vsInstance != null && !IsDebugging() && BuildCompleted && BuildSucceeded)
+            {
+                _vsInstance.ExecuteCommand(debug ? "Debug.Start" : "Debug.StartWithoutDebugging");
+            }
+        }
+
+        public static void Stop()
+        {
+            if (_vsInstance != null && IsDebugging())
+            {
+                _vsInstance.ExecuteCommand("Debug.StopDebugging");
+            }
+        }
     }
 }

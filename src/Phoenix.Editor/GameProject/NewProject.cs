@@ -162,7 +162,7 @@ namespace Phoenix.Editor.GameProject
             Debug.Assert(File.Exists(Path.Combine(template.TemplatePath, "MSVCSolution")));
             Debug.Assert(File.Exists(Path.Combine(template.TemplatePath, "MSVCProject")));
 
-            var engineAPIPath = Path.Combine(MainWindow.PhoenixPath, @"Phoenix.Core\EngineAPI");
+            var engineAPIPath = Path.Combine(MainWindow.PhoenixPath, @"Phoenix.Core\EngineAPI\");
             Debug.Assert(Directory.Exists(engineAPIPath));
 
             var _0 = ProjectName;
