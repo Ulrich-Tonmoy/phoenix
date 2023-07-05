@@ -1,5 +1,6 @@
 ﻿using Phoenix.Editor.Utilities;
 using System;
+using System.IO;
 using System.Numerics;
 using System.Runtime.Serialization;
 
@@ -54,7 +55,15 @@ namespace Phoenix.Editor.Components
         public Transform(GameEntity owner) : base(owner) { }
 
         public override IMSComponent GetMultiSelectionComponent(MSEntity msEntity) => new MSTransform(msEntity);
+
+        public override void WriteToBinary(BinaryWriter bw)
+        {
+            bw.Write(_position.X); bw.Write(_position.Y); bw.Write(_position.Z);
+            bw.Write(_rotation.X); bw.Write(_rotation.Y); bw.Write(_rotation.Z);
+            bw.Write(_scale.X); bw.Write(_scale.Y); bw.Write(_scale.Z);
+        }
     }
+
     sealed class MSTransform : MSComponent<Transform>
     {
         private float? _posX;

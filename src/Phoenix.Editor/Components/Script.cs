@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace Phoenix.Editor.Components
 {
@@ -24,6 +26,13 @@ namespace Phoenix.Editor.Components
         public Script(GameEntity owner) : base(owner) { }
 
         public override IMSComponent GetMultiSelectionComponent(MSEntity msEntity) => new MSScript(msEntity);
+
+        public override void WriteToBinary(BinaryWriter bw)
+        {
+            var nameBytes = Encoding.UTF8.GetBytes(Name);
+            bw.Write(nameBytes.Length);
+            bw.Write(nameBytes);
+        }
     }
 
     sealed class MSScript : MSComponent<Script>
