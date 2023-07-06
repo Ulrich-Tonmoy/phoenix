@@ -9,3 +9,5 @@
 #else
 #error Haxe only supports windows!
 #endif // HX_PLATFORM_WINDOWS
+
+#define BIT(x) (1 << x)
