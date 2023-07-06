@@ -3,6 +3,13 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Custom
+bin/
+bin-int/
+haxe/*.sln
+haxe/**/*.vcxproj
+haxe/**/*.filters
+
 # User-specific files
 *.rsuser
 *.suo
@@ -23,8 +30,6 @@ mono_crash.*
 [Rr]eleases/
 x64/
 x86/
-bin/
-bin-int/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
