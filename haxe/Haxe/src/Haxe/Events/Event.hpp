@@ -1,9 +1,7 @@
 #pragma once
 
+#include "hxpch.hpp"
 #include "Haxe/Core.hpp"
-
-#include <string>
-#include <functional>
 
 namespace Haxe
 {

@@ -17,6 +17,9 @@ project "Haxe"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	
+	pchheader "hxpch.hpp"
+	pchsource "Haxe/src/hxpch.cpp"
 
 	files
 	{

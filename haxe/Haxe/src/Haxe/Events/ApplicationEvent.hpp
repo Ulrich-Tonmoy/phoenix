@@ -2,8 +2,6 @@
 
 #include "Event.hpp"
 
-#include <sstream>
-
 namespace Haxe
 {
 	class HAXE_API WindowResizeEvent : public Event
