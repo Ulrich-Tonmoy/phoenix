@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "Haxe/Log.hpp"
+
 #ifdef HX_PLATFORM_WINDOWS
 #include <Windows.h>
 #endif // HX_PLATFORM_WINDOWS
