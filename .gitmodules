@@ -1,3 +1,6 @@
 [submodule "haxe/Haxe/vendor/spdlog"]
 	path = haxe/Haxe/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "haxe/Haxe/vendor/GLFW"]
+	path = haxe/Haxe/vendor/GLFW
+	url = https://github.com/TheCherno/GLFW
