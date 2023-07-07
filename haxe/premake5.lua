@@ -12,8 +12,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Haxe/vendor/GLFW/include"
+IncludeDir["Glad"] = "Haxe/vendor/Glad/include"
 
 include "Haxe/vendor/GLFW"
+include "Haxe/vendor/Glad"
 
 project "Haxe"
 	location "Haxe"
@@ -36,12 +38,14 @@ project "Haxe"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 	
 	links 
 	{ 
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -53,7 +57,8 @@ project "Haxe"
 		defines
 		{
 			"HX_PLATFORM_WINDOWS",
-			"HX_BUILD_DLL"
+			"HX_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands
