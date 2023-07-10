@@ -15,10 +15,13 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Haxe/vendor/GLFW/include"
 IncludeDir["Glad"] = "Haxe/vendor/Glad/include"
 IncludeDir["ImGui"] = "Haxe/vendor/imgui"
+IncludeDir["glm"] = "Haxe/vendor/glm"
 
-include "Haxe/vendor/GLFW"
-include "Haxe/vendor/Glad"
-include "Haxe/vendor/imgui"
+group "Deps"
+	include "Haxe/vendor/GLFW"
+	include "Haxe/vendor/Glad"
+	include "Haxe/vendor/imgui"
+group ""
 
 project "Haxe"
 	location "Haxe"
@@ -35,7 +38,9 @@ project "Haxe"
 	files
 	{
 		"%{prj.name}/src/**.hpp",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 
 	includedirs
@@ -44,7 +49,8 @@ project "Haxe"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 	
 	links 
@@ -104,7 +110,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Haxe/vendor/spdlog/include",
-		"Haxe/src"
+		"Haxe/src",
+		"%{IncludeDir.glm}"
 	}
 
 	filter "system:windows"
