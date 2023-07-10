@@ -8,7 +8,7 @@
 #define HAXE_API __declspec(dllimport)
 #endif // HX_BUILD_DLL
 #else
-#define HAZEL_API
+#define HAXE_API
 #endif // HX_DYNAMIC_LINK
 #else
 #error Haxe only supports windows!

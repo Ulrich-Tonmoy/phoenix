@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Haxe/Window.hpp"
+#include "Haxe/Renderer/GraphicsContext.hpp"
 
 #include <GLFW/glfw3.h>
 
@@ -26,6 +27,7 @@ namespace Haxe
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{
