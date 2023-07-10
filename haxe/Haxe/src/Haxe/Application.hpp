@@ -6,6 +6,8 @@
 #include "Haxe/Events/Event.hpp"
 #include "Haxe/Events/ApplicationEvent.hpp"
 
+#include "Haxe/ImGui/ImGuiLayer.hpp"
+
 namespace Haxe
 {
 	class HAXE_API Application
@@ -26,6 +28,7 @@ namespace Haxe
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:

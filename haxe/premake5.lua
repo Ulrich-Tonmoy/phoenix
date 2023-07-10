@@ -111,6 +111,7 @@ project "Sandbox"
 	{
 		"Haxe/vendor/spdlog/include",
 		"Haxe/src",
+		"Haxe/vendor",
 		"%{IncludeDir.glm}"
 	}
 
