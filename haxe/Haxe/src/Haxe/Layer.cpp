@@ -7,10 +7,4 @@ namespace Haxe
 		: m_DebugName(debugName)
 	{
 	}
-
-	Layer::~Layer()
-	{
-
-	}
-
 }

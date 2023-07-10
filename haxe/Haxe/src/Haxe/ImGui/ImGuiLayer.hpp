@@ -12,7 +12,7 @@ namespace Haxe
 	{
 	public:
 		ImGuiLayer();
-		~ImGuiLayer();
+		~ImGuiLayer() = default;
 
 	private:
 		virtual void OnAttach() override;
