@@ -10,6 +10,10 @@
 #error Haxe only supports windows!
 #endif // HX_PLATFORM_WINDOWS
 
+#ifdef HX_DEBUG
+#define HX_ENABLE_ASSERTS
+#endif
+
 #ifdef HX_ENABLE_ASSERTS
 #define HX_ASSERT(x, ...) { if(!(x)) { HX_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 #define HX_CORE_ASSERT(x, ...) { if(!(x)) { HX_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
