@@ -16,7 +16,7 @@ namespace Haxe
 	void LayerStack::PushLayer(Layer* layer)
 	{
 		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
-		m_LayerInsertIndex++;
+		layer->OnAttach();
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
@@ -30,7 +30,8 @@ namespace Haxe
 		if (it != m_Layers.end())
 		{
 			m_Layers.erase(it);
-			m_LayerInsertIndex--;
+			m_LayerInsert--;
+			layer->OnDetach();
 		}
 	}
 
@@ -38,7 +39,10 @@ namespace Haxe
 	{
 		auto it = std::find(m_Layers.begin(), m_Layers.end(), overlay);
 		if (it != m_Layers.end())
+		{
 			m_Layers.erase(it);
+			overlay->OnDetach();
+		}
 	}
 
 }
