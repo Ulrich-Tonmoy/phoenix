@@ -5,7 +5,6 @@
 
 namespace Haxe
 {
-
 	class HAXE_API MouseMovedEvent : public Event
 	{
 	public:

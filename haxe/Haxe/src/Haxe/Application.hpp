@@ -1,12 +1,15 @@
 #pragma once
 
 #include "Core.hpp"
+
 #include "Window.hpp"
 #include "Haxe/LayerStack.hpp"
 #include "Haxe/Events/Event.hpp"
 #include "Haxe/Events/ApplicationEvent.hpp"
 
 #include "Haxe/ImGui/ImGuiLayer.hpp"
+
+#include "Haxe/Renderer/Shader.hpp"
 
 namespace Haxe
 {
@@ -33,6 +36,7 @@ namespace Haxe
 		LayerStack m_LayerStack;
 
 		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 	private:
 		static Application* s_Instance;
 	};

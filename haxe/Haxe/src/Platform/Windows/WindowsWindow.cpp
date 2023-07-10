@@ -1,5 +1,6 @@
 #include "hxpch.hpp"
 #include "WindowsWindow.hpp"
+
 #include "Haxe/Events/ApplicationEvent.hpp"
 #include "Haxe/Events/MouseEvent.hpp"
 #include "Haxe/Events/KeyEvent.hpp"
@@ -42,7 +43,6 @@ namespace Haxe
 		{
 			int success = glfwInit();
 			HX_CORE_ASSERT(success, "Could not intialize GLFW!");
-
 			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}

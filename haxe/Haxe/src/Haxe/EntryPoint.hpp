@@ -5,10 +5,9 @@ extern Haxe::Application* Haxe::CreateApplication();
 int main(int argc, char** argv)
 {
 	Haxe::Log::Init();
-	HX_CORE_WARN("Log Init");
-	HX_CORE_FATAL("Crit");
-	HX_ERROR("Err");
-	HX_FATAL("Log Init");
+	HX_CORE_WARN("Initialized Log!");
+	int a = 5;
+	HX_INFO("Hello! Var={0}", a);
 
 	auto app = Haxe::CreateApplication();
 	app->Run();
