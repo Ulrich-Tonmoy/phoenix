@@ -30,6 +30,9 @@
     <ClInclude Include="EngineAPI\GameEntity.hpp" />
     <ClInclude Include="EngineAPI\ScriptComponent.hpp" />
     <ClInclude Include="EngineAPI\TransformComponent.hpp" />
+    <ClInclude Include="Platform\Platform.hpp" />
+    <ClInclude Include="Platform\PlatformTypes.hpp" />
+    <ClInclude Include="Platform\Window.hpp" />
     <ClInclude Include="Utilities\MathTypes.hpp" />
     <ClInclude Include="Utilities\Utilities.hpp" />
   </ItemGroup>
@@ -40,6 +43,7 @@
     <ClCompile Include="Content\ContentLoader.cpp" />
     <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Core\Main.cpp" />
+    <ClCompile Include="Platform\Platform.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
