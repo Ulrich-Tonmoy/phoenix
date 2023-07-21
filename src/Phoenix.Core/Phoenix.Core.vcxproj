@@ -30,6 +30,7 @@
     <ClInclude Include="EngineAPI\GameEntity.hpp" />
     <ClInclude Include="EngineAPI\ScriptComponent.hpp" />
     <ClInclude Include="EngineAPI\TransformComponent.hpp" />
+    <ClInclude Include="Graphics\Renderer.hpp" />
     <ClInclude Include="Platform\Platform.hpp" />
     <ClInclude Include="Platform\PlatformTypes.hpp" />
     <ClInclude Include="Platform\Window.hpp" />

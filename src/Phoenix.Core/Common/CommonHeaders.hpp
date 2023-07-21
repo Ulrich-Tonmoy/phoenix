@@ -17,3 +17,9 @@
 #include "..\Utilities\MathTypes.hpp"
 #include "PrimitiveTypes.hpp"
 #include "Id.hpp"
+
+#ifdef _DEBUG
+#define DEBUG_OP(x) x
+#else
+#define DEBUG_OP(x) (void(0))
+#endif // DEBUG
