@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace Phoenix.Editor.Utilities
@@ -11,6 +12,7 @@ namespace Phoenix.Editor.Utilities
         private readonly int _width = 800;
         private readonly int _height = 600;
         private IntPtr _renderWindowHandle = IntPtr.Zero;
+        private DelayEventTimer _resizeTimer;
 
         public int SurfaceId { get; private set; } = ID.INVALID_ID;
 
@@ -18,6 +20,22 @@ namespace Phoenix.Editor.Utilities
         {
             _width = (int)width;
             _height = (int)height;
+            _resizeTimer = new DelayEventTimer(TimeSpan.FromMilliseconds(250.0));
+            _resizeTimer.Triggered += Resize;
+        }
+
+        public void Resize()
+        {
+            _resizeTimer.Trigger();
+        }
+
+        private void Resize(object sender, DelayEventTimerArgs e)
+        {
+            e.RepeatEvent = Mouse.LeftButton == MouseButtonState.Pressed;
+            if (!e.RepeatEvent)
+            {
+                Logger.Log(MessageType.Info, "Resized");
+            }
         }
 
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
