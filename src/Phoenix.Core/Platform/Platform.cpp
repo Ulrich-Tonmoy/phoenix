@@ -9,8 +9,7 @@ namespace phoenix::platform
 		struct window_info
 		{
 			HWND hwnd{ nullptr };
-			//RECT client_area{ 0,0,1920,1080 };
-			RECT client_area{ 0,0,1280,720 };
+			RECT client_area{ 0,0,1920,1080 };
 			RECT fullscreen_area{};
 			POINT top_left{ 0,0 };
 			DWORD style{ WS_VISIBLE };
