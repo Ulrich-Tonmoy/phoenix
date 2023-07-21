@@ -292,9 +292,9 @@
                                         <Setter Property="StrokeThickness" Value="1"/>
                                     </Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SimpleButton}">
-                                        <Setter Property="Width" Value="24"/>
-                                        <Setter Property="Height" Value="14"/>
-                                        <Setter Property="Margin" Value="0,3,0,0"/>
+                                        <Setter Property="Width" Value="30"/>
+                                        <Setter Property="Height" Value="30"/>
+                                        <Setter Property="Margin" Value="0,0,0,0"/>
                                         <Setter Property="VerticalAlignment" Value="Top"/>
                                         <Setter Property="SnapsToDevicePixels" Value="True"/>
                                         <Setter Property="DockPanel.Dock" Value="Right"/>
@@ -371,9 +371,9 @@
                                         <Setter Property="StrokeThickness" Value="1"/>
                                     </Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SimpleButton}">
-                                        <Setter Property="Width" Value="24"/>
-                                        <Setter Property="Height" Value="14"/>
-                                        <Setter Property="Margin" Value="0,3,0,0"/>
+                                        <Setter Property="Width" Value="30"/>
+                                        <Setter Property="Height" Value="30"/>
+                                        <Setter Property="Margin" Value="0,0,0,0"/>
                                         <Setter Property="VerticalAlignment" Value="Top"/>
                                         <Setter Property="SnapsToDevicePixels" Value="True"/>
                                         <Setter Property="DockPanel.Dock" Value="Right"/>
