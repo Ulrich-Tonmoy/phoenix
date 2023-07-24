@@ -14,9 +14,10 @@
 #endif
 
 // Custom
+#include "PrimitiveTypes.hpp"
+#include "..\Utilities\Math.hpp"
 #include "..\Utilities\Utilities.hpp"
 #include "..\Utilities\MathTypes.hpp"
-#include "PrimitiveTypes.hpp"
 #include "Id.hpp"
 
 #ifdef _DEBUG
