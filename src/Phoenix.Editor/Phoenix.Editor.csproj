@@ -10,7 +10,7 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<ApplicationIcon>icons.ico</ApplicationIcon>
 		<AssemblyName>Phoenix</AssemblyName>
-		<Configurations>Debug;Release;ReleaseEditor;DebugEditor</Configurations>
+		<Configurations>DebugEditor;ReleaseEditor</Configurations>
 		<Platforms>x64</Platforms>
 	</PropertyGroup>
 
