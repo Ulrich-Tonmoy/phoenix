@@ -15,7 +15,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix.Core.Test", "Phoeni
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix.Core.Dll", "Phoenix.Core.Dll\Phoenix.Core.Dll.vcxproj", "{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssetTools", "AssetTools\AssetTools.vcxproj", "{22AE4481-F226-449C-8E3C-38A56F688B67}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix.AssetTools", "Phoenix.AssetTools\Phoenix.AssetTools.vcxproj", "{22AE4481-F226-449C-8E3C-38A56F688B67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

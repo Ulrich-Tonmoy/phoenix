@@ -25,6 +25,7 @@
     <ProjectGuid>{22ae4481-f226-449c-8e3c-38a56f688b67}</ProjectGuid>
     <RootNamespace>AssetTools</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Phoenix.AssetTools</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditor|x64'" Label="Configuration">
