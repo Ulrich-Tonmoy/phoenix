@@ -36,29 +36,29 @@ namespace Phoenix.Editor.DllWrapper
 {
     static class EngineAPI
     {
-        private const string _engineDll = "Phoenix.Core.Dll.dll";
+        private const string _engineDLL = "Phoenix.Core.Dll.dll";
 
-        [DllImport(_engineDll, CharSet = CharSet.Ansi)]
+        [DllImport(_engineDLL, CharSet = CharSet.Ansi)]
         public static extern int LoadScriptDll(string dllPath);
-        [DllImport(_engineDll)]
+        [DllImport(_engineDLL)]
         public static extern int UnloadScriptDll();
-        [DllImport(_engineDll)]
+        [DllImport(_engineDLL)]
         public static extern IntPtr GetScriptCreator(string name);
-        [DllImport(_engineDll)]
+        [DllImport(_engineDLL)]
         [return: MarshalAs(UnmanagedType.SafeArray)]
         public static extern string[] GetScriptNames();
-        [DllImport(_engineDll)]
+        [DllImport(_engineDLL)]
         public static extern int CreateRenderSurface(IntPtr host, int width, int height);
-        [DllImport(_engineDll)]
+        [DllImport(_engineDLL)]
         public static extern void RemoveRenderSurface(int surfaceId);
-        [DllImport(_engineDll)]
+        [DllImport(_engineDLL)]
         public static extern IntPtr GetWindowHandle(int surfaceId);
-        [DllImport(_engineDll)]
+        [DllImport(_engineDLL)]
         public static extern void ResizeRenderSurface(int surfaceId);
 
         internal static class EntityAPI
         {
-            [DllImport(_engineDll)]
+            [DllImport(_engineDLL)]
             private static extern int CreateGameEntity(GameEntityDescriptor desc);
 
             public static int CreateGameEntity(GameEntity entity)
@@ -91,7 +91,7 @@ namespace Phoenix.Editor.DllWrapper
                 return CreateGameEntity(desc);
             }
 
-            [DllImport(_engineDll)]
+            [DllImport(_engineDLL)]
             private static extern void RemoveGameEntity(int id);
 
             public static void RemoveGameEntity(GameEntity entity)
