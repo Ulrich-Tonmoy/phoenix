@@ -1,5 +1,6 @@
 ﻿using Phoenix.Editor.AssetToolsAPIStructs;
 using Phoenix.Editor.DllWrapper;
+using Phoenix.Editor.Editors;
 using Phoenix.Editor.Utilities.Controls;
 using System;
 using System.Windows;
@@ -60,6 +61,7 @@ namespace Phoenix.Editor.Assets
 
             var geometry = new Geometry();
             AssetToolsAPI.CreatePrimitiveMesh(geometry, info);
+            (DataContext as GeometryEditor).SetAsset(geometry);
         }
     }
 }
