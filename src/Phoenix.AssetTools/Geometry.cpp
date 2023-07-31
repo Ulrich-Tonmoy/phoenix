@@ -59,7 +59,7 @@ namespace phoenix::tools
 					XMVECTOR n1{ XMLoadFloat3(&m.normals[refs[j]]) };
 					if (!is_hard_edge)
 					{
-						for (u32 k{ j + 1 };k < num_indices;++k)
+						for (u32 k{ j + 1 };k < num_refs;++k)
 						{
 							f32 cos_theta{ 0.f };
 							XMVECTOR n2{ XMLoadFloat3(&m.normals[refs[k]]) };
@@ -108,7 +108,7 @@ namespace phoenix::tools
 					v.uv = m.uv_sets[0][refs[j]];
 					m.vertices.emplace_back(v);
 
-					for (u32 k{ 0 };k < num_refs;++k)
+					for (u32 k{ j + 1 };k < num_refs;++k)
 					{
 						v2& uv1{ m.uv_sets[0][refs[k]] };
 						if (XMScalarNearEqual(v.uv.x, uv1.x, epsilon) && XMScalarNearEqual(v.uv.y, uv1.y, epsilon))
