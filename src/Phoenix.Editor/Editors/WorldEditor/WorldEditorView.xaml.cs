@@ -1,4 +1,4 @@
-﻿using Phoenix.Editor.Asset;
+﻿using Phoenix.Editor.Assets;
 using Phoenix.Editor.GameDev;
 using System.Windows;
 using System.Windows.Controls;

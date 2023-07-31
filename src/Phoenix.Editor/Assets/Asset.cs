@@ -1,7 +1,7 @@
 ﻿using Phoenix.Editor.Common;
 using System.Diagnostics;
 
-namespace Phoenix.Editor.Asset
+namespace Phoenix.Editor.Assets
 {
     enum AssetType
     {

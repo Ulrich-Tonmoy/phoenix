@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Phoenix.Editor.Asset
+namespace Phoenix.Editor.Assets
 {
     enum PrimitiveMeshType
     {

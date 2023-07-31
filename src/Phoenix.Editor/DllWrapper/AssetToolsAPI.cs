@@ -1,4 +1,4 @@
-﻿using Phoenix.Editor.Asset;
+﻿using Phoenix.Editor.Assets;
 using Phoenix.Editor.AssetToolsAPIStructs;
 using Phoenix.Editor.Utilities;
 using System;

@@ -5,7 +5,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Phoenix.Editor.Asset
+namespace Phoenix.Editor.Assets
 {
     public partial class PrimitiveMeshDialog : Window
     {
