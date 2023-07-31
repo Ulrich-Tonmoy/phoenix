@@ -51,7 +51,7 @@ namespace phoenix::tools
 			{
 				auto& refs{ idx_ref[i] };
 				u32 num_refs{ (u32)refs.size() };
-				for (u32 j{ 0 };j < num_refs;++i)
+				for (u32 j{ 0 };j < num_refs;++j)
 				{
 					m.indices[refs[j]] = (u32)m.vertices.size();
 					vertex& v{ m.vertices.emplace_back() };
@@ -97,7 +97,7 @@ namespace phoenix::tools
 			for (u32 i{ 0 };i < num_indices;++i)
 				idx_ref[old_indices[i]].emplace_back(i);
 
-			for (u32 i = { 0 };i < num_vertices;++i)
+			for (u32 i{ 0 };i < num_vertices;++i)
 			{
 				auto& refs{ idx_ref[i] };
 				u32 num_refs{ (u32)refs.size() };
