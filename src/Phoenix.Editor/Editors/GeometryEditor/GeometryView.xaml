@@ -7,7 +7,7 @@
              d:DataContext="{d:DesignInstance Type=local:MeshRenderer}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="Transparent" MouseLeftButtonDown="OnGrid_Mouse_LBD" MouseMove="OnGrid_MouseMove" MouseLeftButtonUp="OnGrid_Mouse_LBU" MouseWheel="OnGrid_MouseWheel" MouseRightButtonDown="OnGrid_Mouse_RBD" MouseRightButtonUp="OnGrid_Mouse_RBU">
         <Viewport3D x:Name="viewport" IsHitTestVisible="False">
             <Viewport3D.Camera>
                 <PerspectiveCamera FarPlaneDistance="10000" NearPlaneDistance="0.001" FieldOfView="45" Position="{Binding OffSetCameraPosition}" UpDirection="0,1,0" LookDirection="{Binding CameraDirection}"/>

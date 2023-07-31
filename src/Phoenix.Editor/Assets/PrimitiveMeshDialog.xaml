@@ -32,6 +32,7 @@
             </Border.Effect>
             <StackPanel Orientation="Horizontal" Margin="5,0">
                 <ComboBox SelectedIndex="0" Width="100" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource dataFormEnum}}" x:Name="primTypeComboBox" SelectionChanged="OnPrimitiveType_ComboBox_SelectionChanged"/>
+                <CheckBox x:Name="textureCheckbox" Content="Show Textured" VerticalAlignment="Center" Margin="5,0" IsChecked="True" Foreground="{StaticResource Editor.FontBrush}" Click="OnTexture_CheckBox_Click"/>
             </StackPanel>
         </Border>
 

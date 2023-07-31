@@ -3,17 +3,28 @@ using Phoenix.Editor.DllWrapper;
 using Phoenix.Editor.Editors;
 using Phoenix.Editor.Utilities.Controls;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Phoenix.Editor.Assets
 {
     public partial class PrimitiveMeshDialog : Window
     {
+        private static readonly List<ImageBrush> _textures = new List<ImageBrush>();
+
         public PrimitiveMeshDialog()
         {
             InitializeComponent();
             Loaded += (s, e) => UpdatePrimitive();
+        }
+
+        static PrimitiveMeshDialog()
+        {
+            LoadTextures();
         }
 
         private void OnPrimitiveType_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdatePrimitive();
@@ -46,15 +57,15 @@ namespace Phoenix.Editor.Assets
                         break;
                     }
                 case PrimitiveMeshType.Cube:
-                    break;
+                    return;
                 case PrimitiveMeshType.UvSphere:
-                    break;
+                    return;
                 case PrimitiveMeshType.IcoSphere:
-                    break;
+                    return;
                 case PrimitiveMeshType.Cylinder:
-                    break;
+                    return;
                 case PrimitiveMeshType.Capsule:
-                    break;
+                    return;
                 default:
                     break;
             }
@@ -62,6 +73,44 @@ namespace Phoenix.Editor.Assets
             var geometry = new Geometry();
             AssetToolsAPI.CreatePrimitiveMesh(geometry, info);
             (DataContext as GeometryEditor).SetAsset(geometry);
+            OnTexture_CheckBox_Click(textureCheckbox, null);
+        }
+
+        private static void LoadTextures()
+        {
+            var uris = new List<Uri>
+            {
+                new Uri("pack://application:,,,/Resources/PrimitiveMeshView/PlaneTexture.png"),
+            };
+
+            _textures.Clear();
+
+            foreach (Uri uri in uris)
+            {
+                var resource = Application.GetResourceStream(uri);
+                using var reader = new BinaryReader(resource.Stream);
+                var data = reader.ReadBytes((int)resource.Stream.Length);
+                var imageSource = (BitmapSource)new ImageSourceConverter().ConvertFrom(data);
+                imageSource.Freeze();
+                var brush = new ImageBrush(imageSource);
+                brush.Transform = new ScaleTransform(1, -1, 0.5, 0.5);
+                brush.ViewportUnits = BrushMappingMode.Absolute;
+                brush.Freeze();
+                _textures.Add(brush);
+            }
+        }
+
+        private void OnTexture_CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            Brush brush = Brushes.White;
+            if ((sender as CheckBox).IsChecked == true)
+                brush = _textures[(int)primTypeComboBox.SelectedItem];
+
+            var vm = DataContext as GeometryEditor;
+            foreach (var mesh in vm.MeshRenderer.Meshes)
+            {
+                mesh.Diffuse = brush;
+            }
         }
     }
 }
