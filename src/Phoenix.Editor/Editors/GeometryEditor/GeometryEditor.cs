@@ -52,7 +52,7 @@ namespace Phoenix.Editor.Editors
     {
         public ObservableCollection<MeshRendererVertexData> Meshes { get; } = new ObservableCollection<MeshRendererVertexData>();
 
-        private Vector3D _cameraDirection = new Vector3D(0, 0, -10);
+        private Vector3D _cameraDirection = new(0, 0, -10);
         public Vector3D CameraDirection
         {
             get => _cameraDirection;
@@ -66,7 +66,7 @@ namespace Phoenix.Editor.Editors
             }
         }
 
-        private Point3D _cameraPosition = new Point3D(0, 0, 10);
+        private Point3D _cameraPosition = new(0, 0, 10);
         public Point3D CameraPosition
         {
             get => _cameraPosition;
@@ -75,13 +75,14 @@ namespace Phoenix.Editor.Editors
                 if (_cameraPosition != value)
                 {
                     _cameraPosition = value;
+                    CameraDirection = new Vector3D(-value.X, -value.Y, -value.Z);
                     OnPropertyChanged(nameof(OffSetCameraPosition));
                     OnPropertyChanged(nameof(CameraPosition));
                 }
             }
         }
 
-        private Point3D _cameraTarget = new Point3D(0, 0, 0);
+        private Point3D _cameraTarget = new(0, 0, 0);
         public Point3D CameraTarget
         {
             get => _cameraTarget;
@@ -96,7 +97,7 @@ namespace Phoenix.Editor.Editors
             }
         }
 
-        public Point3D OffSetCameraPosition => new Point3D(CameraPosition.X + CameraTarget.X, CameraPosition.Y + CameraTarget.Y, CameraPosition.Z + CameraTarget.Z);
+        public Point3D OffSetCameraPosition => new(CameraPosition.X + CameraTarget.X, CameraPosition.Y + CameraTarget.Y, CameraPosition.Z + CameraTarget.Z);
 
         private Color _keyLight = (Color)ColorConverter.ConvertFromString("#ffaeaeae");
         public Color KeyLight
@@ -161,39 +162,39 @@ namespace Phoenix.Editor.Editors
 
             double minX, minY, minZ; minX = minY = minZ = double.MaxValue;
             double maxX, maxY, maxZ; maxX = maxY = maxZ = double.MinValue;
-            Vector3D avgNormal = new Vector3D();
-            var intervals = 2.0f / ((1 << 16) - 1);
+            Vector3D avgNormal = new();
+            float intervals = 2.0f / ((1 << 16) - 1);
 
-            foreach (var mesh in lod.Meshes)
+            foreach (Mesh mesh in lod.Meshes)
             {
-                var vertexData = new MeshRendererVertexData();
-                using (var reader = new BinaryReader(new MemoryStream(mesh.Vertices)))
+                MeshRendererVertexData vertexData = new();
+                using (BinaryReader reader = new(new MemoryStream(mesh.Vertices)))
                     for (int i = 0; i < mesh.VertexCount; ++i)
                     {
-                        var posX = reader.ReadSingle();
-                        var posY = reader.ReadSingle();
-                        var posZ = reader.ReadSingle();
-                        var signs = (reader.ReadUInt32() >> 24) & 0x000000ff;
+                        float posX = reader.ReadSingle();
+                        float posY = reader.ReadSingle();
+                        float posZ = reader.ReadSingle();
+                        uint signs = (reader.ReadUInt32() >> 24) & 0x000000ff;
                         vertexData.Positions.Add(new Point3D(posX, posY, posZ));
 
                         minX = Math.Min(minX, posX); maxX = Math.Max(maxX, posX);
                         minY = Math.Min(minY, posY); maxY = Math.Max(maxY, posY);
                         minZ = Math.Min(minZ, posZ); maxZ = Math.Max(maxZ, posZ);
 
-                        var nrmX = reader.ReadUInt16() * intervals - 1.0f;
-                        var nrmY = reader.ReadUInt16() * intervals - 1.0f;
-                        var nrmZ = Math.Sqrt(Math.Clamp(1f - (nrmX * nrmX + nrmY * nrmY), 0f, 1f)) * ((signs & 0x2) - 1f);
-                        var normal = new Vector3D(nrmX, nrmY, nrmZ);
+                        float nrmX = reader.ReadUInt16() * intervals - 1.0f;
+                        float nrmY = reader.ReadUInt16() * intervals - 1.0f;
+                        double nrmZ = Math.Sqrt(Math.Clamp(1f - (nrmX * nrmX + nrmY * nrmY), 0f, 1f)) * ((signs & 0x2) - 1f);
+                        Vector3D normal = new(nrmX, nrmY, nrmZ);
                         normal.Normalize();
                         vertexData.Normals.Add(normal);
                         avgNormal += normal;
 
                         reader.BaseStream.Position += (offset - sizeof(float) * 2);
-                        var u = reader.ReadSingle();
-                        var v = reader.ReadSingle();
+                        float u = reader.ReadSingle();
+                        float v = reader.ReadSingle();
                         vertexData.UVs.Add(new Point(u, v));
                     }
-                using (var reader = new BinaryReader(new MemoryStream(mesh.Indices)))
+                using (BinaryReader reader = new(new MemoryStream(mesh.Indices)))
                     if (mesh.IndexSize == sizeof(short))
                         for (int i = 0; i < mesh.IndexCount; ++i) vertexData.Indices.Add(reader.ReadUInt16());
                     else
@@ -213,10 +214,10 @@ namespace Phoenix.Editor.Editors
             }
             else
             {
-                var width = maxX - minX;
-                var height = maxY - minY;
-                var depth = maxZ - minZ;
-                var radius = new Vector3D(height, width, depth).Length * 1.2;
+                double width = maxX - minX;
+                double height = maxY - minY;
+                double depth = maxZ - minZ;
+                double radius = new Vector3D(height, width, depth).Length * 1.2;
 
                 if (avgNormal.Length > 0.8)
                 {
@@ -238,7 +239,7 @@ namespace Phoenix.Editor.Editors
 
     class GeometryEditor : ViewModelBase, IAssetEditor
     {
-        public Assets.Asset Asset => Geometry;
+        public Asset Asset => Geometry;
 
         private Assets.Geometry _geometry;
         public Assets.Geometry Geometry
