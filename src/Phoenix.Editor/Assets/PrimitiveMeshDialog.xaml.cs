@@ -50,8 +50,8 @@ namespace Phoenix.Editor.Assets
             {
                 case PrimitiveMeshType.Plane:
                     {
-                        info.SegmentsX = (int)xSliderPlane.Value;
-                        info.SegmentsZ = (int)zSliderPlane.Value;
+                        info.SegmentX = (int)xSliderPlane.Value;
+                        info.SegmentZ = (int)zSliderPlane.Value;
                         info.Size.X = Value(widthScalarBoxPlane, 0.001f);
                         info.Size.Z = Value(lengthScalarBoxPlane, 0.001f);
                         break;

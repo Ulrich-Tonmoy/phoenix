@@ -42,9 +42,9 @@ namespace Phoenix.Editor.AssetToolsAPIStructs
     class PrimitiveInitInfo
     {
         public PrimitiveMeshType Type;
-        public int SegmentsX = 1;
-        public int SegmentsY = 1;
-        public int SegmentsZ = 1;
+        public int SegmentX = 1;
+        public int SegmentY = 1;
+        public int SegmentZ = 1;
         public Vector3 Size = new Vector3(1f);
         public int LOD = 0;
     }
