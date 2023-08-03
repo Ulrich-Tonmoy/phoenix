@@ -91,8 +91,9 @@ namespace Phoenix.Editor.Assets
             var uris = new List<Uri>
             {
                 new Uri("pack://application:,,,/Resources/PrimitiveMeshView/PlaneTexture.png"),
-                new Uri("pack://application:,,,/Resources/PrimitiveMeshView/PlaneTexture.png"),
-                new Uri("pack://application:,,,/Resources/PrimitiveMeshView/PlaneTexture.png"),
+                new Uri("pack://application:,,,/Resources/PrimitiveMeshView/SciFiPanel.png"),
+                new Uri("pack://application:,,,/Resources/PrimitiveMeshView/Checkermap.png"),
+                new Uri("pack://application:,,,/Resources/PrimitiveMeshView/HexGlow.png"),
             };
 
             _textures.Clear();

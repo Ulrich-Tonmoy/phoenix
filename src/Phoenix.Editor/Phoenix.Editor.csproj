@@ -17,6 +17,9 @@
 
 	<ItemGroup>
 		<None Remove="Resources\PrimitiveMeshView\PlaneTexture.png" />
+		<None Remove="Resources\PrimitiveMeshView\Checkermap.png" />
+		<None Remove="Resources\PrimitiveMeshView\SciFiPanel.png" />
+		<None Remove="Resources\PrimitiveMeshView\HexGlow.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -50,6 +53,9 @@
 
 	<ItemGroup>
 		<Resource Include="Resources\PrimitiveMeshView\PlaneTexture.png" />
+		<Resource Include="Resources\PrimitiveMeshView\Checkermap.png" />
+		<Resource Include="Resources\PrimitiveMeshView\SciFiPanel.png" />
+		<Resource Include="Resources\PrimitiveMeshView\HexGlow.png" />
 	</ItemGroup>
 
 </Project>
