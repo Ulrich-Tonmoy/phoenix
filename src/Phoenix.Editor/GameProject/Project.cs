@@ -33,6 +33,7 @@ namespace Phoenix.Editor.GameProject
         public string Path { get; private set; }
         public string FullPath => $@"{Path}{Name}{Extension}";
         public string Solution => $@"{Path}{Name}.sln";
+        public string AssetPath => $@"{Path}Assets\";
 
         private static readonly string[] _buildConfigurationNames = new string[] { "Debug", "DebugEditor", "Release", "ReleaseEditor" };
         private int _buildConfig;

@@ -34,5 +34,22 @@ namespace Phoenix.Editor.Common
 
             return sb.ToString(0, length);
         }
+
+        public static object SanitizeFileName(string name)
+        {
+            var path = new StringBuilder(name.Substring(0, name.LastIndexOf(Path.DirectorySeparatorChar) + 1));
+            var file = new StringBuilder(name[(name.LastIndexOf(Path.DirectorySeparatorChar) + 1)..]);
+
+            foreach (var c in Path.GetInvalidPathChars())
+            {
+                path.Replace(c, '_');
+            }
+            foreach (var c in Path.GetInvalidFileNameChars())
+            {
+                file.Replace(c, '_');
+            }
+
+            return path.Append(file).ToString();
+        }
     }
 }

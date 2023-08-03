@@ -1,5 +1,6 @@
 ﻿using Phoenix.Editor.Common;
 using Phoenix.Editor.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -333,6 +334,32 @@ namespace Phoenix.Editor.Assets
         {
             Debug.Assert(lodGroup >= 0 && lodGroup < _lodGroups.Count);
             return _lodGroups.Any() ? _lodGroups[lodGroup] : null;
+        }
+
+        public override IEnumerable<string> Save(string file)
+        {
+            Debug.Assert(_lodGroups.Any());
+            var savedFiles = new List<string>();
+
+            if (!_lodGroups.Any()) return savedFiles;
+
+            var path = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
+            var fileName = Path.GetFileNameWithoutExtension(file);
+
+            try
+            {
+                foreach (var lodGroup in _lodGroups)
+                {
+                    Debug.Assert(lodGroup.LODs.Any());
+                    var meshFileName = AssetHelper.SanitizeFileName(path + fileName + "_" + lodGroup.LODs[0].Name + AssetFileExtension);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                Logger.Log(MessageType.Error, $"Failed to save geometry to {file}");
+            }
+            return savedFiles;
         }
     }
 }

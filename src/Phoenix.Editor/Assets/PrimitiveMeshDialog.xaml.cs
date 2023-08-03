@@ -1,9 +1,12 @@
-﻿using Phoenix.Editor.AssetToolsAPIStructs;
+﻿using Microsoft.Win32;
+using Phoenix.Editor.AssetToolsAPIStructs;
 using Phoenix.Editor.DllWrapper;
 using Phoenix.Editor.Editors;
+using Phoenix.Editor.GameProject;
 using Phoenix.Editor.Utilities.Controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -123,6 +126,23 @@ namespace Phoenix.Editor.Assets
             foreach (var mesh in vm.MeshRenderer.Meshes)
             {
                 mesh.Diffuse = brush;
+            }
+        }
+
+        private void OnSave_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog()
+            {
+                InitialDirectory = Project.Current.AssetPath,
+                Filter = "Asset file (*.asset)|*.asset|All file(*.*)|*.*"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                Debug.Assert(!string.IsNullOrEmpty(dlg.FileName));
+                var asset = (DataContext as IAssetEditor).Asset;
+                Debug.Assert(asset != null);
+                asset.Save(dlg.FileName);
             }
         }
     }
