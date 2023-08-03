@@ -203,7 +203,7 @@ namespace phoenix::tools
 			m.raw_indices[c++] = south_pole_index - 1;
 
 			m.uv_sets.resize(1);
-			m.uv_sets[0].resize(m.indices.size());
+			m.uv_sets[0].resize(m.raw_indices.size());
 
 			return m;
 		}
