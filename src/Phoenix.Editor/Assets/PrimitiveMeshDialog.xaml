@@ -112,12 +112,12 @@
                             <DockPanel Margin="5">
                                 <TextBlock Text="Lon." Width="40" DockPanel.Dock="Left" VerticalAlignment="Center"/>
                                 <TextBox Text="{Binding Path=Value,ElementName=xSliderUvSphere}" Width="30" DockPanel.Dock="Right"/>
-                                <Slider Minimum="3" Maximum="128" HorizontalAlignment="Stretch" Interval="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" x:Name="xSliderUvSphere" ValueChanged="OnSlider_ValueChanged"/>
+                                <Slider Minimum="3" Maximum="128" Value="24" HorizontalAlignment="Stretch" Interval="1" IsSnapToTickEnabled="True" x:Name="xSliderUvSphere" ValueChanged="OnSlider_ValueChanged"/>
                             </DockPanel>
                             <DockPanel Margin="5">
                                 <TextBlock Text="Lat." Width="40" DockPanel.Dock="Left" VerticalAlignment="Center"/>
                                 <TextBox Text="{Binding Path=Value,ElementName=ySliderUvSphere}" Width="30" DockPanel.Dock="Right"/>
-                                <Slider Minimum="2" Maximum="128" HorizontalAlignment="Stretch" Interval="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" x:Name="ySliderUvSphere" ValueChanged="OnSlider_ValueChanged"/>
+                                <Slider Minimum="2" Maximum="128" Value="12" HorizontalAlignment="Stretch" Interval="1" IsSnapToTickEnabled="True" x:Name="ySliderUvSphere" ValueChanged="OnSlider_ValueChanged"/>
                             </DockPanel>
                         </StackPanel>
                     </Border>
@@ -142,18 +142,39 @@
                     </Border>
                     <Label Content="Size" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="5,0" Foreground="{StaticResource Editor.FontBrush}"/>
                 </Grid>
+                <Grid Margin="0,5">
+                    <Border CornerRadius="3" BorderThickness="1" BorderBrush="{StaticResource Editor.Window.GrayBrush6}" Background="{StaticResource Editor.Window.GrayBrush4}" Margin="5">
+                        <DockPanel Margin="10,20">
+                            <TextBlock Text="Angle" Width="40" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding Path=Value,ElementName=angleSliderUvSphere}" Width="30" DockPanel.Dock="Right"/>
+                            <Slider Minimum="0" Maximum="180" HorizontalAlignment="Stretch" Interval="1" IsSnapToTickEnabled="True" x:Name="angleSliderUvSphere" ValueChanged="OnSlider_ValueChanged"/>
+                        </DockPanel>
+                    </Border>
+                    <Label Content="Smoothing" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="5,0" Foreground="{StaticResource Editor.FontBrush}"/>
+                </Grid>
                 <Button Content="Save" Width="96" Margin="5,0"/>
             </StackPanel>
+
             <!--ICO Sphere Settings-->
             <!--Cylinder Settings-->
             <!--Capsule Settings-->
 
             <editor:GeometryView DataContext="{Binding MeshRenderer}" Grid.Column="1"/>
-            <StackPanel Grid.Column="1" Margin="5" Orientation="Horizontal" VerticalAlignment="Top"
-                        HorizontalAlignment="Left" IsHitTestVisible="False">
-                <TextBlock Text="{Binding MeshRenderer.CameraPosition.X,StringFormat=G5}"/>
-                <TextBlock Text="{Binding MeshRenderer.CameraPosition.Y,StringFormat=G5}" Margin="10,0"/>
-                <TextBlock Text="{Binding MeshRenderer.CameraPosition.Z,StringFormat=G5}"/>
+            <StackPanel Grid.Column="1" Margin="5" VerticalAlignment="Top" HorizontalAlignment="Left" IsHitTestVisible="False">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="X :" Margin="0,0,3,0" Foreground="White"/>
+                    <TextBlock Text="{Binding MeshRenderer.CameraPosition.X,StringFormat=G5}" Foreground="{StaticResource Editor.RedBrush}"/>
+                    <TextBlock Text="Y :" Margin="6,0,-7,0" Foreground="White"/>
+                    <TextBlock Text="{Binding MeshRenderer.CameraPosition.Y,StringFormat=G5}" Margin="10,0" Foreground="{StaticResource Editor.GreenBrush}"/>
+                    <TextBlock Text="Z :" Margin="-3,0,3,0" Foreground="White"/>
+                    <TextBlock Text="{Binding MeshRenderer.CameraPosition.Z,StringFormat=G5}" Foreground="{StaticResource Editor.BlueBrush}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Vertices :" Margin="0,0,3,0" Foreground="White"/>
+                    <TextBlock Text="{Binding MeshRenderer.Meshes[0].Positions.Count}" Foreground="{StaticResource Editor.OrangeBrush}"/>
+                    <TextBlock Text="Indices :" Margin="6,0,-7,0" Foreground="White"/>
+                    <TextBlock Text="{Binding MeshRenderer.Meshes[0].Indices.Count}" Margin="10,0" Foreground="{StaticResource Editor.OrangeBrush}"/>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </DockPanel>

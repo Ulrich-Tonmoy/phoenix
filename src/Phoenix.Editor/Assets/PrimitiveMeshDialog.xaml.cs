@@ -45,6 +45,7 @@ namespace Phoenix.Editor.Assets
 
             var primitiveType = (PrimitiveMeshType)primTypeComboBox.SelectedItem;
             var info = new PrimitiveInitInfo() { Type = primitiveType };
+            var smoothingAngle = 0;
 
             switch (primitiveType)
             {
@@ -65,6 +66,7 @@ namespace Phoenix.Editor.Assets
                         info.Size.X = Value(xScalarBoxUvSphere, 0.001f);
                         info.Size.Y = Value(yScalarBoxUvSphere, 0.001f);
                         info.Size.Z = Value(zScalarBoxUvSphere, 0.001f);
+                        smoothingAngle = (int)angleSliderUvSphere.Value;
                         break;
                     }
                 case PrimitiveMeshType.IcoSphere:
@@ -78,6 +80,7 @@ namespace Phoenix.Editor.Assets
             }
 
             var geometry = new Geometry();
+            geometry.ImportSettings.SmootingAngle = smoothingAngle;
             AssetToolsAPI.CreatePrimitiveMesh(geometry, info);
             (DataContext as GeometryEditor).SetAsset(geometry);
             OnTexture_CheckBox_Click(textureCheckbox, null);
