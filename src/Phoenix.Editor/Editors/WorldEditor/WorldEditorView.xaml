@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:Phoenix.Editor.Editors"
              xmlns:utl="clr-namespace:Phoenix.Editor.Utilities"
              xmlns:ctrl="clr-namespace:Phoenix.Editor.Utilities.Controls"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:gameproject="clr-namespace:Phoenix.Editor.GameProject"
+             d:DataContext="{d:DesignInstance Type=gameproject:Project}"
              mc:Ignorable="d" Focusable="True"
              d:DesignHeight="450" d:DesignWidth="800">
 
