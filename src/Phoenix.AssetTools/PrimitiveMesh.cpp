@@ -105,8 +105,8 @@ namespace phoenix::tools
 
 		mesh create_uv_sphere(const primitive_init_info& info)
 		{
-			const u32 pi_count{ clamp(info.segments[axis::x],3u,64u) };
-			const u32 theta_count{ clamp(info.segments[axis::y],2u,64u) };
+			const u32 pi_count{ clamp(info.segments[axis::x],3u,128u) };
+			const u32 theta_count{ clamp(info.segments[axis::y],2u,128u) };
 			const f32 theta_step{ pi / theta_count };
 			const f32 pi_step{ two_pi / pi_count };
 			const u32 num_indices{ 2 * 3 * pi_count + 2 * 3 * pi_count * (theta_count - 2) };

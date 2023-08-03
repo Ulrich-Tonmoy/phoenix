@@ -112,12 +112,12 @@
                             <DockPanel Margin="5">
                                 <TextBlock Text="Lon." Width="40" DockPanel.Dock="Left" VerticalAlignment="Center"/>
                                 <TextBox Text="{Binding Path=Value,ElementName=xSliderUvSphere}" Width="30" DockPanel.Dock="Right"/>
-                                <Slider Minimum="3" Maximum="64" HorizontalAlignment="Stretch" Interval="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" x:Name="xSliderUvSphere" ValueChanged="OnSlider_ValueChanged"/>
+                                <Slider Minimum="3" Maximum="128" HorizontalAlignment="Stretch" Interval="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" x:Name="xSliderUvSphere" ValueChanged="OnSlider_ValueChanged"/>
                             </DockPanel>
                             <DockPanel Margin="5">
                                 <TextBlock Text="Lat." Width="40" DockPanel.Dock="Left" VerticalAlignment="Center"/>
                                 <TextBox Text="{Binding Path=Value,ElementName=ySliderUvSphere}" Width="30" DockPanel.Dock="Right"/>
-                                <Slider Minimum="2" Maximum="64" HorizontalAlignment="Stretch" Interval="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" x:Name="ySliderUvSphere" ValueChanged="OnSlider_ValueChanged"/>
+                                <Slider Minimum="2" Maximum="128" HorizontalAlignment="Stretch" Interval="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" x:Name="ySliderUvSphere" ValueChanged="OnSlider_ValueChanged"/>
                             </DockPanel>
                         </StackPanel>
                     </Border>
