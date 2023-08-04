@@ -6,7 +6,7 @@ namespace phoenix::graphics::d3d12::core
 {
 	namespace
 	{
-		ID3D12Device9* main_device{ nullptr };
+		ID3D12Device8* main_device{ nullptr };
 		IDXGIFactory7* dxgi_factory{ nullptr };
 		constexpr D3D_FEATURE_LEVEL minimun_feature_level{ D3D_FEATURE_LEVEL_11_0 };
 

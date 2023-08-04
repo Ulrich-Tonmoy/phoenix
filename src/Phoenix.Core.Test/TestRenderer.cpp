@@ -78,7 +78,7 @@ void engine_test::run()
 
 void engine_test::shutdown()
 {
-	for (u32 i = 0;i < _countof(_surfaces);i++)
+	for (u32 i{ 0 };i < _countof(_surfaces);++i)
 		destroy_render_surface(_surfaces[i]);
 
 	graphics::shutdown();

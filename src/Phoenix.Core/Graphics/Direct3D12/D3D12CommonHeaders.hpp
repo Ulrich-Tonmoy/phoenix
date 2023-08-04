@@ -37,5 +37,5 @@ __debugbreak();\
 // set name of the com object and outputs a debug string in vs output pannel
 #define NAME_D3D12_OBJECT(obj, name) obj->SetName(name); OutputDebugString(L"::D3D12 Object Created: "); OutputDebugString(name); OutputDebugString(L"\n");
 #else 
-#define NAME_D3D12_OBJECT(obj, name)
+#define NAME_D3D12_OBJECT(x, name)
 #endif // _DEBUG
