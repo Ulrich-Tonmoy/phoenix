@@ -25,7 +25,7 @@ namespace phoenix::graphics::d3d12::core
 
 				for (u32 i{ 0 };i < frame_buffer_count;++i)
 				{
-					command_frame frame{ _cmd_frames[i] };
+					command_frame& frame{ _cmd_frames[i] };
 					DXCall(hr = device->CreateCommandAllocator(type, IID_PPV_ARGS(&frame.cmd_allocator)));
 					if (FAILED(hr)) goto _error;
 					NAME_D3D12_OBJECT_WITH_INDEX(frame.cmd_allocator, i, type == D3D12_COMMAND_LIST_TYPE_DIRECT ? L"GFX Command Allocator" : type == D3D12_COMMAND_LIST_TYPE_COMPUTE ? L"Compute Command Allocator" : L"Command Allocator");
@@ -67,10 +67,10 @@ namespace phoenix::graphics::d3d12::core
 				_cmd_queue->ExecuteCommandLists(_countof(cmd_lists), &cmd_lists[0]);
 
 				u64& fence_value{ _fence_value };
-				++_fence_value;
+				++fence_value;
 				command_frame& frame{ _cmd_frames[_frame_index] };
 				frame.fence_value = fence_value;
-				_cmd_queue->Signal(_fence, fence_value);
+				_cmd_queue->Signal(_fence, _fence_value);
 
 				_frame_index = (_frame_index + 1) % frame_buffer_count;
 			}
