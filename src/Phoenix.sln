@@ -28,11 +28,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{89073210-3B2A-47AC-9565-CCC370634F42}.Debug|x64.ActiveCfg = DebugEditor|x64
-		{89073210-3B2A-47AC-9565-CCC370634F42}.Debug|x64.Build.0 = DebugEditor|x64
 		{89073210-3B2A-47AC-9565-CCC370634F42}.DebugEditor|x64.ActiveCfg = DebugEditor|x64
 		{89073210-3B2A-47AC-9565-CCC370634F42}.DebugEditor|x64.Build.0 = DebugEditor|x64
 		{89073210-3B2A-47AC-9565-CCC370634F42}.Release|x64.ActiveCfg = ReleaseEditor|x64
-		{89073210-3B2A-47AC-9565-CCC370634F42}.Release|x64.Build.0 = ReleaseEditor|x64
 		{89073210-3B2A-47AC-9565-CCC370634F42}.ReleaseEditor|x64.ActiveCfg = ReleaseEditor|x64
 		{89073210-3B2A-47AC-9565-CCC370634F42}.ReleaseEditor|x64.Build.0 = ReleaseEditor|x64
 		{C15E7434-48E5-457E-9FBD-FAB05CAE9BC0}.Debug|x64.ActiveCfg = Debug|x64
@@ -46,25 +44,19 @@ Global
 		{8308AEA4-32E6-48F8-B79F-5A362119F08B}.Debug|x64.ActiveCfg = Debug|x64
 		{8308AEA4-32E6-48F8-B79F-5A362119F08B}.Debug|x64.Build.0 = Debug|x64
 		{8308AEA4-32E6-48F8-B79F-5A362119F08B}.DebugEditor|x64.ActiveCfg = DebugEditor|x64
-		{8308AEA4-32E6-48F8-B79F-5A362119F08B}.DebugEditor|x64.Build.0 = DebugEditor|x64
 		{8308AEA4-32E6-48F8-B79F-5A362119F08B}.Release|x64.ActiveCfg = Release|x64
 		{8308AEA4-32E6-48F8-B79F-5A362119F08B}.Release|x64.Build.0 = Release|x64
 		{8308AEA4-32E6-48F8-B79F-5A362119F08B}.ReleaseEditor|x64.ActiveCfg = ReleaseEditor|x64
-		{8308AEA4-32E6-48F8-B79F-5A362119F08B}.ReleaseEditor|x64.Build.0 = ReleaseEditor|x64
 		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.Debug|x64.ActiveCfg = DebugEditor|x64
-		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.Debug|x64.Build.0 = DebugEditor|x64
 		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.DebugEditor|x64.ActiveCfg = DebugEditor|x64
 		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.DebugEditor|x64.Build.0 = DebugEditor|x64
 		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.Release|x64.ActiveCfg = ReleaseEditor|x64
-		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.Release|x64.Build.0 = ReleaseEditor|x64
 		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.ReleaseEditor|x64.ActiveCfg = ReleaseEditor|x64
 		{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}.ReleaseEditor|x64.Build.0 = ReleaseEditor|x64
 		{22AE4481-F226-449C-8E3C-38A56F688B67}.Debug|x64.ActiveCfg = DebugEditor|x64
-		{22AE4481-F226-449C-8E3C-38A56F688B67}.Debug|x64.Build.0 = DebugEditor|x64
 		{22AE4481-F226-449C-8E3C-38A56F688B67}.DebugEditor|x64.ActiveCfg = DebugEditor|x64
 		{22AE4481-F226-449C-8E3C-38A56F688B67}.DebugEditor|x64.Build.0 = DebugEditor|x64
 		{22AE4481-F226-449C-8E3C-38A56F688B67}.Release|x64.ActiveCfg = ReleaseEditor|x64
-		{22AE4481-F226-449C-8E3C-38A56F688B67}.Release|x64.Build.0 = ReleaseEditor|x64
 		{22AE4481-F226-449C-8E3C-38A56F688B67}.ReleaseEditor|x64.ActiveCfg = ReleaseEditor|x64
 		{22AE4481-F226-449C-8E3C-38A56F688B67}.ReleaseEditor|x64.Build.0 = ReleaseEditor|x64
 	EndGlobalSection
