@@ -102,13 +102,14 @@ namespace phoenix::graphics::d3d12::core
 		release(dxgi_factory);
 #ifdef _DEBUG
 		{
-			ComPtr<ID3D12InfoQueue> info_queue;
-			DXCall(main_device->QueryInterface(IID_PPV_ARGS(&info_queue)));
+			{
+				ComPtr<ID3D12InfoQueue> info_queue;
+				DXCall(main_device->QueryInterface(IID_PPV_ARGS(&info_queue)));
 
-			info_queue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, false);
-			info_queue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, false);
-			info_queue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, false);
-
+				info_queue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, false);
+				info_queue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, false);
+				info_queue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, false);
+			}
 			ComPtr<ID3D12DebugDevice2> debug_device;
 			DXCall(main_device->QueryInterface(IID_PPV_ARGS(&debug_device)));
 			release(main_device);
