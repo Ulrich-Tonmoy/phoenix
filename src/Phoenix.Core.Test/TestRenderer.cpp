@@ -1,9 +1,9 @@
-#ifdef TEST_RENDERER
-
 #include "..\Platform\PlatformTypes.hpp"
 #include "..\Platform\Platform.hpp"
 #include "..\Graphics\Renderer.hpp"
 #include "TestRenderer.hpp"
+
+#if TEST_RENDERER
 
 using namespace phoenix;
 
@@ -76,6 +76,7 @@ bool engine_test::initialize()
 void engine_test::run()
 {
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	graphics::render();
 }
 
 void engine_test::shutdown()

@@ -10,6 +10,11 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d12.lib")
 
+namespace phoenix::graphics::d3d12
+{
+	constexpr  u32 frame_buffer_count{ 3 };
+}
+
 // asert com call to d3d api succeeded
 #ifdef _DEBUG
 #ifndef DXCall
@@ -36,6 +41,15 @@ __debugbreak();\
 #ifdef _DEBUG
 // set name of the com object and outputs a debug string in vs output pannel
 #define NAME_D3D12_OBJECT(obj, name) obj->SetName(name); OutputDebugString(L"::D3D12 Object Created: "); OutputDebugString(name); OutputDebugString(L"\n");
+#define NAME_D3D12_OBJECT_WITH_INDEX(obj, n, name){\
+wchar_t full_name[128];\
+if(swprintf_s(full_name,L"%s[%u]", name, n) > 0){\
+	obj->SetName(full_name);\
+	OutputDebugString(L"::D3D12 Object Created: ");\
+	OutputDebugString(full_name);\
+	OutputDebugString(L"\n");\
+}}
 #else 
 #define NAME_D3D12_OBJECT(x, name)
+#define NAME_D3D12_OBJECT_WITH_INDEX(x, n, name)
 #endif // _DEBUG

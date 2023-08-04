@@ -34,4 +34,9 @@ namespace phoenix::graphics
 	{
 		gfx.shutdown();
 	}
+
+	void render()
+	{
+		gfx.render();
+	}
 }
