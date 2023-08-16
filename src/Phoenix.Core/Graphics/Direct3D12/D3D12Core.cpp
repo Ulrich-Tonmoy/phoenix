@@ -152,7 +152,7 @@ namespace phoenix::graphics::d3d12::core
 		u32 deferred_releases_flag[frame_buffer_count]{};
 		std::mutex deferred_releases_mutex{};
 
-		constexpr D3D_FEATURE_LEVEL minimun_feature_level{ D3D_FEATURE_LEVEL_11_0 };
+		constexpr D3D_FEATURE_LEVEL minimum_feature_level{ D3D_FEATURE_LEVEL_11_0 };
 
 		bool failed_init()
 		{
@@ -165,7 +165,7 @@ namespace phoenix::graphics::d3d12::core
 			IDXGIAdapter4* adapter{ nullptr };
 			for (u32 i{ 0 };dxgi_factory->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&adapter)) != DXGI_ERROR_NOT_FOUND;++i)
 			{
-				if (SUCCEEDED(D3D12CreateDevice(adapter, minimun_feature_level, __uuidof(ID3D12Device), nullptr)))
+				if (SUCCEEDED(D3D12CreateDevice(adapter, minimum_feature_level, __uuidof(ID3D12Device), nullptr)))
 				{
 					return adapter;
 				}
@@ -189,7 +189,7 @@ namespace phoenix::graphics::d3d12::core
 			feature_level_info.pFeatureLevelsRequested = feature_levels;
 
 			ComPtr<ID3D12Device> device;
-			DXCall(D3D12CreateDevice(adapter, minimun_feature_level, IID_PPV_ARGS(&device)));
+			DXCall(D3D12CreateDevice(adapter, minimum_feature_level, IID_PPV_ARGS(&device)));
 			DXCall(device->CheckFeatureSupport(D3D12_FEATURE_FEATURE_LEVELS, &feature_level_info, sizeof(feature_level_info)));
 			return feature_level_info.MaxSupportedFeatureLevel;
 		}
@@ -256,8 +256,8 @@ namespace phoenix::graphics::d3d12::core
 		if (!main_adapter) return failed_init();
 
 		D3D_FEATURE_LEVEL max_feature_level{ get_max_feature_level(main_adapter.Get()) };
-		assert(max_feature_level >= minimun_feature_level);
-		if (max_feature_level < minimun_feature_level) return failed_init();
+		assert(max_feature_level >= minimum_feature_level);
+		if (max_feature_level < minimum_feature_level) return failed_init();
 
 		DXCall(hr = D3D12CreateDevice(main_adapter.Get(), max_feature_level, IID_PPV_ARGS(&main_device)));
 		if (FAILED(hr)) return failed_init();
