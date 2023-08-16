@@ -4,6 +4,7 @@
 #define USE_STL_DEQUE 1
 
 #if USE_STL_VECTOR
+#include <algorithm>
 #include <vector>
 namespace phoenix::utl {
 	template<typename T>
