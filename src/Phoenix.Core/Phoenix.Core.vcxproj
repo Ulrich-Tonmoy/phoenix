@@ -33,6 +33,7 @@
     <ClInclude Include="Graphics\Direct3D12\D3D12CommonHeaders.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Core.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Interface.hpp" />
+    <ClInclude Include="Graphics\Direct3D12\D3D12Resources.hpp" />
     <ClInclude Include="Graphics\GraphicsPlatformInterface.hpp" />
     <ClInclude Include="Graphics\Renderer.hpp" />
     <ClInclude Include="Platform\Platform.hpp" />
@@ -51,6 +52,7 @@
     <ClCompile Include="Core\Main.cpp" />
     <ClCompile Include="Graphics\Direct3D12\D3D12Core.cpp" />
     <ClCompile Include="Graphics\Direct3D12\D3D12Interface.cpp" />
+    <ClCompile Include="Graphics\Direct3D12\D3D12Resources.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Platform\Platform.cpp" />
   </ItemGroup>

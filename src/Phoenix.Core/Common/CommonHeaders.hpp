@@ -7,6 +7,7 @@
 #include <typeinfo>
 #include <memory>
 #include <unordered_map>
+#include <mutex>
 #include <string>
 
 #if defined(_WIN64)

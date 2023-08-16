@@ -34,7 +34,7 @@ LRESULT win_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	case WM_SYSCHAR:
 		if (wparam == VK_RETURN && (HIWORD(lparam) & KF_ALTDOWN))
 		{
-			platform::window win{platform::window_id{(id::id_type)GetWindowLongPtr(hwnd, GWLP_USERDATA)}};
+			platform::window win{ platform::window_id{(id::id_type)GetWindowLongPtr(hwnd, GWLP_USERDATA)} };
 			win.set_fullscreen(!win.is_fullscreen());
 			return 0;
 		}
@@ -60,10 +60,10 @@ bool engine_test::initialize()
 
 	platform::window_init_info info[]
 	{
-		{&win_proc, nullptr, L"Test Window 1", 100, 100, 400, 800 },
-		{&win_proc, nullptr, L"Test Window 2", 150, 150, 800, 400 },
-		{&win_proc, nullptr, L"Test Window 3", 200, 200, 400, 400 },
-		{&win_proc, nullptr, L"Test Window 4", 250, 250, 800, 600 }
+		{&win_proc, nullptr, L"Render Window 1", 100, 100, 400, 800 },
+		{&win_proc, nullptr, L"Render Window 2", 150, 150, 800, 400 },
+		{&win_proc, nullptr, L"Render Window 3", 200, 200, 400, 400 },
+		{&win_proc, nullptr, L"Render Window 4", 250, 250, 800, 600 }
 	};
 	static_assert(_countof(info) == _countof(_surfaces));
 
