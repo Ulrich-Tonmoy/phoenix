@@ -1,13 +1,27 @@
 #pragma once
 
 #include "CommonHeaders.hpp"
-#include "..\Platform\Window.hpp"
+#include "../Platform/Window.hpp"
 
 namespace phoenix::graphics
 {
+	DEFINE_TYPE_ID(surface_id);
+
 	class surface
 	{
+	public:
+		constexpr explicit surface(surface_id id) : _id{ id } {}
+		constexpr surface() = default;
+		constexpr surface_id get_id() const { return _id; }
+		constexpr bool is_valid() const { return id::is_valid(_id); }
 
+		void resize(u32 width, u32 height) const;
+		u32 width() const;
+		u32 height() const;
+		void render() const;
+
+	private:
+		surface_id _id{ id::invalid_id };
 	};
 
 	struct render_surface
@@ -25,4 +39,7 @@ namespace phoenix::graphics
 	bool initialize(graphics_platform platform);
 	void shutdown();
 	void render();
+
+	surface create_surface(platform::window window);
+	void remove_surface(surface_id id);
 }
