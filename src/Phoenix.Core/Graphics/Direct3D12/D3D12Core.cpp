@@ -140,10 +140,12 @@ namespace phoenix::graphics::d3d12::core
 			u32 _frame_index{ 0 };
 		};
 
+		using surface_collection = utl::free_list<d3d12_surface>;
+
 		ID3D12Device8* main_device{ nullptr };
 		IDXGIFactory7* dxgi_factory{ nullptr };
 		d3d12_command gfx_command;
-		utl::vector<d3d12_surface> surfaces;
+		surface_collection surfaces;
 
 		descriptor_heap rtv_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_RTV };
 		descriptor_heap dsv_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_DSV };
@@ -346,8 +348,7 @@ namespace phoenix::graphics::d3d12::core
 
 	surface create_surface(platform::window window)
 	{
-		surfaces.emplace_back(window);
-		surface_id id{ (u32)surfaces.size() - 1 };
+		surface_id id{ surfaces.add(window) };
 		surfaces[id].create_swap_chain(dxgi_factory, gfx_command.command_queue(), render_target_format);
 		return surface{ id };
 	}
@@ -355,8 +356,7 @@ namespace phoenix::graphics::d3d12::core
 	void remove_surface(surface_id id)
 	{
 		gfx_command.flush();
-		//surfaces.remove(id);
-		surfaces[id].~d3d12_surface();
+		surfaces.remove(id);
 	}
 
 	void resize_surface(surface_id id, u32, u32)

@@ -15,8 +15,6 @@ namespace phoenix::platform
 			DWORD style{ WS_VISIBLE };
 			bool  is_fullscreen{ false };
 			bool is_closed{ false };
-
-			~window_info() { assert(!is_fullscreen); }
 		};
 
 		utl::free_list<window_info> windows;

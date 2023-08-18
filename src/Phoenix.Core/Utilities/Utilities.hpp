@@ -1,12 +1,13 @@
 #pragma once
 
-#define USE_STL_VECTOR 1
+#define USE_STL_VECTOR 0
 #define USE_STL_DEQUE 1
 
 #if USE_STL_VECTOR
 #include <algorithm>
 #include <vector>
-namespace phoenix::utl {
+namespace phoenix::utl
+{
 	template<typename T>
 	using vector = std::vector<T>;
 
@@ -24,17 +25,28 @@ namespace phoenix::utl {
 		}
 	}
 }
+#else
+#include "Vector.hpp"
+namespace phoenix::utl
+{
+	template<typename T> void erase_unordered(vector<T>& v, size_t index)
+	{
+		v.erase_unordered(index);
+	}
+}
 #endif
 
 #if USE_STL_DEQUE
 #include <deque>
-namespace phoenix::utl {
+namespace phoenix::utl
+{
 	template<typename T>
 	using deque = std::deque<T>;
 }
 #endif
 
-namespace phoenix::utl {
+namespace phoenix::utl
+{
 
 }
 
