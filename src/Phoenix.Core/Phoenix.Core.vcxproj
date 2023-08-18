@@ -40,9 +40,11 @@
     <ClInclude Include="Platform\Platform.hpp" />
     <ClInclude Include="Platform\PlatformTypes.hpp" />
     <ClInclude Include="Platform\Window.hpp" />
+    <ClInclude Include="Utilities\FreeList.hpp" />
     <ClInclude Include="Utilities\Math.hpp" />
     <ClInclude Include="Utilities\MathTypes.hpp" />
     <ClInclude Include="Utilities\Utilities.hpp" />
+    <ClInclude Include="Utilities\Vector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Entity.cpp" />

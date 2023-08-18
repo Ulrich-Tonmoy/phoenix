@@ -30,6 +30,11 @@
 #define DISABLE_COPY_AND_MOVE(T) DISABLE_COPY(T) DISABLE_MOVE(T)
 #endif // !DISABLE_COPY_AND_MOVE
 
+#ifdef _DEBUG
+#define DEBUG_OP(x) x
+#else
+#define DEBUG_OP(x)
+#endif // DEBUG
 
 // Custom
 #include "PrimitiveTypes.hpp"
@@ -37,9 +42,3 @@
 #include "..\Utilities\Utilities.hpp"
 #include "..\Utilities\MathTypes.hpp"
 #include "Id.hpp"
-
-#ifdef _DEBUG
-#define DEBUG_OP(x) x
-#else
-#define DEBUG_OP(x) (void(0))
-#endif // DEBUG
