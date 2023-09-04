@@ -32,6 +32,7 @@
     <ClInclude Include="EngineAPI\TransformComponent.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12CommonHeaders.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Core.hpp" />
+    <ClInclude Include="Graphics\Direct3D12\D3D12Helpers.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Interface.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Resources.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Surface.hpp" />
