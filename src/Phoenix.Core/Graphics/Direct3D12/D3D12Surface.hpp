@@ -8,6 +8,7 @@ namespace phoenix::graphics::d3d12
 	class d3d12_surface
 	{
 	public:
+		constexpr static u32 buffer_count{ 3 };
 		explicit d3d12_surface(platform::window window) :_window(window)
 		{
 			assert(_window.handle());
@@ -77,7 +78,7 @@ namespace phoenix::graphics::d3d12
 		constexpr void reset()
 		{
 			_swap_chain = { nullptr };
-			for (u32 i{ 0 }; i < frame_buffer_count; ++i)
+			for (u32 i{ 0 }; i < buffer_count; ++i)
 			{
 				_render_target_data[i] = {};
 			}
@@ -97,7 +98,7 @@ namespace phoenix::graphics::d3d12
 		};
 
 		IDXGISwapChain4* _swap_chain{ nullptr };
-		render_target_data _render_target_data[frame_buffer_count]{};
+		render_target_data _render_target_data[buffer_count]{};
 		platform::window _window;
 		mutable u32 _current_bb_index{ 0 };
 		u32 _allow_tearing{ 0 };
