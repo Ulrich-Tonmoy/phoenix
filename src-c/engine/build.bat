@@ -7,8 +7,12 @@ SET cFilenames=
 FOR /R %%f in (*.c) do (
     SET cFilenames=!cFilenames! %%f
 )
-
 REM echo "Files:" %cFilenames%
+
+REM Create the "bin" folder if it doesn't exist.
+IF NOT EXIST "..\bin" (
+    mkdir "..\bin"
+)
 
 SET assembly=engine
 SET compilerFlags=-g -shared -Wvarargs -Wall -Werror
