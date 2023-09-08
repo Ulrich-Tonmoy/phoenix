@@ -1,0 +1,9 @@
+{
+  "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0, NamespaceIndentation: All }",
+  "C_Cpp.vcFormat.newLine.beforeOpenBrace.block": "sameLine",
+  "C_Cpp.vcFormat.newLine.beforeOpenBrace.type": "sameLine",
+  "C_Cpp.vcFormat.newLine.beforeOpenBrace.function": "sameLine",
+  "C_Cpp.vcFormat.space.pointerReferenceAlignment": "left",
+  "C_Cpp.clang_format_sortIncludes": false,
+  "C_Cpp.vcFormat.indent.namespaceContents": true,
+}
