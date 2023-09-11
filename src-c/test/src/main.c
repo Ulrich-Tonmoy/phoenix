@@ -13,7 +13,7 @@ int main(void) {
     KTRACE("A test message: %f", 3.14f);
 
     platform_state state;
-    if (platform_startup(&state, "Phoenix Engine Testbed", 100, 100, 1280, 720)) {
+    if (platform_startup(&state, "Phoenix Engine Test", 100, 100, 1280, 720)) {
         while (TRUE) {
             platform_pump_messages(&state);
         }

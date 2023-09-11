@@ -2,7 +2,7 @@
 # Build script for rebuilding everything
 set echo on
 
-echo "Building everything..."
+echo "Building All Projects..."
 
 
 pushd engine
@@ -24,4 +24,4 @@ then
 echo "Error:"$ERRORLEVEL && exit
 fi
 
-echo "All assemblies built successfully."
+echo "All Assemblies Built Successfully."

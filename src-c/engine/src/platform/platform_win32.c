@@ -1,7 +1,7 @@
 #include "platform/platform.h"
 
 // Windows platform layer.
-#if KPLATFORM_WINDOWS
+#if PPLATFORM_WINDOWS
 
 #include "core/logger.h"
 
@@ -240,4 +240,4 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
     return DefWindowProcA(hwnd, msg, w_param, l_param);
 }
 
-#endif  // KPLATFORM_WINDOWS
+#endif  // PPLATFORM_WINDOWS
