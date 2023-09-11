@@ -6,4 +6,22 @@
   "C_Cpp.vcFormat.space.pointerReferenceAlignment": "left",
   "C_Cpp.clang_format_sortIncludes": false,
   "C_Cpp.vcFormat.indent.namespaceContents": true,
+  "todohighlight.isEnable": true,
+  "todohighlight.keywords": [
+    {
+      "text": "TODO:",
+      "color": "white",
+      "backgroundColor": "rgba(255,0,0,1)"
+    },
+    {
+      "text": "HACK:",
+      "color": "white",
+      "backgroundColor": "rgba(255,140,0,1)"
+    },
+    {
+      "text": "NOTE:",
+      "color": "black",
+      "backgroundColor": "rgba(0,255,0,1)"
+    }
+  ],
 }
