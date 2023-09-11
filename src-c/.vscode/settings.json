@@ -24,4 +24,7 @@
       "backgroundColor": "rgba(0,255,0,1)"
     }
   ],
+  "files.associations": {
+    "*.h": "c"
+  },
 }
