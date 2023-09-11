@@ -89,7 +89,7 @@ b8 platform_startup(
     if (handle == 0) {
         MessageBoxA(NULL, "Window creation failed!", "Error!", MB_ICONEXCLAMATION | MB_OK);
 
-        KFATAL("Window creation failed!");
+        PFATAL("Window creation failed!");
         return FALSE;
     } else {
         state->hwnd = handle;
