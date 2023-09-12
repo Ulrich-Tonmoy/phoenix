@@ -25,6 +25,11 @@
     }
   ],
   "files.associations": {
-    "*.h": "c"
+    "*.h": "c",
+    "algorithm": "c",
+    "xutility": "c",
+    "optional": "c",
+    "type_traits": "c",
+    "xtr1common": "c"
   },
 }
