@@ -1,6 +1,6 @@
 #include "core/event.h"
 #include "core/pmemory.h"
-// #include "containers/darray.h"
+#include "containers/darray.h"
 
 typedef struct registered_event {
     void* listener;
