@@ -92,8 +92,8 @@ b8 application_run() {
     clock_start(&app_state.clock);
     clock_update(&app_state.clock);
     app_state.last_time = app_state.clock.elapsed;
-    // f64 running_time = 0;
-    // u8 frame_count = 0;
+    f64 running_time = 0;
+    u8 frame_count = 0;
     f64 target_frame_seconds = 1.0f / 60;
 
     PINFO(get_memory_usage_str());
@@ -131,7 +131,7 @@ b8 application_run() {
             // Figure out how long the frame took and, if below
             f64 frame_end_time = platform_get_absolute_time();
             f64 frame_elapsed_time = frame_end_time - frame_start_time;
-            // running_time += frame_elapsed_time;
+            running_time += frame_elapsed_time;
             f64 remaining_seconds = target_frame_seconds - frame_elapsed_time;
 
             if (remaining_seconds > 0) {
@@ -143,7 +143,7 @@ b8 application_run() {
                     platform_sleep(remaining_ms - 1);
                 }
 
-                // frame_count++;
+                frame_count++;
             }
 
             // NOTE: Input update/state copying should always be handled
