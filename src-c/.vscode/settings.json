@@ -26,10 +26,17 @@
   ],
   "files.associations": {
     "*.h": "c",
-    "algorithm": "c",
-    "xutility": "c",
-    "optional": "c",
+    "vulkan.h": "c",
+    "vulkan_core.h": "c",
+    "vk_platform.h": "c",
     "type_traits": "c",
-    "xtr1common": "c"
+    "typeinfo": "c",
+    "windowsx.h": "c",
+    "vulkan_platform.h": "c",
+    "renderer_frontend.h": "c",
+    "iosfwd": "c",
+    "tuple": "cpp",
+    "utility": "cpp",
+    "pmemory.h": "c"
   },
 }
