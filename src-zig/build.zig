@@ -2,7 +2,6 @@ const std = @import("std");
 
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
-
     const optimize = b.standardOptimizeOption(.{});
 
     const exe = b.addExecutable(.{
@@ -19,6 +18,10 @@ pub fn build(b: *std.Build) void {
     });
     exe.addModule("mach-glfw", glfw_dep.module("mach-glfw"));
     @import("mach_glfw").link(glfw_dep.builder, exe);
+
+    exe.addModule("gl", b.createModule(.{
+        .source_file = .{ .path = "libs/gl41.zig" },
+    }));
 
     b.installArtifact(exe);
 

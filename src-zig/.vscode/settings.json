@@ -4,5 +4,8 @@
   },
   "material-icon-theme.files.associations": {
     "*.zon": "zig",
-  }
+  },
+  "zig.zls.enabled": true,
+  "zig.zigPath": "F:\\Tools\\ZIG\\zig.exe",
+  "zig.zls.path": "F:\\Tools\\zls\\zig-out\\bin\\zls.exe",
 }

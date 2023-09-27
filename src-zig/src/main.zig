@@ -1,5 +1,11 @@
 const std = @import("std");
 const glfw = @import("mach-glfw");
+const gl = @import("gl");
+
+fn glGetProcAddress(p: glfw.GLProc, proc: [:0]const u8) ?gl.FunctionPointer {
+    _ = p;
+    return glfw.getProcAddress(proc);
+}
 
 /// Default GLFW error handling callback
 fn errorCallback(error_code: glfw.ErrorCode, description: [:0]const u8) void {
@@ -14,14 +20,23 @@ pub fn main() !void {
     }
     defer glfw.terminate();
 
-    var window = glfw.Window.create(800, 600, "GLFW Window", null, null, .{}) orelse {
+    var window = glfw.Window.create(1080, 720, "Phoenix", null, null, .{}) orelse {
         std.log.err("failed to create GLFW window: {?s}", .{glfw.getErrorString()});
         std.process.exit(1);
     };
     defer window.destroy();
 
+    glfw.makeContextCurrent(window);
+
+    const proc: glfw.GLProc = undefined;
+    try gl.load(proc, glGetProcAddress);
+
     while (!window.shouldClose()) {
         window.swapBuffers();
+
+        gl.clearColor(0, 1, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
         glfw.pollEvents();
     }
 }
