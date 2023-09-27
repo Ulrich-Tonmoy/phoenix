@@ -38,7 +38,7 @@
     <img src="./docs/src-c/renderer.png" alt="Renderer" title="Renderer" width="330px"/>
 </p>
 
-# Getting Started Phoenix(Zig {src-zig}) (Windows/Linux)
+# Getting Started Phoenix(Zig {src-zig})
 
 <div align="center">
     <img src="./docs/logo-zig.png" alt="Phoenix Zig" title="Phoenix Zig" width="100"/>
