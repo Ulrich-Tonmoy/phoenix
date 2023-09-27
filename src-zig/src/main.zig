@@ -48,12 +48,33 @@ pub fn main() !void {
     gl.vertexAttribPointer(0, 3, gl.FLOAT, gl.FALSE, 3 * @sizeOf(f32), null);
     gl.enableVertexAttribArray(0);
 
+    // Shader
+    const vertShaderSource: []const u8 = @embedFile("vert.glsl");
+    const fragShaderSource: []const u8 = @embedFile("frag.glsl");
+
+    var vertShader: u32 = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertShader, 1, &vertShaderSource.ptr, null);
+    gl.compileShader(vertShader);
+
+    var fragShader: u32 = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragShader, 1, &fragShaderSource.ptr, null);
+    gl.compileShader(fragShader);
+
+    var shader = gl.createProgram();
+    gl.attachShader(shader, vertShader);
+    gl.attachShader(shader, fragShader);
+    gl.linkProgram(shader);
+
+    gl.deleteShader(vertShader);
+    gl.deleteShader(fragShader);
+
     while (!window.shouldClose()) {
         window.swapBuffers();
 
         gl.clearColor(0, 1, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
+        gl.useProgram(shader);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
 
         glfw.pollEvents();
