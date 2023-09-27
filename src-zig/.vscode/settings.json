@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.zon": "zig",
+  },
+  "material-icon-theme.files.associations": {
+    "*.zon": "zig",
+  }
+}

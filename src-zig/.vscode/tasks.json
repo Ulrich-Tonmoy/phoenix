@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Zig Build Run",
+      "type": "process",
+      "command": "zig",
+      "args": [
+        "build",
+        "run"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "Zig Run",
+      "type": "process",
+      "command": "zig",
+      "args": [
+        "run",
+        "${file}"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "Zig Test",
+      "type": "process",
+      "command": "zig",
+      "args": [
+        "test",
+        "${file}"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+  ],
+}
