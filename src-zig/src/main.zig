@@ -31,11 +31,30 @@ pub fn main() !void {
     const proc: glfw.GLProc = undefined;
     try gl.load(proc, glGetProcAddress);
 
+    const vertices = [_]f32{
+        -0.5, -0.5, 0,
+        0.5,  -0.5, 0,
+        0,    0.5,  0,
+    };
+    var vbo: u32 = undefined;
+    gl.genBuffers(1, &vbo);
+
+    var vao: u32 = undefined;
+    gl.genVertexArrays(1, &vao);
+    gl.bindVertexArray(vao);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+    gl.bufferData(gl.ARRAY_BUFFER, vertices.len * @sizeOf(f32), &vertices, gl.STATIC_DRAW);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, gl.FALSE, 3 * @sizeOf(f32), null);
+    gl.enableVertexAttribArray(0);
+
     while (!window.shouldClose()) {
         window.swapBuffers();
 
         gl.clearColor(0, 1, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
 
         glfw.pollEvents();
     }
