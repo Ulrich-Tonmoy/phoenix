@@ -27,7 +27,6 @@ const Mesh = struct {
 
     fn create(self: *Self) void {
         // VAO VBO IBO
-
         gl.genVertexArrays(1, &self.vao);
         gl.genBuffers(1, &self.vbo);
         gl.genBuffers(1, &self.ibo);
@@ -52,6 +51,47 @@ const Mesh = struct {
         gl.bindVertexArray(self.vao);
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, self.ibo);
         gl.drawElements(gl.TRIANGLES, @intCast(self.indexCount), gl.UNSIGNED_INT, null);
+    }
+
+    fn deinit(self: Self) void {
+        gl.deleteVertexArrays(1, &self.vao);
+        gl.deleteBuffers(1, &self.vbo);
+        gl.deleteBuffers(1, &self.ibo);
+    }
+};
+
+const Shader = struct {
+    program: u32 = 0,
+
+    const Self = @This();
+
+    fn compile(self: *Self) void {
+        const vertShaderSource: []const u8 = @embedFile("vert.glsl");
+        const fragShaderSource: []const u8 = @embedFile("frag.glsl");
+
+        var vertShader: u32 = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vertShader, 1, &vertShaderSource.ptr, null);
+        gl.compileShader(vertShader);
+
+        var fragShader: u32 = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fragShader, 1, &fragShaderSource.ptr, null);
+        gl.compileShader(fragShader);
+
+        self.program = gl.createProgram();
+        gl.attachShader(self.program, vertShader);
+        gl.attachShader(self.program, fragShader);
+        gl.linkProgram(self.program);
+
+        gl.deleteShader(vertShader);
+        gl.deleteShader(fragShader);
+    }
+
+    fn bind(self: Self) void {
+        gl.useProgram(self.program);
+    }
+
+    fn deinit(self: Self) void {
+        gl.deleteProgram(self.program);
     }
 };
 
@@ -94,26 +134,11 @@ pub fn main() !void {
     mesh.indexCount = indices.len;
 
     mesh.create();
+    defer mesh.deinit();
 
-    // Shader
-    const vertShaderSource: []const u8 = @embedFile("vert.glsl");
-    const fragShaderSource: []const u8 = @embedFile("frag.glsl");
-
-    var vertShader: u32 = gl.createShader(gl.VERTEX_SHADER);
-    gl.shaderSource(vertShader, 1, &vertShaderSource.ptr, null);
-    gl.compileShader(vertShader);
-
-    var fragShader: u32 = gl.createShader(gl.FRAGMENT_SHADER);
-    gl.shaderSource(fragShader, 1, &fragShaderSource.ptr, null);
-    gl.compileShader(fragShader);
-
-    var shader = gl.createProgram();
-    gl.attachShader(shader, vertShader);
-    gl.attachShader(shader, fragShader);
-    gl.linkProgram(shader);
-
-    gl.deleteShader(vertShader);
-    gl.deleteShader(fragShader);
+    var shader = Shader{};
+    shader.compile();
+    defer shader.deinit();
 
     while (!window.shouldClose()) {
         window.swapBuffers();
@@ -121,7 +146,7 @@ pub fn main() !void {
         gl.clearColor(0, 1, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
-        gl.useProgram(shader);
+        shader.bind();
         mesh.bind();
 
         glfw.pollEvents();
