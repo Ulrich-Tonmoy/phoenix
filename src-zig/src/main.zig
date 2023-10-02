@@ -1,39 +1,14 @@
 const std = @import("std");
-const glfw = @import("mach-glfw");
-const gl = @import("gl");
 
-const engine = @import("engine.zig");
-const Mesh = engine.Mesh;
-const Shader = engine.Shader;
-
-fn glGetProcAddress(p: glfw.GLProc, proc: [:0]const u8) ?gl.FunctionPointer {
-    _ = p;
-    return glfw.getProcAddress(proc);
-}
-
-/// Default GLFW error handling callback
-fn errorCallback(error_code: glfw.ErrorCode, description: [:0]const u8) void {
-    std.log.err("glfw: {}: {s}\n", .{ error_code, description });
-}
+const _engine = @import("engine.zig");
+const Mesh = _engine.Mesh;
+const Shader = _engine.Shader;
+const Engine = _engine.Engine;
 
 pub fn main() !void {
-    glfw.setErrorCallback(errorCallback);
-    if (!glfw.init(.{})) {
-        std.log.err("failed to initialize GLFW: {?s}", .{glfw.getErrorString()});
-        std.process.exit(1);
-    }
-    defer glfw.terminate();
-
-    var window = glfw.Window.create(1080, 720, "Phoenix", null, null, .{}) orelse {
-        std.log.err("failed to create GLFW window: {?s}", .{glfw.getErrorString()});
-        std.process.exit(1);
-    };
-    defer window.destroy();
-
-    glfw.makeContextCurrent(window);
-
-    const proc: glfw.GLProc = undefined;
-    try gl.load(proc, glGetProcAddress);
+    var engine = Engine{};
+    try engine.init();
+    defer engine.deinit();
 
     // Data
     const vertices = [_]f32{
@@ -97,16 +72,9 @@ pub fn main() !void {
     shader.compile();
     defer shader.deinit();
 
-    while (!window.shouldClose()) {
-        window.swapBuffers();
-
-        gl.clearColor(0, 1, 0, 1);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-
+    while (engine.isRunning()) {
         shader.bind();
         mesh.bind();
         mesh2.bind();
-
-        glfw.pollEvents();
     }
 }
