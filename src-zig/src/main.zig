@@ -35,14 +35,16 @@ pub fn main() !void {
 
     var mesh2 = Mesh.init(alloc);
     try mesh2.vertices.appendSlice(&.{
-        0, 0, 0,
-        1, 0, 0,
-        0, 1, 0,
-        1, 1, 0,
-        0, 0, 1,
-        1, 0, 1,
-        0, 1, 1,
-        1, 1, 1,
+        // front
+        -1.0, -1.0, 1.0,
+        1.0,  -1.0, 1.0,
+        1.0,  1.0,  1.0,
+        -1.0, 1.0,  1.0,
+        // back
+        -1.0, -1.0, -1.0,
+        1.0,  -1.0, -1.0,
+        1.0,  1.0,  -1.0,
+        -1.0, 1.0,  -1.0,
     });
     try mesh2.indices.appendSlice(&.{
         // front
@@ -86,9 +88,9 @@ pub fn main() !void {
             camOffset.v[2] += speed;
         }
         if (engine.keyPressed(.a) or engine.keyPressed(.left)) {
-            camOffset.v[0] -= speed;
-        } else if (engine.keyPressed(.d) or engine.keyPressed(.right)) {
             camOffset.v[0] += speed;
+        } else if (engine.keyPressed(.d) or engine.keyPressed(.right)) {
+            camOffset.v[0] -= speed;
         }
 
         if (engine.keyPressed(.c)) {
