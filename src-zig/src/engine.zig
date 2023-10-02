@@ -1,9 +1,11 @@
 const std = @import("std");
 const glfw = @import("mach-glfw");
 const gl = @import("gl");
+const math = @import("mach").math;
 
 pub const Engine = struct {
     window: ?glfw.Window = null,
+    camera: Camera = .{},
 
     const Self = @This();
 
@@ -52,6 +54,10 @@ pub const Engine = struct {
 
         return !self.window.?.shouldClose();
     }
+};
+
+pub const Camera = struct {
+    projectionMatrix: math.Mat4x4 = math.Mat4x4.ident,
 };
 
 pub const Mesh = struct {
@@ -140,5 +146,13 @@ pub const Shader = struct {
 
     pub fn deinit(self: Self) void {
         gl.deleteProgram(self.program);
+    }
+
+    pub fn setVec3(uniformLocation: i32, vec: math.Vec3) void {
+        gl.uniform3fv(uniformLocation, 1, &vec.v[0]);
+    }
+
+    pub fn setMatrix(uniformLocation: i32, matrix: math.Mat4x4) void {
+        gl.uniformMatrix4fv(uniformLocation, 1, gl.FALSE, &matrix.v[0].v[0]);
     }
 };
