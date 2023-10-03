@@ -6,47 +6,32 @@ const _engine = @import("engine.zig");
 const Mesh = _engine.Mesh;
 const Shader = _engine.Shader;
 const Engine = _engine.Engine;
+const Vertex = _engine.Vertex;
 
 pub fn main() !void {
     var engine = Engine{};
     try engine.init(.{});
     defer engine.deinit();
 
-    // Data
-    const vertices = [_]f32{
-        -0.5, -0.5, 0,
-        0.5,  -0.5, 0,
-        0,    0.5,  0,
-    };
-
-    const indices = [_]u32{
-        0, 1, 2,
-    };
-
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const alloc = gpa.allocator();
 
+    // Cube
     var mesh = Mesh.init(alloc);
-    try mesh.vertices.appendSlice(vertices[0..]);
-    try mesh.indices.appendSlice(indices[0..]);
-    try mesh.create();
-    defer mesh.deinit();
-
-    var mesh2 = Mesh.init(alloc);
-    try mesh2.vertices.appendSlice(&.{
+    try mesh.vertices.appendSlice(&.{
         // front
-        -1.0, -1.0, 1.0,
-        1.0,  -1.0, 1.0,
-        1.0,  1.0,  1.0,
-        -1.0, 1.0,  1.0,
+        Vertex{ .position = math.vec3(-1.0, -1.0, 1.0) },
+        Vertex{ .position = math.vec3(1.0, -1.0, 1.0) },
+        Vertex{ .position = math.vec3(1.0, 1.0, 1.0) },
+        Vertex{ .position = math.vec3(-1.0, 1.0, 1.0) },
         // back
-        -1.0, -1.0, -1.0,
-        1.0,  -1.0, -1.0,
-        1.0,  1.0,  -1.0,
-        -1.0, 1.0,  -1.0,
+        Vertex{ .position = math.vec3(-1.0, -1.0, -1.0) },
+        Vertex{ .position = math.vec3(1.0, -1.0, -1.0) },
+        Vertex{ .position = math.vec3(1.0, 1.0, -1.0) },
+        Vertex{ .position = math.vec3(-1.0, 1.0, -1.0) },
     });
-    try mesh2.indices.appendSlice(&.{
+    try mesh.indices.appendSlice(&.{
         // front
         0, 1, 2,
         2, 3, 0,
@@ -66,8 +51,8 @@ pub fn main() !void {
         3, 2, 6,
         6, 7, 3,
     });
-    try mesh2.create();
-    defer mesh2.deinit();
+    try mesh.create();
+    defer mesh.deinit();
 
     var shader = Shader{
         .vertSource = @embedFile("vert.glsl"),
@@ -113,6 +98,5 @@ pub fn main() !void {
         try shader.setUniformByName("_V", engine.camera.viewMatrix);
 
         mesh.bind();
-        mesh2.bind();
     }
 }

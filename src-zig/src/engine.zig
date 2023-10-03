@@ -105,8 +105,45 @@ pub const Camera = struct {
     }
 };
 
+const v2zero = math.vec2(0, 0);
+const v3zero = math.vec3(0, 0, 0);
+const v4zero = math.vec4(0, 0, 0, 0);
+
+pub const Vertex = extern struct {
+    position: math.Vec3 = v3zero,
+    uv: math.Vec2 = v2zero,
+    normal: math.Vec3 = v3zero,
+    color: math.Vec4 = v4zero,
+
+    fn addAttributes() void {
+        Mesh.addElement(0, false, 3, 0);
+        Mesh.addElement(
+            1,
+            false,
+            2,
+            @offsetOf(Vertex, "uv"),
+        );
+        Mesh.addElement(
+            2,
+            false,
+            3,
+            @offsetOf(Vertex, "normal"),
+        );
+        Mesh.addElement(
+            3,
+            false,
+            4,
+            @offsetOf(Vertex, "color"),
+        );
+    }
+
+    fn logOffset(comptime name: []const u8) void {
+        std.log.info("offset of {s}: {}", .{ name, @offsetOf(Vertex, name) });
+    }
+};
+
 pub const Mesh = struct {
-    vertices: std.ArrayList(f32),
+    vertices: std.ArrayList(Vertex),
     indices: std.ArrayList(u32),
 
     vao: u32 = undefined,
@@ -117,9 +154,24 @@ pub const Mesh = struct {
 
     pub fn init(alloc: std.mem.Allocator) Mesh {
         return .{
-            .vertices = std.ArrayList(f32).init(alloc),
+            .vertices = std.ArrayList(Vertex).init(alloc),
             .indices = std.ArrayList(u32).init(alloc),
         };
+    }
+
+    fn addElement(attributeId: u32, normalize: bool, elementCount: u32, elementPosition: u32) void {
+        var norm: u8 = if (normalize) gl.TRUE else gl.FALSE;
+
+        const ec: ?*const anyopaque = @ptrFromInt(elementPosition);
+        gl.vertexAttribPointer(
+            attributeId,
+            @intCast(elementCount),
+            gl.FLOAT,
+            norm,
+            @sizeOf(Vertex),
+            ec,
+        );
+        gl.enableVertexAttribArray(attributeId);
     }
 
     pub fn create(self: *Self) !void {
@@ -131,10 +183,9 @@ pub const Mesh = struct {
         gl.bindVertexArray(self.vao);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, self.vbo);
-        gl.bufferData(gl.ARRAY_BUFFER, @intCast(self.vertices.items.len * @sizeOf(f32)), self.vertices.items[0..].ptr, gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, @intCast(self.vertices.items.len * @sizeOf(Vertex)), self.vertices.items[0..].ptr, gl.STATIC_DRAW);
 
-        gl.vertexAttribPointer(0, 3, gl.FLOAT, gl.FALSE, 3 * @sizeOf(f32), null);
-        gl.enableVertexAttribArray(0);
+        Vertex.addAttributes();
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, self.ibo);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, @intCast(self.indices.items.len * @sizeOf(u32)), self.indices.items[0..].ptr, gl.STATIC_DRAW);
@@ -142,6 +193,8 @@ pub const Mesh = struct {
         gl.bindBuffer(gl.ARRAY_BUFFER, 0);
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, 0);
         gl.bindVertexArray(0);
+
+        Vertex.addAttributes();
 
         try glLogError();
     }
