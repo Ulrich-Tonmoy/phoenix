@@ -3,6 +3,13 @@ const glfw = @import("mach-glfw");
 const gl = @import("gl");
 const math = @import("mach").math;
 
+pub const WindowProps = struct {
+    width: u32 = 1080,
+    height: u32 = 720,
+    title: [:0]const u8 = "Phoenix",
+    vsync: bool = true,
+};
+
 pub const Engine = struct {
     window: ?glfw.Window = null,
     camera: Camera = .{},
@@ -19,14 +26,21 @@ pub const Engine = struct {
         return glfw.getProcAddress(proc);
     }
 
-    pub fn init(self: *Self) !void {
+    pub fn init(self: *Self, windowProps: WindowProps) !void {
         glfw.setErrorCallback(errorCallback);
         if (!glfw.init(.{})) {
             std.log.err("failed to initialize GLFW: {?s}", .{glfw.getErrorString()});
             std.process.exit(1);
         }
 
-        self.window = glfw.Window.create(1080, 720, "Phoenix", null, null, .{}) orelse {
+        self.window = glfw.Window.create(
+            windowProps.width,
+            windowProps.height,
+            windowProps.title,
+            null,
+            null,
+            .{},
+        ) orelse {
             std.log.err("failed to create GLFW window: {?s}", .{glfw.getErrorString()});
             std.process.exit(1);
         };
@@ -36,6 +50,7 @@ pub const Engine = struct {
         const proc: glfw.GLProc = undefined;
         try gl.load(proc, glGetProcAddress);
 
+        self.camera.engine = self;
         self.camera.updateProjectionMatrix();
     }
 
@@ -69,12 +84,17 @@ pub const Camera = struct {
     nearPlane: f32 = -1,
     farPlane: f32 = 1000,
     fov: f32 = 75,
-    aspectRation: f32 = 1,
+    aspectRatio: f32 = 1,
+
+    engine: *Engine = undefined,
 
     pub fn updateProjectionMatrix(self: *Camera) void {
+        const size = self.engine.window.?.getSize();
+        self.aspectRatio = @as(f32, @floatFromInt(size.width)) / @as(f32, @floatFromInt(size.height));
+
         self.projectionMatrix = math.Mat4x4.perspective(
             math.degreesToRadians(f32, self.fov),
-            self.aspectRation,
+            self.aspectRatio,
             self.nearPlane,
             self.farPlane,
         );

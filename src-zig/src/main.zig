@@ -9,7 +9,7 @@ const Engine = _engine.Engine;
 
 pub fn main() !void {
     var engine = Engine{};
-    try engine.init();
+    try engine.init(.{});
     defer engine.deinit();
 
     // Data
@@ -106,6 +106,7 @@ pub fn main() !void {
 
         shader.bind();
         motion.v[0] = @floatCast(@sin(glfw.getTime()));
+        motion.v[1] = @floatCast(@cos(glfw.getTime()));
         Shader.setVec3(0, motion);
         Shader.setMatrix(1, engine.camera.projectionMatrix);
         Shader.setMatrix(2, engine.camera.viewMatrix);
