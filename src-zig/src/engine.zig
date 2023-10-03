@@ -56,6 +56,9 @@ pub const Engine = struct {
 
         self.camera.engine = self;
         self.camera.updateProjectionMatrix();
+
+        gl.enable(gl.DEPTH_TEST);
+        gl.enable(gl.CULL_FACE);
     }
 
     pub fn deinit(self: Self) void {
@@ -65,13 +68,17 @@ pub const Engine = struct {
         glfw.terminate();
     }
 
+    fn toFloat1(byte: u8) f32 {
+        return @as(f32, @floatFromInt(byte)) / 255;
+    }
+
     pub fn isRunning(self: Self) bool {
         self.window.?.swapBuffers();
 
         glfw.pollEvents();
 
-        gl.clearColor(0, 1, 0, 1);
-        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.clearColor(toFloat1(212), toFloat1(25), toFloat1(125), 1);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         return !self.window.?.shouldClose();
     }
