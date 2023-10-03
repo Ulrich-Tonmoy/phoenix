@@ -163,6 +163,8 @@ pub const Shader = struct {
 
     const Self = @This();
 
+    const Error = error{InvalidUniformName};
+
     pub fn compile(self: *Self) void {
         var vertShader: u32 = gl.createShader(gl.VERTEX_SHADER);
         gl.shaderSource(vertShader, 1, &self.vertSource.ptr, null);
@@ -207,5 +209,14 @@ pub const Shader = struct {
             inline math.Mat4x4 => gl.uniformMatrix4fv(location, 1, gl.FALSE, &value.v[0].v[0]),
             inline else => unreachable,
         }
+    }
+
+    pub fn setUniformByName(self: Self, name: [:0]const u8, value: anytype) !void {
+        const location = gl.getUniformLocation(self.program, name);
+
+        if (location < 0)
+            return error.InvalidUniformName;
+
+        setUniform(location, value);
     }
 };
