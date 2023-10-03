@@ -14,6 +14,10 @@ pub const Engine = struct {
     window: ?glfw.Window = null,
     camera: Camera = .{},
 
+    const Error = error{
+        GLError,
+    };
+
     const Self = @This();
 
     /// Default GLFW error handling callback
@@ -118,7 +122,7 @@ pub const Mesh = struct {
         };
     }
 
-    pub fn create(self: *Self) void {
+    pub fn create(self: *Self) !void {
         // VAO VBO IBO
         gl.genVertexArrays(1, &self.vao);
         gl.genBuffers(1, &self.vbo);
@@ -138,6 +142,8 @@ pub const Mesh = struct {
         gl.bindBuffer(gl.ARRAY_BUFFER, 0);
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, 0);
         gl.bindVertexArray(0);
+
+        try glLogError();
     }
 
     pub fn bind(self: Self) void {
@@ -204,6 +210,8 @@ pub const Shader = struct {
         gl.attachShader(self.program, fragShader);
         gl.linkProgram(self.program);
 
+        try glLogError();
+
         gl.deleteShader(vertShader);
         gl.deleteShader(fragShader);
     }
@@ -245,3 +253,26 @@ pub const Shader = struct {
         setUniform(location, value);
     }
 };
+
+fn glLogError() !void {
+    var err: gl.GLenum = gl.getError();
+    const hasErrored = err != gl.NO_ERROR;
+
+    while (err != gl.NO_ERROR) {
+        var errorString = switch (err) {
+            gl.INVALID_ENUM => "INVALID_ENUM",
+            gl.INVALID_VALUE => "INVALID_VALUE",
+            gl.INVALID_OPERATION => "INVALID_OPERATION",
+            gl.OUT_OF_MEMORY => "OUT_OF_MEMORY",
+            gl.INVALID_FRAMEBUFFER_OPERATION => "INVALID_FRAMEBUFFER_OPERATION",
+            else => "unknown error",
+        };
+
+        std.log.err("Found OpenGL error: {s}", .{errorString});
+
+        err = gl.getError();
+    }
+
+    if (hasErrored)
+        return Engine.Error.GLError;
+}
