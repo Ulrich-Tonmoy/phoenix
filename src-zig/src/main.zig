@@ -73,7 +73,7 @@ pub fn main() !void {
         .vertSource = @embedFile("vert.glsl"),
         .fragSource = @embedFile("frag.glsl"),
     };
-    shader.compile();
+    try shader.compile();
     defer shader.deinit();
 
     var motion = math.vec3(0, 0, 0);
