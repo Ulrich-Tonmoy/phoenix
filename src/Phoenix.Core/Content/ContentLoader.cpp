@@ -50,7 +50,7 @@ namespace phoenix::content
 			const u32 name_length{ *data }; data += sizeof(u32);
 			if (!name_length) return false;
 			assert(name_length < 256);
-			char script_name[256];
+			char script_name[256]{};
 			memcpy(&script_name[0], data, name_length); data += name_length;
 			script_name[name_length] = 0;
 			script_info.script_creator = script::detail::get_script_creator(script::detail::string_hash()(script_name));
@@ -66,20 +66,33 @@ namespace phoenix::content
 			read_script
 		};
 		static_assert(_countof(component_readers) == component_type::count);
+
+		bool read_file(std::filesystem::path path, std::unique_ptr<u8[]>& data, u64& size)
+		{
+			if (!std::filesystem::exists(path)) return false;
+			size = std::filesystem::file_size(path);
+			assert(size);
+			if (!size) return false;
+			data = std::make_unique<u8[]>(size);
+			std::ifstream file{ path,std::ios::in | std::ios::binary };
+			if (!file || !file.read((char*)data.get(), size))
+			{
+				file.close();
+				return false;
+			}
+
+			file.close();
+			return true;
+		}
 	}
 
 	bool load_game()
 	{
-		wchar_t path[MAX_PATH];
-		const u32 length{ GetModuleFileName(0,&path[0],MAX_PATH) };
-		if (!length || GetLastError() == ERROR_INSUFFICIENT_BUFFER) return false;
-		std::filesystem::path p{path};
-		SetCurrentDirectory(p.parent_path().wstring().c_str());
-
-		std::ifstream game("data.bin", std::ios::in | std::ios::binary);
-		utl::vector<u8> buffer(std::istreambuf_iterator<char>(game), {});
-		assert(buffer.size());
-		const u8* at{ buffer.data() };
+		std::unique_ptr<u8[]> game_data{};
+		u64 size{ 0 };
+		if (!read_file("game.bin", game_data, size)) return false;
+		assert(game_data.get());
+		const u8* at{ game_data.get() };
 		constexpr u32 su32{ sizeof(u32) };
 		const u32 num_entities{ *at }; at += su32;
 		if (!num_entities) return false;
@@ -98,11 +111,11 @@ namespace phoenix::content
 				if (!component_readers[component_type](at, info)) return false;
 			}
 			assert(info.transform);
-			game_entity::entity entity{game_entity::create(info)};
+			game_entity::entity entity{ game_entity::create(info) };
 			if (!entity.is_valid()) return false;
 			entities.emplace_back(entity);
 		}
-		assert(at == buffer.data() + buffer.size());
+		assert(at == game_data.get() + size);
 		return true;
 	}
 

@@ -19,20 +19,12 @@ namespace phoenix::utl
 			resize(count, value);
 		}
 
-		template<typename it, typename = std::enable_if_t<std::_Is_iterator_v<it>>> constexpr explicit vector(it first, it last)
-		{
-			for (;first != last;++first)
-			{
-				emplace_back(*first);
-			}
-		}
-
 		constexpr vector(const vector& o)
 		{
 			*this = o;
 		}
 
-		constexpr vector(const vector&& o) :_capacity{ o._capacity }, _size{ o._size }, _data{ o._data }
+		constexpr vector(vector&& o) :_capacity{ o._capacity }, _size{ o._size }, _data{ o._data }
 		{
 			o.reset();
 		}
@@ -91,7 +83,7 @@ namespace phoenix::utl
 
 		constexpr void resize(u64 new_size)
 		{
-			static_assert(std::is_default_constructible_v<T>, "Type must be default-constructible.");
+			static_assert(std::is_default_constructible<T>::value, "Type must be default-constructible.");
 
 			if (new_size > _size)
 			{
@@ -115,7 +107,7 @@ namespace phoenix::utl
 
 		constexpr void resize(u64 new_size, const T& value)
 		{
-			static_assert(std::is_copy_constructible_v<T>, "Type must be copy-constructible.");
+			static_assert(std::is_copy_constructible<T>::value, "Type must be copy-constructible.");
 
 			if (new_size > _size)
 			{
@@ -312,7 +304,7 @@ namespace phoenix::utl
 			assert(first <= _size && last <= _size && first <= last);
 			if (_data)
 			{
-				for (;first != last;++first)
+				for (; first != last; ++first)
 				{
 					_data[first].~T();
 				}
@@ -321,7 +313,7 @@ namespace phoenix::utl
 
 		constexpr void destroy()
 		{
-			assert([&] {return _capacity ? _data != nullptr : _data == nullptr;}());
+			assert([&] {return _capacity ? _data != nullptr : _data == nullptr; }());
 			clear();
 			_capacity = 0;
 			if (_data) free(_data);
