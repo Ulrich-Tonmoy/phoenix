@@ -16,6 +16,7 @@
     <ProjectGuid>{8308aea4-32e6-48f8-b79f-5a362119f08b}</ProjectGuid>
     <RootNamespace>PhoenixCoreTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Phoenix.Test</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

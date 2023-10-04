@@ -36,7 +36,7 @@ namespace Phoenix.Editor.DllWrapper
 {
     static class EngineAPI
     {
-        private const string _engineDLL = "Phoenix.Core.Dll.dll";
+        private const string _engineDLL = "Phoenix.Dll.dll";
 
         [DllImport(_engineDLL, CharSet = CharSet.Ansi)]
         public static extern int LoadScriptDll(string dllPath);

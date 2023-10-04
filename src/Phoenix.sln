@@ -10,9 +10,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phoenix.Editor", "Phoenix.E
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix.Core", "Phoenix.Core\Phoenix.Core.vcxproj", "{C15E7434-48E5-457E-9FBD-FAB05CAE9BC0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix.Core.Test", "Phoenix.Core.Test\Phoenix.Core.Test.vcxproj", "{8308AEA4-32E6-48F8-B79F-5A362119F08B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix.Test", "Phoenix.Test\Phoenix.Test.vcxproj", "{8308AEA4-32E6-48F8-B79F-5A362119F08B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix.Core.Dll", "Phoenix.Core.Dll\Phoenix.Core.Dll.vcxproj", "{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phoenix.Dll", "Phoenix.Dll\Phoenix.Dll.vcxproj", "{4CFC9117-723B-47F8-A153-9E3CD7DABB3F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C15E7434-48E5-457E-9FBD-FAB05CAE9BC0} = {C15E7434-48E5-457E-9FBD-FAB05CAE9BC0}
 	EndProjectSection
