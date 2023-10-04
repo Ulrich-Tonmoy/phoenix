@@ -90,7 +90,7 @@ namespace phoenix::content
 	{
 		std::unique_ptr<u8[]> game_data{};
 		u64 size{ 0 };
-		if (!read_file("game.bin", game_data, size)) return false;
+		if (!read_file("data.bin", game_data, size)) return false;
 		assert(game_data.get());
 		const u8* at{ game_data.get() };
 		constexpr u32 su32{ sizeof(u32) };
