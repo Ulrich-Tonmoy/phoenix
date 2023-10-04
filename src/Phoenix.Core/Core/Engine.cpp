@@ -1,9 +1,9 @@
 #if !defined(PROD)
-#include "..\Content\ContentLoader.hpp"
-#include "..\Components\Script.hpp"
-#include "..\Platform\PlatformTypes.hpp"
-#include "..\Platform\Platform.hpp"
-#include "..\Graphics\Renderer.hpp"
+#include "../Content/ContentLoader.hpp"
+#include "../Components/Script.hpp"
+#include "../Platform/PlatformTypes.hpp"
+#include "../Platform/Platform.hpp"
+#include "../Graphics/Renderer.hpp"
 #include <thread>
 
 using namespace phoenix;

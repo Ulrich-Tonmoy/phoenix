@@ -1,4 +1,4 @@
 #pragma once
 
-#include "..\Common\CommonHeaders.hpp"
-#include "..\EngineAPI\GameEntity.hpp"
+#include "../Common/CommonHeaders.hpp"
+#include "../EngineAPI/GameEntity.hpp"

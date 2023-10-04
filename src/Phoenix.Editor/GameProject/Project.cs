@@ -33,7 +33,7 @@ namespace Phoenix.Editor.GameProject
         public string Path { get; private set; }
         public string FullPath => $@"{Path}{Name}{Extension}";
         public string Solution => $@"{Path}{Name}.sln";
-        public string AssetPath => $@"{Path}Assets\";
+        public string AssetPath => $@"{Path}Assets/";
 
         private static readonly string[] _buildConfigurationNames = new string[] { "Debug", "DebugEditor", "Release", "ReleaseEditor" };
         private int _buildConfig;
@@ -218,7 +218,7 @@ namespace Phoenix.Editor.GameProject
         private void SaveToBinary()
         {
             string configName = GetConfigurationName(StandAloneBuildConfig);
-            var bin = $@"{Path}x64\{configName}\data.bin";
+            var bin = $@"{Path}x64/{configName}/data.bin";
 
             using (var bw = new BinaryWriter(File.Open(bin, FileMode.Create, FileAccess.Write)))
             {
@@ -252,7 +252,7 @@ namespace Phoenix.Editor.GameProject
         private void LoadScriptDll()
         {
             var configName = GetConfigurationName(DllBuildConfig);
-            var dll = $@"{Path}x64\{configName}\{Name}.dll";
+            var dll = $@"{Path}x64/{configName}/{Name}.dll";
             AvailableScripts = null;
             if (File.Exists(dll) && EngineAPI.LoadScriptDll(dll) != 0)
             {

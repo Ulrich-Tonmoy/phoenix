@@ -32,7 +32,7 @@ namespace Phoenix.Editor.GameProject
 
     class OpenProject
     {
-        private static readonly string _applicationDataPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\Phoenix\";
+        private static readonly string _applicationDataPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/Phoenix/";
         private static readonly string _projectDataPath;
         private static readonly ObservableCollection<ProjectData> _projects = new ObservableCollection<ProjectData>();
         public static ReadOnlyObservableCollection<ProjectData> Projects { get; }
@@ -83,8 +83,8 @@ namespace Phoenix.Editor.GameProject
                 {
                     if (File.Exists(project.FullPath))
                     {
-                        project.Icon = File.ReadAllBytes($@"{project.ProjectPath}\.Phoenix\icon.png");
-                        project.Screenshot = File.ReadAllBytes($@"{project.ProjectPath}\.Phoenix\screenshot.png");
+                        project.Icon = File.ReadAllBytes($@"{project.ProjectPath}/.Phoenix/icon.png");
+                        project.Screenshot = File.ReadAllBytes($@"{project.ProjectPath}/.Phoenix/screenshot.png");
                         _projects.Add(project);
                     }
                 }

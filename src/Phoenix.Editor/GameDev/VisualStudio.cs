@@ -153,7 +153,7 @@ namespace Phoenix.Editor.GameDev
 
                     try
                     {
-                        foreach (var profile in Directory.GetFiles(Path.Combine($"{project.Path}", $@"x64\{configName}"), "*.pdb"))
+                        foreach (var profile in Directory.GetFiles(Path.Combine($"{project.Path}", $@"x64/{configName}"), "*.pdb"))
                         {
                             File.Delete(profile);
                         }

@@ -1,7 +1,7 @@
 #include "ContentLoader.hpp"
-#include "..\Components\Entity.hpp"
-#include "..\Components\Transform.hpp"
-#include "..\Components\Script.hpp"
+#include "../Components/Entity.hpp"
+#include "../Components/Transform.hpp"
+#include "../Components/Script.hpp"
 
 #if !defined(PROD)
 #include <fstream>

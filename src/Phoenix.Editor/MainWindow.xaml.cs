@@ -27,7 +27,7 @@ namespace Phoenix.Editor
         private void GetEnginePath()
         {
             var phoenixPath = Environment.GetEnvironmentVariable("PHOENIX_ENGINE", EnvironmentVariableTarget.User);
-            if (phoenixPath == null || !Directory.Exists(Path.Combine(phoenixPath, @"Phoenix.Core\EngineAPI")))
+            if (phoenixPath == null || !Directory.Exists(Path.Combine(phoenixPath, @"Phoenix.Core/EngineAPI")))
             {
                 var dlg = new EnginePathDialog();
                 if (dlg.ShowDialog() == true)

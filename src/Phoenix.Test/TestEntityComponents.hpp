@@ -1,7 +1,7 @@
 #pragma once
 
-#include "..\Phoenix.Core\Components\Entity.hpp"
-#include "..\Phoenix.Core\Components\Transform.hpp"
+#include "../Phoenix.Core/Components/Entity.hpp"
+#include "../Phoenix.Core/Components/Transform.hpp"
 #include "Test.hpp"
 
 #include <iostream>
@@ -50,7 +50,7 @@ private:
 		while (count > 0)
 		{
 			++_added;
-			game_entity::entity entity{game_entity::create(entity_info)};
+			game_entity::entity entity{ game_entity::create(entity_info) };
 			assert(entity.is_valid() && id::is_valid(entity.get_id()));
 			_entities.push_back(entity);
 			assert(game_entity::is_alive(entity.get_id()));
@@ -65,7 +65,7 @@ private:
 		while (count > 0)
 		{
 			const u32 index{ (u32)rand() % (u32)_entities.size() };
-			const game_entity::entity entity{_entities[index]};
+			const game_entity::entity entity{ _entities[index] };
 			assert(entity.is_valid() && id::is_valid(entity.get_id()));
 			if (entity.is_valid())
 			{

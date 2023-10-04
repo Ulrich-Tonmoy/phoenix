@@ -49,7 +49,7 @@ namespace {1}
         {
             InitializeComponent();
             Owner = Application.Current.MainWindow;
-            scriptPath.Text = @"Scripts\";
+            scriptPath.Text = @"Scripts/";
         }
 
         private static string GetNameSpaceFromProjectName()
@@ -74,7 +74,7 @@ namespace {1}
                 errorMsg = "Select a valid script folder.";
             else if (path.IndexOfAny(Path.GetInvalidPathChars()) != -1)
                 errorMsg = "Invalid character(s) used in path.";
-            else if (!Path.GetFullPath(Path.Combine(Project.Current.Path, path)).Contains(Path.Combine(Project.Current.Path, @"Scripts\")))
+            else if (!Path.GetFullPath(Path.Combine(Project.Current.Path, path)).Contains(Path.Combine(Project.Current.Path, @"Scripts/")))
                 errorMsg = "Script must be added to (a sub folder) Scripts.";
             else if (File.Exists(Path.GetFullPath(Path.Combine(Path.Combine(Project.Current.Path, path), $"{name}.cpp"))) || File.Exists(Path.GetFullPath(Path.Combine(Path.Combine(Project.Current.Path, path), $"{name}.hpp"))))
                 errorMsg = $"Script {name} already exists in this folder.";

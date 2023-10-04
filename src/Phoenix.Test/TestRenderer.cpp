@@ -1,6 +1,6 @@
-#include "..\Platform\PlatformTypes.hpp"
-#include "..\Platform\Platform.hpp"
-#include "..\Graphics\Renderer.hpp"
+#include "../Platform/PlatformTypes.hpp"
+#include "../Platform/Platform.hpp"
+#include "../Graphics/Renderer.hpp"
 #include "TestRenderer.hpp"
 
 #if TEST_RENDERER
@@ -86,7 +86,7 @@ bool engine_test::initialize()
 	};
 	static_assert(_countof(info) == _countof(_surfaces));
 
-	for (u32 i{ 0 };i < _countof(_surfaces);++i)
+	for (u32 i{ 0 }; i < _countof(_surfaces); ++i)
 		create_render_surface(_surfaces[i], info[i]);
 
 	return result;
@@ -108,7 +108,7 @@ void engine_test::run()
 
 void engine_test::shutdown()
 {
-	for (u32 i{ 0 };i < _countof(_surfaces);++i)
+	for (u32 i{ 0 }; i < _countof(_surfaces); ++i)
 		destroy_render_surface(_surfaces[i]);
 
 	graphics::shutdown();

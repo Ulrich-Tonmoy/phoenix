@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Test.hpp"
-#include "..\Platform\PlatformTypes.hpp"
-#include "..\Platform\Platform.hpp"
+#include "../Platform/PlatformTypes.hpp"
+#include "../Platform/Platform.hpp"
 
 using namespace phoenix;
 
@@ -33,7 +33,7 @@ LRESULT win_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	case WM_SYSCHAR:
 		if (wparam == VK_RETURN && (HIWORD(lparam) & KF_ALTDOWN))
 		{
-			platform::window win{platform::window_id{(id::id_type)GetWindowLongPtr(hwnd, GWLP_USERDATA)}};
+			platform::window win{ platform::window_id{(id::id_type)GetWindowLongPtr(hwnd, GWLP_USERDATA)} };
 			win.set_fullscreen(!win.is_fullscreen());
 			return 0;
 		}
@@ -56,7 +56,7 @@ public:
 		};
 		static_assert(_countof(info) == _countof(_windows));
 
-		for (u32 i{ 0 };i < _countof(_windows);++i)
+		for (u32 i{ 0 }; i < _countof(_windows); ++i)
 			_windows[i] = platform::create_window(&info[i]);
 		return true;
 	}
@@ -68,7 +68,7 @@ public:
 
 	void shutdown() override
 	{
-		for (u32 i = 0;i < _countof(_windows);i++)
+		for (u32 i = 0; i < _countof(_windows); i++)
 			platform::remove_window(_windows[i].get_id());
 	}
 };

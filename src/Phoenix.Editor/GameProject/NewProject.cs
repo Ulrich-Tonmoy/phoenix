@@ -29,7 +29,7 @@ namespace Phoenix.Editor.GameProject
 
     class NewProject : ViewModelBase
     {
-        private readonly string _templatePath = @"..\..\Phoenix.Editor\ProjectTemplates\";
+        private readonly string _templatePath = @"../../Phoenix.Editor/ProjectTemplates/";
         private string _projectName = "New Project";
         public string ProjectName
         {
@@ -45,7 +45,7 @@ namespace Phoenix.Editor.GameProject
             }
         }
 
-        private string _projectPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Phoenix Projects\";
+        private string _projectPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/Phoenix Projects/";
         public string ProjectPath
         {
             get => _projectPath;
@@ -125,8 +125,8 @@ namespace Phoenix.Editor.GameProject
             ValidateProjectPath();
             if (!IsValid) return string.Empty;
 
-            if (!Path.EndsInDirectorySeparator(ProjectPath)) ProjectPath += @"\";
-            var path = $@"{ProjectPath}{ProjectName}\";
+            if (!Path.EndsInDirectorySeparator(ProjectPath)) ProjectPath += @"/";
+            var path = $@"{ProjectPath}{ProjectName}/";
 
             try
             {
@@ -135,7 +135,7 @@ namespace Phoenix.Editor.GameProject
                 {
                     Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Path.GetDirectoryName(path), folder)));
                 }
-                var dirInfo = new DirectoryInfo(path + @".Phoenix\");
+                var dirInfo = new DirectoryInfo(path + @".Phoenix/");
                 dirInfo.Attributes |= FileAttributes.Hidden;
                 File.Copy(template.IconFilePath, Path.GetFullPath(Path.Combine(dirInfo.FullName, "icon.png")));
                 File.Copy(template.ScreenshotFilePath, Path.GetFullPath(Path.Combine(dirInfo.FullName, "screenshot.png")));
@@ -162,7 +162,7 @@ namespace Phoenix.Editor.GameProject
             Debug.Assert(File.Exists(Path.Combine(template.TemplatePath, "MSVCSolution")));
             Debug.Assert(File.Exists(Path.Combine(template.TemplatePath, "MSVCProject")));
 
-            var engineAPIPath = Path.Combine(MainWindow.PhoenixPath, @"Phoenix.Core\EngineAPI\");
+            var engineAPIPath = Path.Combine(MainWindow.PhoenixPath, @"Phoenix.Core/EngineAPI/");
             Debug.Assert(Directory.Exists(engineAPIPath));
 
             var _0 = ProjectName;
@@ -176,14 +176,14 @@ namespace Phoenix.Editor.GameProject
 
             var project = File.ReadAllText(Path.Combine(template.TemplatePath, "MSVCProject")); ;
             project = string.Format(project, _0, _1, _2, _3);
-            File.WriteAllText(Path.GetFullPath(Path.Combine(projectPath, $@"Scripts\{_0}.vcxproj")), project);
+            File.WriteAllText(Path.GetFullPath(Path.Combine(projectPath, $@"Scripts/{_0}.vcxproj")), project);
         }
 
         private bool ValidateProjectPath()
         {
             var path = ProjectPath;
-            if (!Path.EndsInDirectorySeparator(path)) path += @"\";
-            path += $@"{ProjectName}\";
+            if (!Path.EndsInDirectorySeparator(path)) path += @"/";
+            path += $@"{ProjectName}/";
             IsValid = false;
 
             if (string.IsNullOrEmpty(ProjectName.Trim()))

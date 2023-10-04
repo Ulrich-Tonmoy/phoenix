@@ -38,7 +38,7 @@
 
 // Custom
 #include "PrimitiveTypes.hpp"
-#include "..\Utilities\Math.hpp"
-#include "..\Utilities\Utilities.hpp"
-#include "..\Utilities\MathTypes.hpp"
+#include "../Utilities/Math.hpp"
+#include "../Utilities/Utilities.hpp"
+#include "../Utilities/MathTypes.hpp"
 #include "Id.hpp"

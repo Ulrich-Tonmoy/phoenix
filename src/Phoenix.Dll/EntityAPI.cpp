@@ -1,9 +1,9 @@
 #include "Common.hpp"
 #include "CommonHeaders.hpp"
 #include "Id.hpp"
-#include "..\Phoenix.Core\Components\Entity.hpp"
-#include "..\Phoenix.Core\Components\Transform.hpp"
-#include "..\Phoenix.Core\Components\Script.hpp"
+#include "../Phoenix.Core/Components/Entity.hpp"
+#include "../Phoenix.Core/Components/Transform.hpp"
+#include "../Phoenix.Core/Components/Script.hpp"
 
 using namespace phoenix;
 
@@ -58,12 +58,12 @@ EDITOR_INTERFACE id::id_type CreateGameEntity(game_entity_descriptor* e)
 {
 	assert(e);
 	game_entity_descriptor& desc{ *e };
-	transform::init_info transform_info{desc.transform.to_init_info()};
-	script::init_info script_info{desc.script.to_init_info()};
+	transform::init_info transform_info{ desc.transform.to_init_info() };
+	script::init_info script_info{ desc.script.to_init_info() };
 	game_entity::entity_info entity_info
 	{
 		&transform_info,
-			& script_info,
+			&script_info,
 
 	};
 	return game_entity::create(entity_info).get_id();
@@ -72,5 +72,5 @@ EDITOR_INTERFACE id::id_type CreateGameEntity(game_entity_descriptor* e)
 EDITOR_INTERFACE void RemoveGameEntity(id::id_type id)
 {
 	assert(id::is_valid(id));
-	game_entity::remove(game_entity::entity_id{id});
+	game_entity::remove(game_entity::entity_id{ id });
 }
