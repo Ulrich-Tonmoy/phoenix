@@ -39,6 +39,9 @@ namespace phoenix::graphics
 	bool initialize(graphics_platform platform);
 	void shutdown();
 
+	const char* get_engine_shaders_path();
+	const char* get_engine_shaders_path(graphics_platform platform);
+
 	surface create_surface(platform::window window);
 	void remove_surface(surface_id id);
 }
