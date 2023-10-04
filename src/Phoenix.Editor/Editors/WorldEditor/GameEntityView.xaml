@@ -25,7 +25,7 @@
             <MenuItem Header="Script" ItemsSource="{Binding SelectedEntities[0].ParentScene.Project.AvailableScripts}">
                 <MenuItem.Style>
                     <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="Padding" Value="5,3,2,3"/>
+                        <Setter Property="Padding" Value="0,3,2,3"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding SelectedEntities[0].ParentScene.Project.AvailableScripts}" Value="{x:Null}">
                                 <Setter Property="IsEnabled" Value="False"/>
@@ -35,7 +35,7 @@
                 </MenuItem.Style>
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="Padding" Value="5,3,2,3"/>
+                        <Setter Property="Padding" Value="0,3,2,3"/>
                         <Setter Property="Header" Value="{Binding}"/>
                         <EventSetter Event="Click" Handler="OnAddScriptComponent"/>
                     </Style>
