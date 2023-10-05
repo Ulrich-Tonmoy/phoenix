@@ -1,7 +1,6 @@
 #pragma once
 
 #include "D3D12CommonHeaders.hpp"
-#include "D3D12Resources.hpp"
 
 namespace phoenix::graphics::d3d12
 {

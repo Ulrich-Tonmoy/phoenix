@@ -56,3 +56,6 @@ if(swprintf_s(full_name,L"%s[%u]", name, n) > 0){\
 #define NAME_D3D12_OBJECT(x, name)
 #define NAME_D3D12_OBJECT_WITH_INDEX(x, n, name)
 #endif // _DEBUG
+
+#include "D3D12Helpers.hpp"
+#include "D3D12Resources.hpp"

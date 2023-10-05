@@ -41,7 +41,7 @@ namespace phoenix::graphics::d3d12::shaders
 		}
 	}
 
-	bool intialize()
+	bool initialize()
 	{
 		return load_engine_shaders();
 	}

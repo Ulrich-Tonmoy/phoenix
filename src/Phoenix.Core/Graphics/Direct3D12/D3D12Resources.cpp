@@ -1,6 +1,5 @@
 #include "D3D12Resources.hpp"
 #include "D3D12Core.hpp"
-#include "D3D12Helpers.hpp"
 
 namespace phoenix::graphics::d3d12
 {
@@ -34,8 +33,8 @@ namespace phoenix::graphics::d3d12
 		_capacity = capacity;
 		_size = 0;
 
-		for (u32 i{ 0 };i < capacity;++i) _free_handles[i] = i;
-		DEBUG_OP(for (u32 i{ 0 };i < frame_buffer_count;++i) assert(_deferred_free_indices[i].empty()));
+		for (u32 i{ 0 }; i < capacity; ++i) _free_handles[i] = i;
+		DEBUG_OP(for (u32 i{ 0 }; i < frame_buffer_count; ++i) assert(_deferred_free_indices[i].empty()));
 
 		_descriptor_size = device->GetDescriptorHandleIncrementSize(_type);
 		_cpu_start = _heap->GetCPUDescriptorHandleForHeapStart();

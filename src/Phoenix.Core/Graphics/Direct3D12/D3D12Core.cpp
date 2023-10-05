@@ -1,7 +1,6 @@
 #include "D3D12Core.hpp"
-#include "D3D12Resources.hpp"
 #include "D3D12Surface.hpp"
-#include "D3D12Helpers.hpp"
+#include "D3D12Shaders.hpp"
 
 using namespace Microsoft::WRL;
 
@@ -157,7 +156,6 @@ namespace phoenix::graphics::d3d12::core
 		u32 deferred_releases_flag[frame_buffer_count]{};
 		std::mutex deferred_releases_mutex{};
 
-		constexpr DXGI_FORMAT render_target_format{ DXGI_FORMAT_R8G8B8A8_UNORM_SRGB };
 		constexpr D3D_FEATURE_LEVEL minimum_feature_level{ D3D_FEATURE_LEVEL_11_0 };
 
 		bool failed_init()
@@ -289,6 +287,8 @@ namespace phoenix::graphics::d3d12::core
 		new (&gfx_command) d3d12_command(main_device, D3D12_COMMAND_LIST_TYPE_DIRECT);
 		if (!gfx_command.command_queue()) return failed_init();
 
+		if (!shaders::initialize()) return failed_init();
+
 		NAME_D3D12_OBJECT(main_device, L"Main D3D12 Device");
 		NAME_D3D12_OBJECT(rtv_desc_heap.heap(), L"RTV Descriptor Heap");
 		NAME_D3D12_OBJECT(dsv_desc_heap.heap(), L"DSV Descriptor Heap");
@@ -307,7 +307,14 @@ namespace phoenix::graphics::d3d12::core
 			process_deferred_releases(i);
 		}
 
+		shaders::shutdown();
+
 		release(dxgi_factory);
+
+		rtv_desc_heap.process_deferred_free(0);
+		dsv_desc_heap.process_deferred_free(0);
+		srv_desc_heap.process_deferred_free(0);
+		uav_desc_heap.process_deferred_free(0);
 
 		rtv_desc_heap.release();
 		dsv_desc_heap.release();
@@ -349,7 +356,7 @@ namespace phoenix::graphics::d3d12::core
 	surface create_surface(platform::window window)
 	{
 		surface_id id{ surfaces.add(window) };
-		surfaces[id].create_swap_chain(dxgi_factory, gfx_command.command_queue(), render_target_format);
+		surfaces[id].create_swap_chain(dxgi_factory, gfx_command.command_queue());
 		return surface{ id };
 	}
 
