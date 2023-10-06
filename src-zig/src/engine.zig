@@ -3,6 +3,8 @@ const glfw = @import("mach-glfw");
 const gl = @import("gl");
 const math = @import("mach").math;
 
+var instance: *Engine = undefined;
+
 pub const WindowProps = struct {
     width: u32 = 1080,
     height: u32 = 720,
@@ -13,6 +15,7 @@ pub const WindowProps = struct {
 pub const Engine = struct {
     window: ?glfw.Window = null,
     camera: Camera = .{},
+    input: Input = .{},
 
     const Error = error{
         GLError,
@@ -31,6 +34,8 @@ pub const Engine = struct {
     }
 
     pub fn init(self: *Self, windowProps: WindowProps) !void {
+        instance = self;
+
         glfw.setErrorCallback(errorCallback);
         if (!glfw.init(.{})) {
             std.log.err("failed to initialize GLFW: {?s}", .{glfw.getErrorString()});
@@ -57,6 +62,10 @@ pub const Engine = struct {
         self.camera.engine = self;
         self.camera.updateProjectionMatrix();
 
+        self.input.engine = self;
+        self.input.keyEvents = try std.BoundedArray(Input.Event, 16).init(0);
+        self.window.?.setKeyCallback(Input.keyCallback);
+
         gl.enable(gl.DEPTH_TEST);
         gl.enable(gl.CULL_FACE);
     }
@@ -72,9 +81,10 @@ pub const Engine = struct {
         return @as(f32, @floatFromInt(byte)) / 255;
     }
 
-    pub fn isRunning(self: Self) bool {
+    pub fn isRunning(self: *Self) bool {
         self.window.?.swapBuffers();
 
+        self.input.clearEvents();
         glfw.pollEvents();
 
         gl.clearColor(toFloat1(212), toFloat1(25), toFloat1(125), 1);
@@ -83,9 +93,55 @@ pub const Engine = struct {
         return !self.window.?.shouldClose();
     }
 
-    pub fn keyPressed(self: Self, key: glfw.Key) bool {
-        return self.window.?.getKey(key) == glfw.Action.press;
-    }
+    pub const Input = struct {
+        engine: *Engine = undefined,
+        keyEvents: std.BoundedArray(Event, 16) = undefined,
+
+        const Event = struct {
+            key: glfw.Key,
+            scancode: i32,
+            action: glfw.Action,
+            mods: glfw.Mods,
+        };
+
+        pub fn keyCallback(window: glfw.Window, key: glfw.Key, scancode: i32, action: glfw.Action, mods: glfw.Mods) void {
+            _ = window;
+            instance.input.keyEvents.append(Event{
+                .key = key,
+                .scancode = scancode,
+                .action = action,
+                .mods = mods,
+            }) catch {};
+        }
+
+        pub fn clearEvents(self: *Input) void {
+            self.keyEvents.len = 0;
+        }
+
+        pub fn keyPressed(self: Input, key: glfw.Key) bool {
+            return self.engine.window.?.getKey(key) == glfw.Action.press;
+        }
+
+        pub fn keyAction(self: Input, key: glfw.Key, action: glfw.Action) bool {
+            for (self.keyEvents.constSlice()) |e| {
+                return e.key == key and e.action == action;
+            }
+
+            return false;
+        }
+
+        pub fn keyDown(self: Input, key: glfw.Key) bool {
+            return self.keyAction(key, glfw.Action.press);
+        }
+
+        pub fn keyUp(self: Input, key: glfw.Key) bool {
+            return self.keyAction(key, glfw.Action.release);
+        }
+
+        pub fn keyRepeat(self: Input, key: glfw.Key) bool {
+            return self.keyAction(key, glfw.Action.repeat);
+        }
+    };
 };
 
 pub const Camera = struct {

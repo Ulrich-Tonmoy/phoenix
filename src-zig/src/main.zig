@@ -1,5 +1,6 @@
 const std = @import("std");
 const glfw = @import("mach-glfw");
+const gl = @import("gl");
 const math = @import("mach").math;
 
 const _engine = @import("engine.zig");
@@ -21,7 +22,7 @@ pub fn main() !void {
 
     // Cube
     var mesh = Mesh.init(alloc);
-    try Shapes.sphere(&mesh, 8, 8, 1);
+    try Shapes.sphere(&mesh, 64, 32, 1);
     try mesh.create();
     defer mesh.deinit();
 
@@ -35,26 +36,37 @@ pub fn main() !void {
     var motion = math.vec3(0, 0, 0);
     var camOffset = math.vec3(4, 0, 10);
 
+    var wireframe = false;
     while (engine.isRunning()) {
         const speed = 0.001;
 
-        if (engine.keyPressed(.w) or engine.keyPressed(.up)) {
+        if (engine.input.keyPressed(.w) or engine.input.keyPressed(.up)) {
             camOffset.v[2] -= speed;
-        } else if (engine.keyPressed(.s) or engine.keyPressed(.down)) {
+        } else if (engine.input.keyPressed(.s) or engine.input.keyPressed(.down)) {
             camOffset.v[2] += speed;
         }
-        if (engine.keyPressed(.a) or engine.keyPressed(.left)) {
+        if (engine.input.keyPressed(.a) or engine.input.keyPressed(.left)) {
             camOffset.v[0] += speed;
-        } else if (engine.keyPressed(.d) or engine.keyPressed(.right)) {
+        } else if (engine.input.keyPressed(.d) or engine.input.keyPressed(.right)) {
             camOffset.v[0] -= speed;
         }
 
-        if (engine.keyPressed(.c)) {
+        if (engine.input.keyPressed(.c)) {
             engine.camera.nearPlane += 0.001;
             engine.camera.updateProjectionMatrix();
-        } else if (engine.keyPressed(.x)) {
+        } else if (engine.input.keyPressed(.x)) {
             engine.camera.nearPlane -= 0.001;
             engine.camera.updateProjectionMatrix();
+        }
+
+        if (engine.input.keyDown(.q)) {
+            wireframe = !wireframe;
+
+            if (wireframe) {
+                gl.polygonMode(gl.FRONT_AND_BACK, gl.LINE);
+            } else {
+                gl.polygonMode(gl.FRONT, gl.FILL);
+            }
         }
 
         var camOffsetMat = math.Mat4x4.translate(camOffset);
