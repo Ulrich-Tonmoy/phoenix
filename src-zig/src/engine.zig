@@ -93,7 +93,7 @@ pub const Camera = struct {
     viewMatrix: math.Mat4x4 = math.Mat4x4.ident,
 
     nearPlane: f32 = -1,
-    farPlane: f32 = 1000,
+    farPlane: f32 = 1,
     fov: f32 = 75,
     aspectRatio: f32 = 1,
 
