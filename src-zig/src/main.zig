@@ -8,6 +8,7 @@ const Mesh = _engine.Mesh;
 const Shader = _engine.Shader;
 const Engine = _engine.Engine;
 const Vertex = _engine.Vertex;
+const GameObject = _engine.GameObject;
 
 const Shapes = @import("shapes.zig");
 
@@ -32,6 +33,11 @@ pub fn main() !void {
     };
     try shader.compile();
     defer shader.deinit();
+
+    var sphereGO = GameObject{
+        .mesh = &mesh,
+        .shader = &shader,
+    };
 
     var motion = math.vec3(0, 0, 0);
     var camOffset = math.vec3(4, 0, 10);
@@ -73,15 +79,14 @@ pub fn main() !void {
         engine.camera.viewMatrix = math.Mat4x4.ident.mul(&camOffsetMat);
 
         shader.bind();
+
         motion.v[0] = @floatCast(@sin(glfw.getTime()));
         motion.v[1] = @floatCast(@cos(glfw.getTime()));
 
         Shader.setUniform(0, motion);
         Shader.setUniform(1, engine.camera.projectionMatrix);
         Shader.setUniform(2, engine.camera.viewMatrix);
-        // try shader.setUniformByName("_P", engine.camera.projectionMatrix);
-        // try shader.setUniformByName("_V", engine.camera.viewMatrix);
 
-        mesh.bind();
+        sphereGO.render();
     }
 }

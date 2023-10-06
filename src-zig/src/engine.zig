@@ -168,6 +168,26 @@ pub const Camera = struct {
     }
 };
 
+const ident = math.Mat4x4.ident;
+
+pub const Transform = struct {
+    local2world: math.Mat4x4 = ident,
+};
+
+pub const GameObject = struct {
+    mesh: ?*Mesh = null,
+    shader: ?*Shader = null,
+    transform: Transform = .{},
+
+    pub fn render(self: GameObject) void {
+        const meshPtr = self.mesh orelse return;
+        const shaderPtr = self.shader orelse return;
+
+        shaderPtr.bind();
+        meshPtr.bind();
+    }
+};
+
 const v2zero = math.vec2(0, 0);
 const v3zero = math.vec3(0, 0, 0);
 const v4zero = math.vec4(0, 0, 0, 0);
