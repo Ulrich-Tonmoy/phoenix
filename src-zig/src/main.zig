@@ -14,7 +14,7 @@ const Shapes = @import("shapes.zig");
 
 pub fn main() !void {
     var engine = Engine{};
-    try engine.init(.{ .fullscreen = true });
+    try engine.init(.{ .width = 1920, .height = 1080 });
     defer engine.deinit();
 
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
@@ -22,10 +22,10 @@ pub fn main() !void {
     const alloc = gpa.allocator();
 
     // Cube
-    var mesh = Mesh.init(alloc);
-    try Shapes.sphere(&mesh, 64, 32, 1);
-    try mesh.create();
-    defer mesh.deinit();
+    var sphereMesh = Mesh.init(alloc);
+    try Shapes.sphere(&sphereMesh, 64, 32, 1);
+    try sphereMesh.create();
+    defer sphereMesh.deinit();
 
     var shader = Shader{
         .vertSource = @embedFile("./shaders/vert.glsl"),
@@ -40,12 +40,12 @@ pub fn main() !void {
     var wireframe = false;
 
     engine.createScene();
-    var sphereGO = try engine.scene.?.addGameObject(&mesh, &shader);
-    var sphereGO2 = try engine.scene.?.addGameObject(&mesh, &shader);
+    var sphereGO = try engine.scene.?.addGameObject(&sphereMesh, &shader);
+    var sphereGO2 = try engine.scene.?.addGameObject(&sphereMesh, &shader);
 
     for (0..200) |i| {
         _ = i;
-        _ = try engine.scene.?.addGameObject(&mesh, &shader);
+        _ = try engine.scene.?.addGameObject(&sphereMesh, &shader);
     }
     var pcg = std.rand.Pcg.init(345);
 
@@ -91,8 +91,8 @@ pub fn main() !void {
 
         var modelMatrix = math.Mat4x4.ident.mul(&math.Mat4x4.translate(motion));
 
-        Shader.setUniform(1, engine.camera.projectionMatrix);
-        Shader.setUniform(2, engine.camera.viewMatrix);
+        try shader.setUniformByName("_P", engine.camera.projectionMatrix);
+        try shader.setUniformByName("_V", engine.camera.viewMatrix);
 
         sphereGO.transform.local2world = modelMatrix;
         sphereGO2.transform.local2world = modelMatrix.mul(&math.Mat4x4.translate(math.vec3(5, 2, 0)));

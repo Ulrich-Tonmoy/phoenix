@@ -6,13 +6,16 @@ layout(location = 3) in vec4 col;
 
 out vec3 out_norm;
 
-uniform vec3 _Offset;
 uniform mat4 _P;
 uniform mat4 _V;
 uniform mat4 _M;
 
+vec4 local2clip(vec3 localPos) {
+  return _P * _V * _M * vec4(localPos, 1.0);
+}
+
 void main() {
-  vec3 p = pos + _Offset;
-  gl_Position = _P * _V * _M * vec4(p.x, p.y, p.z, 1.0);
+  vec3 p = pos;
+  gl_Position = local2clip(pos);
   out_norm = norm;
 }
