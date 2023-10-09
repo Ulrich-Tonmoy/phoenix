@@ -16,6 +16,7 @@ pub const Engine = struct {
     window: ?glfw.Window = null,
     camera: Camera = .{},
     input: Input = .{},
+    scene: ?Scene = null,
 
     const Error = error{
         GLError,
@@ -75,6 +76,12 @@ pub const Engine = struct {
             window.destroy();
         }
         glfw.terminate();
+    }
+
+    pub fn createScene(self: *Self) void {
+        self.scene = Scene{
+            .gameObjects = .{},
+        };
     }
 
     fn toFloat1(byte: u8) f32 {
@@ -186,6 +193,22 @@ pub const GameObject = struct {
         shaderPtr.bind();
         try shaderPtr.setUniformByName("_M", self.transform.local2world);
         meshPtr.bind();
+    }
+};
+
+pub const Scene = struct {
+    gameObjects: std.BoundedArray(GameObject, 1024),
+
+    pub fn addGameObject(self: *Scene, mesh: *Mesh, shader: *Shader) !*GameObject {
+        var gameObj = try self.gameObjects.addOne();
+        gameObj.* = .{ .mesh = mesh, .shader = shader };
+        return gameObj;
+    }
+
+    pub fn render(self: Scene) !void {
+        for (self.gameObjects.constSlice()) |object| {
+            try object.render();
+        }
     }
 };
 
