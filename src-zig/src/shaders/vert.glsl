@@ -9,9 +9,10 @@ out vec3 out_norm;
 uniform vec3 _Offset;
 uniform mat4 _P;
 uniform mat4 _V;
+uniform mat4 _M;
 
 void main() {
   vec3 p = pos + _Offset;
-  gl_Position = _P * _V * vec4(p.x, p.y, p.z, 1.0);
+  gl_Position = _P * _V * _M * vec4(p.x, p.y, p.z, 1.0);
   out_norm = norm;
 }

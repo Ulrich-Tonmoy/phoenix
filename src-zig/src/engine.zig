@@ -179,11 +179,12 @@ pub const GameObject = struct {
     shader: ?*Shader = null,
     transform: Transform = .{},
 
-    pub fn render(self: GameObject) void {
+    pub fn render(self: GameObject) !void {
         const meshPtr = self.mesh orelse return;
         const shaderPtr = self.shader orelse return;
 
         shaderPtr.bind();
+        try shaderPtr.setUniformByName("_M", self.transform.local2world);
         meshPtr.bind();
     }
 };

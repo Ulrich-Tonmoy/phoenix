@@ -38,6 +38,10 @@ pub fn main() !void {
         .mesh = &mesh,
         .shader = &shader,
     };
+    var sphereGO2 = GameObject{
+        .mesh = &mesh,
+        .shader = &shader,
+    };
 
     var motion = math.vec3(0, 0, 0);
     var camOffset = math.vec3(4, 0, 10);
@@ -83,10 +87,15 @@ pub fn main() !void {
         motion.v[0] = @floatCast(@sin(glfw.getTime()));
         motion.v[1] = @floatCast(@cos(glfw.getTime()));
 
-        Shader.setUniform(0, motion);
+        var modelMatrix = math.Mat4x4.ident.mul(&math.Mat4x4.translate(motion));
+
         Shader.setUniform(1, engine.camera.projectionMatrix);
         Shader.setUniform(2, engine.camera.viewMatrix);
 
-        sphereGO.render();
+        sphereGO.transform.local2world = modelMatrix;
+        sphereGO2.transform.local2world = modelMatrix.mul(&math.Mat4x4.translate(math.vec3(5, 2, 0)));
+
+        try sphereGO.render();
+        try sphereGO2.render();
     }
 }
