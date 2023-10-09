@@ -14,7 +14,7 @@ const Shapes = @import("shapes.zig");
 
 pub fn main() !void {
     var engine = Engine{};
-    try engine.init(.{});
+    try engine.init(.{ .fullscreen = true });
     defer engine.deinit();
 
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
