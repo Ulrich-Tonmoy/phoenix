@@ -49,8 +49,13 @@ pub fn main() !void {
     }
     var pcg = std.rand.Pcg.init(345);
 
+    var lastFrameTime = glfw.getTime();
+
     while (engine.isRunning()) {
-        const speed = 0.001;
+        var dt: f32 = @floatCast(glfw.getTime() - lastFrameTime);
+        lastFrameTime = glfw.getTime();
+
+        const speed = dt;
 
         if (engine.input.keyPressed(.w) or engine.input.keyPressed(.up)) {
             camOffset.v[2] -= speed;
@@ -74,11 +79,7 @@ pub fn main() !void {
         if (engine.input.keyDown(.q)) {
             wireframe = !wireframe;
 
-            if (wireframe) {
-                gl.polygonMode(gl.FRONT_AND_BACK, gl.LINE);
-            } else {
-                gl.polygonMode(gl.FRONT, gl.FILL);
-            }
+            Engine.setWireframe(wireframe);
         }
 
         var camOffsetMat = math.Mat4x4.translate(camOffset);
