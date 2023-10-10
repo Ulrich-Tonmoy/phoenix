@@ -10,6 +10,8 @@ const Engine = _engine.Engine;
 const Vertex = _engine.Vertex;
 const GameObject = _engine.GameObject;
 
+const Color = @import("color.zig");
+
 const Shapes = @import("shapes.zig");
 
 pub fn main() !void {
@@ -50,6 +52,9 @@ pub fn main() !void {
     var pcg = std.rand.Pcg.init(345);
 
     var lastFrameTime = glfw.getTime();
+
+    const color = Color.init(0, 0, 0, 0);
+    _ = color;
 
     while (engine.isRunning()) {
         var dt: f32 = @floatCast(glfw.getTime() - lastFrameTime);
@@ -112,4 +117,8 @@ pub fn main() !void {
             try scene.render();
         }
     }
+}
+
+test "color" {
+    _ = Color;
 }
