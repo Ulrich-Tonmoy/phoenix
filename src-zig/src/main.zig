@@ -10,6 +10,7 @@ const Shader = _engine.Shader;
 const Engine = _engine.Engine;
 const Vertex = _engine.Vertex;
 const GameObject = _engine.GameObject;
+const Texture = _engine.Texture;
 
 const Color = @import("color.zig");
 
@@ -19,8 +20,6 @@ pub fn main() !void {
     var engine = Engine{};
     try engine.init(.{ .width = 1920, .height = 1080 });
     defer engine.deinit();
-
-    _ = c;
 
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
@@ -60,39 +59,17 @@ pub fn main() !void {
     const color = Color.init(0, 0, 0, 0);
     _ = color;
 
-    var w: c_int = undefined;
-    var h: c_int = undefined;
-    var channels: c_int = undefined;
-    var buffer = c.stbi_load("res/brick.png", &w, &h, &channels, 0);
+    var brickTexture = Texture{};
+    try brickTexture.load("res/brick.png");
+    defer brickTexture.deinit();
+    brickTexture.log();
+    brickTexture.create();
 
-    if (buffer == null) {
-        std.log.err("Buffer is null", .{});
-    }
-    std.log.info("w: {}, h: {}", .{ w, h });
-
-    defer c.stbi_image_free(buffer);
-
-    var id: u32 = undefined;
-    gl.genTextures(1, &id);
-    gl.bindTexture(gl.TEXTURE_2D, id);
-
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-
-    gl.texImage2D(
-        gl.TEXTURE_2D,
-        0,
-        gl.RGB,
-        w,
-        h,
-        0,
-        gl.RGB,
-        gl.UNSIGNED_BYTE,
-        buffer,
-    );
+    var planeTexture = Texture{};
+    try planeTexture.load("res/plane.png");
+    defer planeTexture.deinit();
+    planeTexture.log();
+    planeTexture.create();
 
     while (engine.isRunning()) {
         var dt: f32 = @floatCast(glfw.getTime() - lastFrameTime);
@@ -130,8 +107,6 @@ pub fn main() !void {
 
         shader.bind();
 
-        gl.bindTexture(gl.TEXTURE_2D, id);
-
         motion.v[0] = @floatCast(@sin(glfw.getTime()));
         motion.v[1] = @floatCast(@cos(glfw.getTime()));
 
@@ -155,10 +130,17 @@ pub fn main() !void {
             object.transform.local2world = object.transform.local2world.mul(&math.Mat4x4.translate(motionVec));
         }
 
-        gl.bindTexture(gl.TEXTURE_2D, id);
+        var texturePickPCG = std.rand.Pcg.init(3411);
+        for (engine.scene.?.gameObjects.constSlice()) |gameObject| {
+            if (texturePickPCG.random().boolean()) {
+                brickTexture.bind();
+            } else planeTexture.bind();
 
-        if (engine.scene) |scene| {
-            try scene.render();
+            if (engine.scene) |scene| {
+                _ = scene;
+                // try scene.render();
+                try gameObject.render();
+            }
         }
     }
 }
