@@ -2,6 +2,7 @@ const std = @import("std");
 const glfw = @import("mach-glfw");
 const gl = @import("gl");
 const math = @import("mach").math;
+const c = @import("c.zig");
 
 const _engine = @import("engine.zig");
 const Mesh = _engine.Mesh;
@@ -19,13 +20,16 @@ pub fn main() !void {
     try engine.init(.{ .width = 1920, .height = 1080 });
     defer engine.deinit();
 
+    _ = c;
+
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const alloc = gpa.allocator();
 
     // Cube
     var sphereMesh = Mesh.init(alloc);
-    try Shapes.sphere(&sphereMesh, 64, 32, 1);
+    // try Shapes.sphere(&sphereMesh, 64, 32, 1);
+    try Shapes.quad(&sphereMesh);
     try sphereMesh.create();
     defer sphereMesh.deinit();
 
@@ -55,6 +59,34 @@ pub fn main() !void {
 
     const color = Color.init(0, 0, 0, 0);
     _ = color;
+
+    var w: c_int = undefined;
+    var h: c_int = undefined;
+    var channels: c_int = undefined;
+    var buffer = c.stbi_load("res/chen.png", &w, &h, &channels, 4);
+    defer c.stbi_image_free(buffer);
+
+    var id: u32 = undefined;
+    gl.genTextures(1, &id);
+    gl.bindTexture(gl.TEXTURE_2D, id);
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+
+    gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA8,
+        w,
+        h,
+        0,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        buffer,
+    );
 
     while (engine.isRunning()) {
         var dt: f32 = @floatCast(glfw.getTime() - lastFrameTime);

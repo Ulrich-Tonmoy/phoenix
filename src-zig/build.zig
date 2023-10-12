@@ -11,7 +11,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
-    // Use mach-glfw
+    // Package
     const glfw_dep = b.dependency("mach_glfw", .{
         .target = exe.target,
         .optimize = exe.optimize,
@@ -28,6 +28,14 @@ pub fn build(b: *std.Build) void {
     exe.addModule("gl", b.createModule(.{
         .source_file = .{ .path = "libs/gl41.zig" },
     }));
+
+    // C Lib
+    exe.linkLibC();
+    exe.addCSourceFile(.{
+        .file = .{ .path = "libs/stb_image.c" },
+        .flags = &.{},
+    });
+    exe.addIncludePath(.{ .path = "libs" });
 
     b.installArtifact(exe);
 
