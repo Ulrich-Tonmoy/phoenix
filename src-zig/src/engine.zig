@@ -438,7 +438,7 @@ pub const Shader = struct {
     }
 };
 
-fn glLogError() !void {
+pub fn glLogError() !void {
     var err: gl.GLenum = gl.getError();
     const hasErrored = err != gl.NO_ERROR;
 

@@ -35,7 +35,7 @@ pub fn main() !void {
 
     var shader = Shader{
         .vertSource = @embedFile("./shaders/vert.glsl"),
-        .fragSource = @embedFile("./shaders/frag.glsl"),
+        .fragSource = @embedFile("./shaders/texture.glsl"),
     };
     try shader.compile();
     defer shader.deinit();
@@ -63,7 +63,13 @@ pub fn main() !void {
     var w: c_int = undefined;
     var h: c_int = undefined;
     var channels: c_int = undefined;
-    var buffer = c.stbi_load("res/chen.png", &w, &h, &channels, 4);
+    var buffer = c.stbi_load("res/brick.png", &w, &h, &channels, 0);
+
+    if (buffer == null) {
+        std.log.err("Buffer is null", .{});
+    }
+    std.log.info("w: {}, h: {}", .{ w, h });
+
     defer c.stbi_image_free(buffer);
 
     var id: u32 = undefined;
@@ -71,7 +77,7 @@ pub fn main() !void {
     gl.bindTexture(gl.TEXTURE_2D, id);
 
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
@@ -79,11 +85,11 @@ pub fn main() !void {
     gl.texImage2D(
         gl.TEXTURE_2D,
         0,
-        gl.RGBA8,
+        gl.RGB,
         w,
         h,
         0,
-        gl.RGBA,
+        gl.RGB,
         gl.UNSIGNED_BYTE,
         buffer,
     );
@@ -124,6 +130,8 @@ pub fn main() !void {
 
         shader.bind();
 
+        gl.bindTexture(gl.TEXTURE_2D, id);
+
         motion.v[0] = @floatCast(@sin(glfw.getTime()));
         motion.v[1] = @floatCast(@cos(glfw.getTime()));
 
@@ -131,7 +139,8 @@ pub fn main() !void {
 
         try shader.setUniformByName("_P", engine.camera.projectionMatrix);
         try shader.setUniformByName("_V", engine.camera.viewMatrix);
-        try shader.setUniformByName("_Color", Color.chartreuse.toVec4());
+        // try shader.setUniformByName("_Color", Color.chartreuse.toVec4());
+        // try shader.setUniformByName("_Texture", @as(i32, @intCast(id)));
 
         sphereGO.transform.local2world = modelMatrix;
         sphereGO2.transform.local2world = modelMatrix.mul(&math.Mat4x4.translate(math.vec3(5, 2, 0)));
@@ -145,6 +154,8 @@ pub fn main() !void {
 
             object.transform.local2world = object.transform.local2world.mul(&math.Mat4x4.translate(motionVec));
         }
+
+        gl.bindTexture(gl.TEXTURE_2D, id);
 
         if (engine.scene) |scene| {
             try scene.render();

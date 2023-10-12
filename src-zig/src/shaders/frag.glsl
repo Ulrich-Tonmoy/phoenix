@@ -2,16 +2,20 @@
 out vec4 FragColor;
 
 in vec3 out_norm;
+in vec2 out_uv;
 
 uniform vec4 _Color;
+uniform sampler2D _Texture;
 
 void main() {
   vec3 n = out_norm;
   vec3 l = normalize(vec3(0.5, 0.5, -0.5));
   float light = dot(n, l);
 
-  vec3 diffuse = vec3(1.0, 1.0, 1.0);
-  vec3 color = diffuse;
+  vec4 tex = texture(_Texture, out_uv);
 
-  FragColor = vec4(color, 1.0) * _Color;
+  vec3 diffuse = vec3(1.0, 1.0, 1.0);
+  vec3 color = diffuse * tex.rgb;
+
+  FragColor = tex * _Color;
 }
