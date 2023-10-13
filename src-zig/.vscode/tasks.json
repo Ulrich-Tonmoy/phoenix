@@ -6,7 +6,8 @@
       "type": "process",
       "command": "zig",
       "args": [
-        "build"
+        "build",
+        "-freference-trace"
       ],
       "group": "build",
       "presentation": {
@@ -21,6 +22,7 @@
       "command": "zig",
       "args": [
         "build",
+        "-freference-trace",
         "run"
       ],
       "group": {
