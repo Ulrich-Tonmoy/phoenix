@@ -55,13 +55,13 @@ pub fn main() !void {
     try brickTexture.load("res/brick.png");
     defer brickTexture.deinit();
     brickTexture.log();
-    brickTexture.create();
+    try brickTexture.create();
 
     var planeTexture = Texture{};
     try planeTexture.load("res/uv_checker.png");
     defer planeTexture.deinit();
     planeTexture.log();
-    planeTexture.create();
+    try planeTexture.create();
 
     var brickMaterial = Material{ .shader = &shader };
     try brickMaterial.addProp("_Color", Color.white);
