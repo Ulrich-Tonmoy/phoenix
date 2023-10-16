@@ -53,10 +53,12 @@ pub fn main() !void {
     planeTexture.create();
 
     var brickMaterial = Material{ .shader = &shader };
-    try brickMaterial.props.append(.{ .name = "_Color", .data = .{ .vec4 = Color.red.toVec4() } });
+    try brickMaterial.addProp("_Color", Color.red.toVec4());
+    try brickMaterial.addProp("_Texture", &brickTexture);
 
     var planeMaterial = Material{ .shader = &shader };
-    try planeMaterial.props.append(.{ .name = "_Color", .data = .{ .vec4 = Color.blue.toVec4() } });
+    try planeMaterial.addProp("_Color", Color.blue.toVec4());
+    try planeMaterial.addProp("_Texture", &planeTexture);
 
     var motion = math.vec3(0, 0, 0);
     var camOffset = math.vec3(4, 0, 10);
