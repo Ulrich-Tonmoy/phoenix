@@ -15,6 +15,42 @@ pub const Color = extern struct {
 const f32x4 = @Vector(4, f32);
 const u8x4 = @Vector(4, u8);
 
+// Color constants
+
+pub const white = init(1, 1, 1, 1);
+pub const black = init(0, 0, 0, 1);
+pub const clear = init(0, 0, 0, 0);
+pub const whiteClear = init(1, 1, 1, 0);
+
+// Primary colors
+
+pub const red = init(1, 0, 0, 1);
+pub const green = init(0, 1, 0, 1);
+pub const blue = init(0, 0, 1, 1);
+
+// Secondary colors
+
+pub const yellow = init(1, 1, 0, 1);
+pub const cyan = init(0, 1, 1, 1);
+pub const magenta = init(1, 0, 1, 1);
+
+// Tertiary colors
+
+pub const orange = init(1, 0.5, 0, 1);
+pub const rose = init(1, 0, 0.5, 1);
+
+pub const azure = init(0, 0.5, 1, 1);
+pub const violet = init(0.5, 0, 1, 1);
+
+pub const chartreuse = init(0.5, 1, 0, 1);
+pub const lime = init(0.0, 1, 0.5, 1);
+
+const Error = error{
+    HexMustBe6or8CharsLong,
+};
+
+// Methods
+
 pub fn init(r: f32, g: f32, b: f32, a: f32) Color {
     return .{
         .r = r,
@@ -23,6 +59,8 @@ pub fn init(r: f32, g: f32, b: f32, a: f32) Color {
         .a = a,
     };
 }
+
+// modifiers
 
 pub fn setA(self: Color, a: f32) Color {
     return .{
@@ -47,12 +85,22 @@ pub fn saturate(self: Color) Color {
     return fromVec(@max(min, vecFromScalar(0)));
 }
 
+// conversion
+
+pub fn fromVec(v: f32x4) Color {
+    return @bitCast(v);
+}
+
 pub fn toVec(self: Color) f32x4 {
     return @bitCast(self);
 }
 
-pub fn fromVec(v: f32x4) Color {
-    return @bitCast(v);
+pub fn fromU8x4(v: u8x4) Color {
+    return fromVec(@as(f32x4, @floatFromInt(v)) / vecFromScalar(255));
+}
+
+pub fn toU8x4(c: Color) u8x4 {
+    return @as(u8x4, @intFromFloat(toVec(c.saturate()) * vecFromScalar(255)));
 }
 
 pub fn vecFromScalar(scalar: f32) f32x4 {
@@ -71,18 +119,6 @@ pub fn from255(c: Color) Color {
     return fromVec(toVec(c) / vecFromScalar(255));
 }
 
-pub fn fromU8x4(v: u8x4) Color {
-    return fromVec(@as(f32x4, @floatFromInt(v)) / vecFromScalar(255));
-}
-
-pub fn toU8x4(c: Color) u8x4 {
-    return @as(u8x4, @intFromFloat(toVec(c.saturate()) * vecFromScalar(255)));
-}
-
-const Error = error{
-    HexMustBe6or8CharsLong,
-};
-
 pub fn fromHex(hex: []const u8) !Color {
     if (hex.len != 8 and hex.len != 6) {
         if (@inComptime()) {
@@ -97,31 +133,6 @@ pub fn fromHex(hex: []const u8) !Color {
     _ = try std.fmt.hexToBytes(&buf, hex);
     return fromU8x4(@bitCast(buf));
 }
-
-pub const white = init(1, 1, 1, 1);
-pub const black = init(0, 0, 0, 1);
-pub const clear = init(0, 0, 0, 0);
-pub const whiteClear = init(1, 1, 1, 0);
-
-// Primary colors
-pub const red = init(1, 0, 0, 1);
-pub const green = init(0, 1, 0, 1);
-pub const blue = init(0, 0, 1, 1);
-
-// Secondary colors
-pub const yellow = init(1, 1, 0, 1);
-pub const cyan = init(0, 1, 1, 1);
-pub const magenta = init(1, 0, 1, 1);
-
-// Tertiary colors
-pub const orange = init(1, 0.5, 0, 1);
-pub const rose = init(1, 0, 0.5, 1);
-
-pub const azure = init(0, 0.5, 1, 1);
-pub const violet = init(0.5, 0, 1, 1);
-
-pub const chartreuse = init(0.5, 1, 0, 1);
-pub const lime = init(0.0, 1, 0.5, 1);
 
 // Tests
 const testing = std.testing;
