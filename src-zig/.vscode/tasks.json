@@ -2,21 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Zig Build",
-      "type": "process",
-      "command": "zig",
-      "args": [
-        "build",
-        "-freference-trace"
-      ],
-      "group": "build",
-      "presentation": {
-        "reveal": "always",
-        "showReuseMessage": false,
-        "clear": true
-      }
-    },
-    {
       "label": "Zig Build Run",
       "type": "process",
       "command": "zig",
@@ -33,7 +18,24 @@
         "reveal": "always",
         "showReuseMessage": false,
         "clear": true
-      }
+      },
+      "problemMatcher": "$zig"
+    },
+    {
+      "label": "Zig Build",
+      "type": "process",
+      "command": "zig",
+      "args": [
+        "build",
+        "-freference-trace"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": "$zig"
     },
     {
       "label": "Zig Run",
