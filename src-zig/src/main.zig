@@ -82,9 +82,6 @@ pub fn main() !void {
 
     var lastFrameTime = glfw.getTime();
 
-    const color = Color.init(0, 0, 0, 0);
-    _ = color;
-
     while (engine.isRunning()) {
         var dt: f32 = @floatCast(glfw.getTime() - lastFrameTime);
         lastFrameTime = glfw.getTime();
@@ -118,8 +115,6 @@ pub fn main() !void {
 
         var camOffsetMat = math.Mat4x4.translate(camOffset);
         engine.camera.viewMatrix = math.Mat4x4.ident.mul(&camOffsetMat);
-
-        shader.bind();
 
         motion.v[0] = @floatCast(@sin(glfw.getTime()));
         motion.v[1] = @floatCast(@cos(glfw.getTime()));
