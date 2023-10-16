@@ -58,17 +58,17 @@ pub fn main() !void {
     brickTexture.create();
 
     var planeTexture = Texture{};
-    try planeTexture.load("res/plane.png");
+    try planeTexture.load("res/uv_checker.png");
     defer planeTexture.deinit();
     planeTexture.log();
     planeTexture.create();
 
     var brickMaterial = Material{ .shader = &shader };
-    try brickMaterial.addProp("_Color", Color.red);
+    try brickMaterial.addProp("_Color", Color.white);
     try brickMaterial.addProp("_Texture", &brickTexture);
 
     var planeMaterial = Material{ .shader = &shader };
-    try planeMaterial.addProp("_Color", Color.blue);
+    try planeMaterial.addProp("_Color", Color.white);
     try planeMaterial.addProp("_Texture", &planeTexture);
 
     var motion = math.vec3(0, 0, 0);
@@ -79,17 +79,6 @@ pub fn main() !void {
     engine.createScene();
     var sphereGO = try engine.scene.?.addGameObject(&sphereMesh, &brickMaterial);
     var sphereGO2 = try engine.scene.?.addGameObject(&sphereMesh, &planeMaterial);
-
-    var pcg = std.rand.Pcg.init(345);
-
-    for (0..200) |i| {
-        _ = i;
-        if (pcg.random().boolean()) {
-            _ = try engine.scene.?.addGameObject(&quadMesh, &brickMaterial);
-        } else {
-            _ = try engine.scene.?.addGameObject(&quadMesh, &planeMaterial);
-        }
-    }
 
     var lastFrameTime = glfw.getTime();
 
@@ -142,16 +131,6 @@ pub fn main() !void {
 
         sphereGO.transform.local2world = modelMatrix;
         sphereGO2.transform.local2world = modelMatrix.mul(&math.Mat4x4.translate(math.vec3(5, 2, 0)));
-
-        for (engine.scene.?.gameObjects.slice()) |*object| {
-            const xMotion = std.math.lerp(-1, 1, pcg.random().float(f32)) * 0.1;
-            const yMotion = std.math.lerp(-1, 1, pcg.random().float(f32)) * 0.1;
-            const zMotion = std.math.lerp(-1, 1, pcg.random().float(f32)) * 0.1;
-
-            const motionVec = math.vec3(xMotion, yMotion, zMotion);
-
-            object.transform.local2world = object.transform.local2world.mul(&math.Mat4x4.translate(motionVec));
-        }
 
         if (engine.scene) |scene| try scene.render();
     }

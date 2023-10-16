@@ -15,7 +15,7 @@ void main() {
   vec4 tex = texture(_Texture, out_uv);
 
   vec3 diffuse = vec3(1.0, 1.0, 1.0);
-  vec3 color = diffuse * tex.rgb;
+  vec3 color = tex.rgb * diffuse * light * 2;
 
-  FragColor = tex * _Color;
+  FragColor = vec4(color, 1.0) * _Color;
 }
