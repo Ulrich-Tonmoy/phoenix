@@ -426,8 +426,10 @@ pub const Shader = struct {
     pub fn setUniformByName(self: Self, name: [:0]const u8, value: anytype) !void {
         const location = gl.getUniformLocation(self.program, name);
 
-        if (location < 0)
-            return error.InvalidUniformName;
+        if (location < 0) {
+            std.debug.panic("Uniform by name of {s} doesn't exist", .{name});
+            return Error.InvalidUniformName;
+        }
 
         setUniform(location, value);
     }
