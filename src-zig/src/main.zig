@@ -26,12 +26,23 @@ pub fn main() !void {
     defer _ = gpa.deinit();
     const alloc = gpa.allocator();
 
-    // Cube
+    // Sphere
     var sphereMesh = Mesh.init(alloc);
-    // try Shapes.sphere(&sphereMesh, 64, 32, 1);
-    try Shapes.quad(&sphereMesh);
-    try sphereMesh.create();
     defer sphereMesh.deinit();
+    try Shapes.sphere(&sphereMesh, 32, 16, 1);
+    try sphereMesh.create();
+
+    // Quad
+    var quadMesh = Mesh.init(alloc);
+    try Shapes.quad(&quadMesh);
+
+    for (quadMesh.vertices.items) |*v| {
+        v.position = v.position.add(&math.vec3(2, 0, 0));
+    }
+
+    try Shapes.quad(&quadMesh);
+    try quadMesh.create();
+    defer quadMesh.deinit();
 
     var shader = Shader{
         .vertSource = @embedFile("./shaders/vert.glsl"),
@@ -74,9 +85,9 @@ pub fn main() !void {
     for (0..200) |i| {
         _ = i;
         if (pcg.random().boolean()) {
-            _ = try engine.scene.?.addGameObject(&sphereMesh, &brickMaterial);
+            _ = try engine.scene.?.addGameObject(&quadMesh, &brickMaterial);
         } else {
-            _ = try engine.scene.?.addGameObject(&sphereMesh, &planeMaterial);
+            _ = try engine.scene.?.addGameObject(&quadMesh, &planeMaterial);
         }
     }
 
@@ -128,8 +139,6 @@ pub fn main() !void {
 
         try shader.setUniformByName("_P", engine.camera.projectionMatrix);
         try shader.setUniformByName("_V", engine.camera.viewMatrix);
-        // try shader.setUniformByName("_Color", Color.chartreuse.toVec4());
-        // try shader.setUniformByName("_Texture", @as(i32, @intCast(id)));
 
         sphereGO.transform.local2world = modelMatrix;
         sphereGO2.transform.local2world = modelMatrix.mul(&math.Mat4x4.translate(math.vec3(5, 2, 0)));
@@ -144,9 +153,7 @@ pub fn main() !void {
             object.transform.local2world = object.transform.local2world.mul(&math.Mat4x4.translate(motionVec));
         }
 
-        if (engine.scene) |scene| {
-            try scene.render();
-        }
+        if (engine.scene) |scene| try scene.render();
     }
 }
 
