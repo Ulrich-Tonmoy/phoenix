@@ -121,6 +121,7 @@ pub fn main() !void {
 
         var modelMatrix = math.Mat4x4.ident.mul(&math.Mat4x4.translate(motion));
 
+        shader.bind();
         try shader.setUniformByName("_P", engine.camera.projectionMatrix);
         try shader.setUniformByName("_V", engine.camera.viewMatrix);
 
