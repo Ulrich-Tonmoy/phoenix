@@ -4,6 +4,7 @@ const gl = @import("gl");
 const math = @import("mach").math;
 const c = @import("c.zig");
 const gltf = @import("zcgltf.zig");
+const zgltf = @import("zgltf");
 
 const _engine = @import("engine.zig");
 const Mesh = _engine.Mesh;
@@ -82,34 +83,101 @@ pub fn main() !void {
     var sphereGO2 = try engine.scene.?.addGameObject(&sphereMesh, &planeMaterial);
 
     // GLTF
-    var data = try gltf.parseFile(.{}, "res/3d/testcube.gltf");
-    try gltf.loadBuffers(.{}, data, "res/3d/testcube.gltf");
+    const use_zgltf = comptime false;
 
-    for (data.meshes.?[0..data.meshes_count]) |mesh| {
-        for (mesh.primitives[0..mesh.primitives_count]) |primitive| {
-            var gameMesh = Mesh.init(alloc);
+    var gameMesh = Mesh.init(alloc);
+    defer gameMesh.deinit();
 
-            for (primitive.attributes[0..primitive.attributes_count]) |attribute| {
-                var name = std.mem.sliceTo(attribute.name.?, 0);
-                if (std.mem.eql(u8, name, "POSITION")) {
-                    std.log.info("Found position!", .{});
+    if (!use_zgltf) {
+        var data = try gltf.parseFile(.{}, "res/3d/testcube.gltf");
+        try gltf.loadBuffers(.{}, data, "res/3d/testcube.gltf");
 
-                    var accessor = attribute.data;
-                    const vertexCount = accessor.count;
-                    try gameMesh.vertices.ensureTotalCapacity(vertexCount);
-                    var buffer = accessor.buffer_view.?.buffer;
+        for (data.meshes.?[0..data.meshes_count]) |mesh| {
+            for (mesh.primitives[0..mesh.primitives_count]) |primitive| {
+                for (primitive.attributes[0..primitive.attributes_count]) |attribute| {
+                    var name = std.mem.sliceTo(attribute.name.?, 0);
+                    if (std.mem.eql(u8, name, "POSITION")) {
+                        std.log.info("Found position!", .{});
 
-                    var vertData = @as([*]@Vector(3, f32), @ptrCast(@alignCast(buffer.data.?)))[0..vertexCount];
+                        var accessor = attribute.data;
+                        const vertexCount = accessor.count;
+                        try gameMesh.vertices.ensureTotalCapacity(vertexCount);
+                        //accessor
+                        var buffer = accessor.buffer_view.?.buffer;
+                        var bufferView = accessor.buffer_view.?;
+                        _ = bufferView;
+                        var vertData = @as([*]const [3]f32, @ptrCast(@alignCast(buffer.data)))[0..vertexCount];
 
-                    for (0..vertexCount) |vi| {
-                        var vec = vertData[vi];
-                        std.log.info("vec: {}", .{vec});
-                        try gameMesh.vertices.append(Vertex{ .position = .{ .v = vec } });
+                        for (0..vertexCount) |vi| {
+                            var vec = @Vector(3, f32){ vertData[vi][0], vertData[vi][1], vertData[vi][2] };
+                            std.log.info("vec: {}", .{vec});
+                            try gameMesh.vertices.append(Vertex{ .position = .{ .v = vec } });
+                        }
+                    }
+                }
+                {
+                    const indexAccessor = primitive.indices.?;
+                    var indexBufferView = indexAccessor.buffer_view.?;
+                    var buffer = indexBufferView.buffer;
+                    const indexCount = indexAccessor.count;
+                    try gameMesh.indices.ensureTotalCapacity(indexCount);
+
+                    std.log.info("index component type is: {s}, count: {}", .{ @tagName(indexAccessor.component_type), indexCount });
+                    if (indexAccessor.component_type == .r_16u) {
+                        std.log.info("buffer view offset: {}, size: {}, stride: {}", .{ indexBufferView.offset, indexBufferView.size, indexBufferView.stride });
+
+                        const indexData = @as([*]const u8, @ptrCast(buffer.data)) +
+                            indexAccessor.offset + indexBufferView.offset;
+
+                        for (0..indexCount) |ic| {
+                            const start = ic * 2;
+                            var vi = std.mem.readIntNative(u16, indexData[start..][0..2]);
+                            std.log.info("first: {}", .{vi});
+                            try gameMesh.indices.append(vi);
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        var zgltf_obj = zgltf.init(alloc);
+        defer zgltf_obj.deinit();
+        const gltf_source = @embedFile("../res/3d/testcube.gltf");
+        try zgltf_obj.parse(gltf_source);
+        var data = zgltf_obj.data;
+        zgltf_obj.debugPrint();
+        var vertices = std.ArrayList(f32).init(alloc);
+        defer vertices.deinit();
+        for (data.meshes.items) |mesh| {
+            for (mesh.primitives.items) |primitive| {
+                for (primitive.attributes.items) |attribute| {
+                    if (attribute == .position) {
+                        const accessor = zgltf_obj.data.accessors.items[attribute.position];
+
+                        std.log.info("Found position! comp_type={s} type={s}", .{ @tagName(accessor.component_type), @tagName(accessor.type) });
+                        std.log.info("TODO - get data", .{});
+
+                        const bvi = accessor.buffer_view.?;
+
+                        const bi = data.buffer_views.items[bvi].buffer;
+                        const buffer = data.buffers.items[bi];
+
+                        const uri = buffer.uri.?;
+
+                        std.log.info("first item: {}, length: {}", .{ uri.len, buffer.byte_length });
                     }
                 }
             }
         }
     }
+
+    try gameMesh.create();
+
+    for (gameMesh.vertices.items, 0..) |v, i| {
+        std.log.info("pos {}: {}", .{ i, v.position });
+    }
+
+    _ = try engine.scene.?.addGameObject(&gameMesh, &brickMaterial);
 
     var lastFrameTime = glfw.getTime();
 

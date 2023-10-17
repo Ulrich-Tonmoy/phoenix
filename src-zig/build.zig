@@ -11,6 +11,8 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
+    exe.main_pkg_path = .{ .path = "." };
+
     // Package
     const glfw_dep = b.dependency("mach_glfw", .{
         .target = exe.target,
@@ -24,7 +26,10 @@ pub fn build(b: *std.Build) void {
         .optimize = exe.optimize,
     });
     exe.addModule("mach", @import("mach").module(mach_dep.builder, optimize, target));
-
+    exe.addModule("zgltf", b.dependency("zgltf", .{
+        .target = target,
+        .optimize = optimize,
+    }).module("zgltf"));
     exe.addModule("gl", b.createModule(.{ .source_file = .{ .path = "libs/gl41.zig" } }));
 
     // C Lib
