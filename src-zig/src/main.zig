@@ -3,6 +3,7 @@ const glfw = @import("mach-glfw");
 const gl = @import("gl");
 const math = @import("mach").math;
 const c = @import("c.zig");
+const gltf = @import("zcgltf.zig");
 
 const _engine = @import("engine.zig");
 const Mesh = _engine.Mesh;
@@ -79,6 +80,36 @@ pub fn main() !void {
     engine.createScene();
     var sphereGO = try engine.scene.?.addGameObject(&sphereMesh, &brickMaterial);
     var sphereGO2 = try engine.scene.?.addGameObject(&sphereMesh, &planeMaterial);
+
+    // GLTF
+    var data = try gltf.parseFile(.{}, "res/3d/testcube.gltf");
+    try gltf.loadBuffers(.{}, data, "res/3d/testcube.gltf");
+
+    for (data.meshes.?[0..data.meshes_count]) |mesh| {
+        for (mesh.primitives[0..mesh.primitives_count]) |primitive| {
+            var gameMesh = Mesh.init(alloc);
+
+            for (primitive.attributes[0..primitive.attributes_count]) |attribute| {
+                var name = std.mem.sliceTo(attribute.name.?, 0);
+                if (std.mem.eql(u8, name, "POSITION")) {
+                    std.log.info("Found position!", .{});
+
+                    var accessor = attribute.data;
+                    const vertexCount = accessor.count;
+                    try gameMesh.vertices.ensureTotalCapacity(vertexCount);
+                    var buffer = accessor.buffer_view.?.buffer;
+
+                    var vertData = @as([*]@Vector(3, f32), @ptrCast(@alignCast(buffer.data.?)))[0..vertexCount];
+
+                    for (0..vertexCount) |vi| {
+                        var vec = vertData[vi];
+                        std.log.info("vec: {}", .{vec});
+                        try gameMesh.vertices.append(Vertex{ .position = .{ .v = vec } });
+                    }
+                }
+            }
+        }
+    }
 
     var lastFrameTime = glfw.getTime();
 

@@ -25,16 +25,14 @@ pub fn build(b: *std.Build) void {
     });
     exe.addModule("mach", @import("mach").module(mach_dep.builder, optimize, target));
 
-    exe.addModule("gl", b.createModule(.{
-        .source_file = .{ .path = "libs/gl41.zig" },
-    }));
+    exe.addModule("gl", b.createModule(.{ .source_file = .{ .path = "libs/gl41.zig" } }));
 
     // C Lib
     exe.linkLibC();
-    exe.addCSourceFile(.{
-        .file = .{ .path = "libs/stb_image.c" },
-        .flags = &.{},
-    });
+
+    exe.addCSourceFile(.{ .file = .{ .path = "libs/stb_image.c" }, .flags = &.{} });
+    exe.addCSourceFile(.{ .file = .{ .path = "libs/cgltf.c" }, .flags = &.{} });
+
     exe.addIncludePath(.{ .path = "libs" });
 
     b.installArtifact(exe);
