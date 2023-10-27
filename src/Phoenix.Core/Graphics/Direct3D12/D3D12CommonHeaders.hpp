@@ -4,6 +4,10 @@
 #include "Graphics/Renderer.hpp"
 #include "Platform/Window.hpp"
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
 #include <dxgi1_6.h>
 #include <d3d12.h>
 #include <wrl.h>

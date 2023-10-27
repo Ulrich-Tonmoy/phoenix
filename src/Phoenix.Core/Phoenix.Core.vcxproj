@@ -32,6 +32,7 @@
     <ClInclude Include="EngineAPI\TransformComponent.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12CommonHeaders.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Core.hpp" />
+    <ClInclude Include="Graphics\Direct3D12\D3D12GPass.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Helpers.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Interface.hpp" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Resources.hpp" />
@@ -56,6 +57,7 @@
     <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Core\Main.cpp" />
     <ClCompile Include="Graphics\Direct3D12\D3D12Core.cpp" />
+    <ClCompile Include="Graphics\Direct3D12\D3D12GPass.cpp" />
     <ClCompile Include="Graphics\Direct3D12\D3D12Helpers.cpp" />
     <ClCompile Include="Graphics\Direct3D12\D3D12Interface.cpp" />
     <ClCompile Include="Graphics\Direct3D12\D3D12Resources.cpp" />

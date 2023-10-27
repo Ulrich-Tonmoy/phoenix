@@ -15,6 +15,150 @@ namespace phoenix::graphics::d3d12::d3dx
 		};
 	} heap_properties;
 
+	constexpr struct
+	{
+		const D3D12_RASTERIZER_DESC  no_cull
+		{
+			D3D12_FILL_MODE_SOLID,
+			D3D12_CULL_MODE_NONE,
+			0,
+			0,
+			0,
+			0,
+			1,
+			1,
+			0,
+			0,
+			D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF
+		};
+
+		const D3D12_RASTERIZER_DESC  backface_cull
+		{
+			D3D12_FILL_MODE_SOLID,
+			D3D12_CULL_MODE_BACK,
+			0,
+			0,
+			0,
+			0,
+			1,
+			1,
+			0,
+			0,
+			D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF
+		};
+
+		const D3D12_RASTERIZER_DESC  frontface_cull
+		{
+			D3D12_FILL_MODE_SOLID,
+			D3D12_CULL_MODE_FRONT,
+			0,
+			0,
+			0,
+			0,
+			1,
+			1,
+			0,
+			0,
+			D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF
+		};
+
+		const D3D12_RASTERIZER_DESC  wireframe
+		{
+			D3D12_FILL_MODE_WIREFRAME,
+			D3D12_CULL_MODE_NONE,
+			0,
+			0,
+			0,
+			0,
+			1,
+			1,
+			0,
+			0,
+			D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF
+		};
+	} rasterizer_state;
+
+	constexpr struct
+	{
+		const D3D12_DEPTH_STENCIL_DESC1 disabled
+		{
+			0,
+			D3D12_DEPTH_WRITE_MASK_ZERO,
+			D3D12_COMPARISON_FUNC_LESS_EQUAL,
+			0,
+			0,
+			0,
+			{},
+			{},
+			0
+		};
+	} depth_state;
+
+	class d3d12_resource_barrier
+	{
+	public:
+		constexpr static u32 max_resource_barriers{ 32 };
+		constexpr void add(ID3D12Resource* resource, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after, D3D12_RESOURCE_BARRIER_FLAGS flags = D3D12_RESOURCE_BARRIER_FLAG_NONE, u32 subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES)
+		{
+			assert(resource);
+			assert(_offset < max_resource_barriers);
+			D3D12_RESOURCE_BARRIER& barrier{ _barriers[_offset] };
+			barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+			barrier.Flags = flags;
+			barrier.Transition.pResource = resource;
+			barrier.Transition.StateBefore = before;
+			barrier.Transition.StateAfter = after;
+			barrier.Transition.Subresource = subresource;
+
+			++_offset;
+		}
+
+		constexpr void add(ID3D12Resource* resource, D3D12_RESOURCE_BARRIER_FLAGS flags = D3D12_RESOURCE_BARRIER_FLAG_NONE)
+		{
+			assert(resource);
+			assert(_offset < max_resource_barriers);
+			D3D12_RESOURCE_BARRIER& barrier{ _barriers[_offset] };
+			barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+			barrier.Flags = flags;
+			barrier.UAV.pResource = resource;
+
+			++_offset;
+		}
+
+		constexpr void add(ID3D12Resource* resource_before, ID3D12Resource* resource_after, D3D12_RESOURCE_BARRIER_FLAGS flags = D3D12_RESOURCE_BARRIER_FLAG_NONE)
+		{
+			assert(resource_before && resource_after);
+			assert(_offset < max_resource_barriers);
+			D3D12_RESOURCE_BARRIER& barrier{ _barriers[_offset] };
+			barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_ALIASING;
+			barrier.Flags = flags;
+			barrier.Aliasing.pResourceBefore = resource_before;
+			barrier.Aliasing.pResourceAfter = resource_after;
+
+			++_offset;
+		}
+
+		void apply(id3d12_graphics_command_list* cmd_list)
+		{
+			assert(_offset);
+			cmd_list->ResourceBarrier(_offset, _barriers);
+			_offset = 0;
+		}
+
+	private:
+		D3D12_RESOURCE_BARRIER _barriers[max_resource_barriers]{};
+		u32 _offset{ 0 };
+	};
+
+	void transition_resource
+	(
+		id3d12_graphics_command_list* cmd_list,
+		ID3D12Resource* resource,
+		D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after,
+		D3D12_RESOURCE_BARRIER_FLAGS flags = D3D12_RESOURCE_BARRIER_FLAG_NONE,
+		u32 subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES
+	);
+
 	ID3D12RootSignature* create_root_signature(const D3D12_ROOT_SIGNATURE_DESC1& desc);
 
 	struct d3d12_descriptor_range : public D3D12_DESCRIPTOR_RANGE1
