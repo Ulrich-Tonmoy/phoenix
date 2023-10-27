@@ -17,7 +17,7 @@ namespace phoenix::graphics::d3d12::d3dx
 
 	constexpr struct
 	{
-		const D3D12_RASTERIZER_DESC  no_cull
+		const D3D12_RASTERIZER_DESC no_cull
 		{
 			D3D12_FILL_MODE_SOLID,
 			D3D12_CULL_MODE_NONE,
@@ -32,7 +32,7 @@ namespace phoenix::graphics::d3d12::d3dx
 			D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF
 		};
 
-		const D3D12_RASTERIZER_DESC  backface_cull
+		const D3D12_RASTERIZER_DESC backface_cull
 		{
 			D3D12_FILL_MODE_SOLID,
 			D3D12_CULL_MODE_BACK,
@@ -47,7 +47,7 @@ namespace phoenix::graphics::d3d12::d3dx
 			D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF
 		};
 
-		const D3D12_RASTERIZER_DESC  frontface_cull
+		const D3D12_RASTERIZER_DESC frontface_cull
 		{
 			D3D12_FILL_MODE_SOLID,
 			D3D12_CULL_MODE_FRONT,
@@ -62,7 +62,7 @@ namespace phoenix::graphics::d3d12::d3dx
 			D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF
 		};
 
-		const D3D12_RASTERIZER_DESC  wireframe
+		const D3D12_RASTERIZER_DESC wireframe
 		{
 			D3D12_FILL_MODE_WIREFRAME,
 			D3D12_CULL_MODE_NONE,
@@ -224,6 +224,8 @@ namespace phoenix::graphics::d3d12::d3dx
 		}
 	};
 
+#pragma warning(push)
+#pragma warning(disable : 4324) 
 	template<D3D12_PIPELINE_STATE_SUBOBJECT_TYPE type, typename T> class alignas(void*) d3d12_pipeline_state_subobject
 	{
 	public:
@@ -234,6 +236,7 @@ namespace phoenix::graphics::d3d12::d3dx
 		const D3D12_PIPELINE_STATE_SUBOBJECT_TYPE _type{ type };
 		T _subobject{};
 	};
+#pragma warning(pop)
 
 	// Pipeline StateSubobject (PSS) macro
 #define PSS(name, ...) using d3d12_pipeline_state_subobject_##name = d3d12_pipeline_state_subobject<__VA_ARGS__>;

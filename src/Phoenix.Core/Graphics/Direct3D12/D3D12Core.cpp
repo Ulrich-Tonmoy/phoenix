@@ -406,24 +406,24 @@ namespace phoenix::graphics::d3d12::core
 			surface.height()
 		};
 		gpass::set_size({ frame_info.surface_width, frame_info.surface_height });
-		d3dx::d3d12_resource_barrier barriers{ resource_barriers };
+		d3dx::d3d12_resource_barrier& barriers{ resource_barriers };
 
 		cmd_list->RSSetViewports(1, &surface.viewport());
 		cmd_list->RSSetScissorRects(1, &surface.scissor_rect());
 
-		gpass::add_transition_for_depth_prepass(barriers);
+		gpass::add_transitions_for_depth_prepass(barriers);
 		barriers.apply(cmd_list);
 		gpass::set_render_targets_for_depth_prepass(cmd_list);
 		gpass::depth_prepass(cmd_list, frame_info);
 
-		gpass::add_transition_for_gpass(barriers);
+		gpass::add_transitions_for_gpass(barriers);
 		barriers.apply(cmd_list);
 		gpass::set_render_targets_for_gpass(cmd_list);
 		gpass::render(cmd_list, frame_info);
 
 		d3dx::transition_resource(cmd_list, current_back_buffer, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-		gpass::add_transition_for_post_process(barriers);
+		gpass::add_transitions_for_post_process(barriers);
 		barriers.apply(cmd_list);
 
 		d3dx::transition_resource(cmd_list, current_back_buffer, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);

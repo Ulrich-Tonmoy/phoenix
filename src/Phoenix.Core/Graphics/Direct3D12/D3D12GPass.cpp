@@ -8,17 +8,17 @@ namespace phoenix::graphics::d3d12::gpass
 	{
 		constexpr DXGI_FORMAT main_buffer_format{ DXGI_FORMAT_R16G16B16A16_FLOAT };
 		constexpr DXGI_FORMAT depth_buffer_format{ DXGI_FORMAT_D32_FLOAT };
-		constexpr math::u32v2 initial_dimentions{ 100,100 };
+		constexpr math::u32v2 initial_dimensions{ 100, 100 };
 
 		d3d12_render_texture gpass_main_buffer{};
 		d3d12_depth_bufffer gpass_depth_buffer{};
-		math::u32v2 dimentions{ initial_dimentions };
+		math::u32v2 dimensions{ initial_dimensions };
 
 		ID3D12RootSignature* gpass_root_sig{ nullptr };
 		ID3D12PipelineState* gpass_pso{ nullptr };
 
 #if _DEBUG
-		constexpr f32 clear_value[4]{ 0.5f,0.5f,0.5f,1.f };
+		constexpr f32 clear_value[4]{ 0.5f, 0.5f, 0.5f, 1.f };
 #else
 		constexpr f32 clear_value[4]{ };
 #endif
@@ -66,7 +66,7 @@ namespace phoenix::graphics::d3d12::gpass
 			}
 
 			NAME_D3D12_OBJECT(gpass_main_buffer.resource(), L"GPass Main Buffer");
-			NAME_D3D12_OBJECT(gpass_depth_buffer.resource(), L"GPass Buffer Buffer");
+			NAME_D3D12_OBJECT(gpass_depth_buffer.resource(), L"GPass Depth Buffer");
 
 			return gpass_main_buffer.resource() && gpass_depth_buffer.resource();
 		}
@@ -78,10 +78,10 @@ namespace phoenix::graphics::d3d12::gpass
 			// create GPass root signature
 			d3dx::d3d12_root_parameter parameters[1]{};
 			parameters[0].as_constants(1, D3D12_SHADER_VISIBILITY_PIXEL, 1);
-			const d3dx::d3d12_root_signature_desc root_signature{ &parameters[0],_countof(parameters) };
+			const d3dx::d3d12_root_signature_desc root_signature{ &parameters[0], _countof(parameters) };
 			gpass_root_sig = root_signature.create();
 			assert(gpass_root_sig);
-			NAME_D3D12_OBJECT(gpass_root_sig, L"GPass  Root Signature");
+			NAME_D3D12_OBJECT(gpass_root_sig, L"GPass Root Signature");
 
 			// create GPass PSO
 			struct
@@ -103,7 +103,7 @@ namespace phoenix::graphics::d3d12::gpass
 			stream.render_target_formats = rtf_array;
 
 			gpass_pso = d3dx::create_pipeline_state(&stream, sizeof(stream));
-			NAME_D3D12_OBJECT(gpass_pso, L"GPass  Pipeline State Object");
+			NAME_D3D12_OBJECT(gpass_pso, L"GPass Pipeline State Object");
 
 			return gpass_root_sig && gpass_pso;
 		}
@@ -111,14 +111,14 @@ namespace phoenix::graphics::d3d12::gpass
 
 	bool initialize()
 	{
-		return create_buffers(initial_dimentions) && create_gpass_pso_and_root_signature();
+		return create_buffers(initial_dimensions) && create_gpass_pso_and_root_signature();
 	}
 
 	void shutdown()
 	{
 		gpass_main_buffer.release();
 		gpass_depth_buffer.release();
-		dimentions = initial_dimentions;
+		dimensions = initial_dimensions;
 
 		core::release(gpass_root_sig);
 		core::release(gpass_pso);
@@ -126,10 +126,10 @@ namespace phoenix::graphics::d3d12::gpass
 
 	void set_size(math::u32v2 size)
 	{
-		math::u32v2& d{ dimentions };
+		math::u32v2& d{ dimensions };
 		if (size.x > d.x || size.y > d.y)
 		{
-			d = { std::max(size.x,d.x),std::max(size.y,d.y) };
+			d = { std::max(size.x, d.x), std::max(size.y, d.y) };
 			create_buffers(d);
 		}
 	}
@@ -148,22 +148,22 @@ namespace phoenix::graphics::d3d12::gpass
 		++frame;
 		cmd_list->SetGraphicsRoot32BitConstant(0, frame, 0);
 
-		cmd_list->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		cmd_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		cmd_list->DrawInstanced(3, 1, 0, 0);
 	}
 
-	void add_transition_for_depth_prepass(d3dx::d3d12_resource_barrier& barriers)
+	void add_transitions_for_depth_prepass(d3dx::d3d12_resource_barrier& barriers)
 	{
 		barriers.add(gpass_depth_buffer.resource(), D3D12_RESOURCE_STATE_DEPTH_READ | D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE | D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_DEPTH_WRITE);
 	}
 
-	void add_transition_for_gpass(d3dx::d3d12_resource_barrier& barriers)
+	void add_transitions_for_gpass(d3dx::d3d12_resource_barrier& barriers)
 	{
 		barriers.add(gpass_main_buffer.resource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 		barriers.add(gpass_depth_buffer.resource(), D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_DEPTH_READ | D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE | D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
 	}
 
-	void add_transition_for_post_process(d3dx::d3d12_resource_barrier& barriers)
+	void add_transitions_for_post_process(d3dx::d3d12_resource_barrier& barriers)
 	{
 		barriers.add(gpass_main_buffer.resource(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	}
