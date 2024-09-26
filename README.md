@@ -20,29 +20,3 @@
     <img src="./docs/src/proj-arc.png" alt="Project Architecture" title="Project Architecture" width="330px"/>
     <img src="./docs/src/data-exchange.png" alt="Data exchange between EngineDLL.dll and GameCode.dll" title="Data exchange between EngineDLL.dll and GameCode.dll" width="330px"/>
 </p>
-
-# Getting Started Phoenix(Clang {src-c}) (Windows/Linux)
-
-<div align="center">
-    <img src="./docs/logo-c.png" alt="Phoenix C" title="Phoenix C" width="100"/>
-    <h3>Game Engine with C, in Development.</h3>
-</div>
-
-- Download [LLVM](https://github.com/llvm/llvm-project/releases) check installation with cmd `clang --version`
-- Download [Vulkan](https://vulkan.lunarg.com/#new_tab) check installation with cmd `vulkaninfo`
-- Download [Vscode](https://code.visualstudio.com/download)
-
-<p align="center">
-    <img src="./docs/src-c/arc.png" alt="Architecture" title="Architecture" width="330px"/>
-    <img src="./docs/src-c/platform.png" alt="Platform" title="Platform" width="330px"/>
-    <img src="./docs/src-c/renderer.png" alt="Renderer" title="Renderer" width="330px"/>
-</p>
-
-# Getting Started Phoenix(Zig {src-zig})
-
-<div align="center">
-    <img src="./docs/logo-zig.png" alt="Phoenix Zig" title="Phoenix Zig" width="100"/>
-    <h3>Game Engine with Zig, in Development.</h3>
-</div>
-
-- Download [Zig](https://ziglang.org/download/) check installation with cmd `zig version`
