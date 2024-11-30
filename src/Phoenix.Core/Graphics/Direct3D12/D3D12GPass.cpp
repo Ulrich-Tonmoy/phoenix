@@ -11,7 +11,7 @@ namespace phoenix::graphics::d3d12::gpass
 		constexpr math::u32v2 initial_dimensions{ 100, 100 };
 
 		d3d12_render_texture gpass_main_buffer{};
-		d3d12_depth_bufffer gpass_depth_buffer{};
+		d3d12_depth_buffer gpass_depth_buffer{};
 		math::u32v2 dimensions{ initial_dimensions };
 
 		ID3D12RootSignature* gpass_root_sig{ nullptr };
@@ -62,7 +62,7 @@ namespace phoenix::graphics::d3d12::gpass
 				info.clear_value.DepthStencil.Depth = 0.f;
 				info.clear_value.DepthStencil.Stencil = 0;
 
-				gpass_depth_buffer = d3d12_depth_bufffer{ info };
+				gpass_depth_buffer = d3d12_depth_buffer{ info };
 			}
 
 			NAME_D3D12_OBJECT(gpass_main_buffer.resource(), L"GPass Main Buffer");

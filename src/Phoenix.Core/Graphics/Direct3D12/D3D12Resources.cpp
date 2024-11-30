@@ -173,7 +173,7 @@ namespace phoenix::graphics::d3d12
 	}
 
 	//********************** Depth Buffer **********************//
-	d3d12_depth_bufffer::d3d12_depth_bufffer(d3d12_texture_init_info info)
+	d3d12_depth_buffer::d3d12_depth_buffer(d3d12_texture_init_info info)
 	{
 		assert(info.desc);
 		const DXGI_FORMAT dsv_format{ info.desc->Format };
@@ -209,7 +209,7 @@ namespace phoenix::graphics::d3d12
 		device->CreateDepthStencilView(resource(), &dsv_desc, _dsv.cpu);
 	}
 
-	void d3d12_depth_bufffer::release()
+	void d3d12_depth_buffer::release()
 	{
 		core::dsv_heap().free(_dsv);
 		_texture.release();
